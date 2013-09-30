@@ -8,14 +8,14 @@ try:
     from t0mm0.common.net import Net as net
     from metahandler import metahandlers
     import datetime,time
-    from resources.libs import main,settings
+    from resources.libs import main,settings,autoupdate
     import threading
 except Exception, e:
     elogo = xbmc.translatePath('special://home/addons/plugin.video.movie25/resources/art/bigx.png')
     xbmc.executebuiltin("XBMC.Notification([COLOR=FF67cc33]Mash Up Error[/COLOR],[COLOR red]Failed To Import Needed Modules Check Log For Details[/COLOR],7000,"+elogo+")")
     xbmc.log('Mash Up ERROR - Importing Modules: '+str(e))
     sys.exit(0)
-    
+print "###"+str(sys.argv)    
     
 #Mash Up - by Mash2k3 2012.
 
@@ -202,11 +202,10 @@ def Announcements():
             print 'Github Link Down'
 
 
-def CheckForAutoUpdate():
+def CheckForAutoUpdate(force = False):
         GitHubRepo    = 'MashUp'
         GitHubUser    = 'mash2k3'
         GitHubBranch  = 'master'
-        from resources.libs import autoupdate
         verCheck=main.CheckVersion()#Checks If Plugin Version is up to date
         if verCheck == True:
             try:
@@ -218,6 +217,7 @@ def CheckForAutoUpdate():
             else: gitver = 0
             try: locver = int(selfAddon.getSetting("updatever"))
             except: locver = 0
+            if force: locver = 0
             if locver < gitver:
                 UpdateUrl = 'https://github.com/'+GitHubUser+'/'+GitHubRepo+'/archive/'+GitHubBranch+'.zip'
                 UpdateLocalName= GitHubRepo+'.zip'
@@ -226,37 +226,39 @@ def CheckForAutoUpdate():
             
                 print "auto update - new update available ("+str(gitver)+")"
                 xbmc.executebuiltin("XBMC.Notification(MashUp Update,New Update detected,3000,"+main.slogo+")")
-            
-                try:os.remove(UpdateLocalFile)
-                except:pass
-                try: urllib.urlretrieve(UpdateUrl,UpdateLocalFile)
-                except Exception, e: pass
-                if os.path.isfile(UpdateLocalFile):
-                    extractFolder = xbmc.translatePath('special://home/addons')
-                    pluginsrc =  xbmc.translatePath(os.path.join(extractFolder,UpdateDirName))
-                    if autoupdate.unzipAndMove(UpdateLocalFile,extractFolder,pluginsrc):
-                        selfAddon.setSetting("updatever",str(gitver))
-                        main.GA("Autoupdate",str(gitver)+" Successful")
-                        print "Mashup auto update - update install successful ("+str(gitver)+")"
-                        xbmc.executebuiltin("XBMC.Notification(MashUp Update,Successful,5000,"+main.slogo+")")
-                        xbmc.executebuiltin("XBMC.Container.Refresh")
+                dialog = xbmcgui.Dialog()
+                ret = dialog.yesno('Mash Up Update', 'There is a new update available.','Would you like to update now?','','No', 'Yes')
+                if ret:
+                    try:os.remove(UpdateLocalFile)
+                    except:pass
+                    try: urllib.urlretrieve(UpdateUrl,UpdateLocalFile)
+                    except:pass
+                    if os.path.isfile(UpdateLocalFile):
+                        extractFolder = xbmc.translatePath('special://home/addons')
+                        pluginsrc =  xbmc.translatePath(os.path.join(extractFolder,UpdateDirName))
+                        if autoupdate.unzipAndMove(UpdateLocalFile,extractFolder,pluginsrc):
+                            selfAddon.setSetting("updatever",str(gitver))
+                            main.GA("Autoupdate",str(gitver)+" Successful")
+                            print "Mashup auto update - update install successful ("+str(gitver)+")"
+                            xbmc.executebuiltin("XBMC.Notification(MashUp Update,Successful,5000,"+main.slogo+")")
+                            xbmc.executebuiltin("XBMC.Container.Refresh")
+                        else:
+                            print "Mashup auto update - update install failed ("+str(gitver)+")"
+                            xbmc.executebuiltin("XBMC.Notification(MashUp Update,Failed,3000,"+main.elogo+")")
+                            main.GA("Autoupdate",str(gitver)+" Failed")
                     else:
-                        print "Mashup auto update - update install failed ("+str(gitver)+")"
+                        print "Mashup auto update - cannot find downloaded update ("+str(gitver)+")"
                         xbmc.executebuiltin("XBMC.Notification(MashUp Update,Failed,3000,"+main.elogo+")")
-                        main.GA("Autoupdate",str(gitver)+" Failed")
-                else:
-                    print "Mashup auto update - cannot find downloaded update ("+str(gitver)+")"
-                    xbmc.executebuiltin("XBMC.Notification(MashUp Update,Failed,3000,"+main.elogo+")")
-                    main.GA("Autoupdate",str(gitver)+" Repo problem")
+                        main.GA("Autoupdate",str(gitver)+" Repo problem")
             else:
+                if force: xbmc.executebuiltin("XBMC.Notification(MashUp Update,MashUp is up-to-date,3000,"+main.slogo+")")
                 print "Mashup auto update - Mashup is up-to-date ("+str(locver)+")"
             return
         
-def CheckForAutoUpdateDev():
+def CheckForAutoUpdateDev(force = False):
         GitHubRepo    = 'MashUp'
         GitHubUser    = 'mash2k3'
         GitHubBranch  = 'master'
-        from resources.libs import autoupdate
         try:
             print "Mashup auto update - started"
             html=main.OPENURL('https://github.com/'+GitHubUser+'/'+GitHubRepo+'?files=1', mobile=True)
@@ -266,6 +268,7 @@ def CheckForAutoUpdateDev():
         else: gitver = 0
         try: locver = int(selfAddon.getSetting("localver"))
         except: locver = 0
+        if force: locver = 0
         if locver < gitver:
             UpdateUrl = 'https://github.com/'+GitHubUser+'/'+GitHubRepo+'/archive/'+GitHubBranch+'.zip'
             UpdateLocalName= GitHubRepo+'.zip'
@@ -275,12 +278,12 @@ def CheckForAutoUpdateDev():
             print "auto update - new update available ("+str(gitver)+")"
             xbmc.executebuiltin("XBMC.Notification(MashUp Update,New Update detected,3000,"+main.slogo+")")
             dialog = xbmcgui.Dialog()
-            ret = dialog.yesno('Mash Up DEV Update', 'There is a new  update available.','Will you like to update now?','','No', 'Yes')
-            if ret==True:
+            ret = dialog.yesno('Mash Up DEV Update', 'There is a new update available.','Would you like to update now?','','No', 'Yes')
+            if ret:
                 try:os.remove(UpdateLocalFile)
                 except:pass
                 try: urllib.urlretrieve(UpdateUrl,UpdateLocalFile)
-                except Exception, e: pass
+                except:pass
                 if os.path.isfile(UpdateLocalFile):
                     extractFolder = xbmc.translatePath('special://home/addons')
                     pluginsrc =  xbmc.translatePath(os.path.join(extractFolder,UpdateDirName))
@@ -295,9 +298,8 @@ def CheckForAutoUpdateDev():
                 else:
                     print "Mashup auto update - cannot find downloaded update ("+str(gitver)+")"
                     xbmc.executebuiltin("XBMC.Notification(MashUp Update,Failed,3000,"+main.elogo+")")
-            else:
-                return
         else:
+            if force: xbmc.executebuiltin("XBMC.Notification(MashUp Update,MashUp is up-to-date,3000,"+main.slogo+")")
             print "Mashup auto update - Mashup is up-to-date ("+str(locver)+")"
         return
     
@@ -3084,6 +3086,12 @@ elif mode == 1051:
     
     
     
+elif mode == 1998:
+    if ENV is 'Prod':
+        CheckForAutoUpdate(True)
+    else:
+        CheckForAutoUpdateDev(True)
+
 elif mode == 1999:
     settings.openSettings()
 
