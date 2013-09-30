@@ -15,7 +15,7 @@ except Exception, e:
     xbmc.executebuiltin("XBMC.Notification([COLOR=FF67cc33]Mash Up Error[/COLOR],[COLOR red]Failed To Import Needed Modules Check Log For Details[/COLOR],7000,"+elogo+")")
     xbmc.log('Mash Up ERROR - Importing Modules: '+str(e))
     sys.exit(0)
-print "###"+str(sys.argv)    
+    
     
 #Mash Up - by Mash2k3 2012.
 
