@@ -239,7 +239,8 @@ def LINKSP2(mname,url):
                     match2=re.compile("{'url': '(.+?)', 'host': '(.+?)', 'media_id': '.+?'}").findall(str(hosted_media))
                     for murl,host in match2:
                             main.addDown2(mname+' [COLOR blue]'+name+'[/COLOR]',murl,209,art+'/hosts/'+thumb+".png",art+'/hosts/'+thumb+".png")
-       
+                    if 'mightyupload.com' in murl:
+                        main.addDown2(mname+' [COLOR blue]'+name+'[/COLOR]',murl,209,art+'/hosts/'+thumb+".png",art+'/hosts/'+thumb+".png")
 
 def LINKSP2B(mname,murl):
         main.GA("Newmyvideolinks","Watched") 
