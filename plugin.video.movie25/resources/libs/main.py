@@ -29,7 +29,7 @@ if selfAddon.getSetting('visitor_ga')=='':
     from random import randint
     selfAddon.setSetting('visitor_ga',str(randint(0, 0x7fffffff)))
 
-VERSION = "1.3.7"
+VERSION = "1.3.7b"
 PATH = "MashUp-"            
 UATRACK="UA-38312513-1" 
 
@@ -1053,7 +1053,8 @@ def addDirT(name,url,mode,iconimage,plot,fanart,dur,genre,year):
             ("[B][COLOR red]Remove[/COLOR][/B] from My Fav's",fav.delete_item(name, section_title='TV', section_addon_title="TV Show Fav's", sub_section_title='Shows'))]
         Commands.append(('Watch History','XBMC.Container.Update(%s?name=None&mode=222&url=None&iconimage=None)'% (sys.argv[0])))
         Commands.append(("My Fav's",'XBMC.Container.Update(%s?name=None&mode=639&url=None&iconimage=None)'% (sys.argv[0])))
-        liz.addContextMenuItems( Commands )
+        Commands.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
+        liz.addContextMenuItems( Commands, replaceItems=True )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok 
 
@@ -1076,7 +1077,8 @@ def addPlayT(name,url,mode,iconimage,plot,fanart,dur,genre,year):
             ("[B][COLOR red]Remove[/COLOR][/B] from My Fav's",fav.delete_item(name, section_title='TV', section_addon_title="TV Show Fav's", sub_section_title='Shows'))]
         Commands.append(('Watch History','XBMC.Container.Update(%s?name=None&mode=222&url=None&iconimage=None)'% (sys.argv[0])))
         Commands.append(("My Fav's",'XBMC.Container.Update(%s?name=None&mode=639&url=None&iconimage=None)'% (sys.argv[0])))
-        liz.addContextMenuItems( Commands )
+        Commands.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
+        liz.addContextMenuItems( Commands, replaceItems=True )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
         return ok 
 
@@ -1119,7 +1121,8 @@ def addDirTE(name,url,mode,iconimage,plot,fanart,dur,genre,year):
         Commands.append(('Watch History','XBMC.Container.Update(%s?name=None&mode=222&url=None&iconimage=None)'% (sys.argv[0])))
         Commands.append(("My Fav's",'XBMC.Container.Update(%s?name=None&mode=639&url=None&iconimage=None)'% (sys.argv[0])))
         liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=infoLabels['cover_url'])
-        liz.addContextMenuItems( Commands )
+        Commands.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
+        liz.addContextMenuItems( Commands, replaceItems=True )
         liz.setInfo( type="Video", infoLabels = infoLabels)
         liz.setProperty('fanart_image', infoLabels['backdrop_url'])
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
@@ -1169,7 +1172,8 @@ def addPlayTE(name,url,mode,iconimage,plot,fanart,dur,genre,year):
         Commands.append(('Watch History','XBMC.Container.Update(%s?name=None&mode=222&url=None&iconimage=None)'% (sys.argv[0])))
         Commands.append(("My Fav's",'XBMC.Container.Update(%s?name=None&mode=639&url=None&iconimage=None)'% (sys.argv[0])))
         liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=infoLabels['cover_url'])
-        liz.addContextMenuItems( Commands )
+        Commands.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
+        liz.addContextMenuItems( Commands, replaceItems=True )
         liz.setInfo( type="Video", infoLabels = infoLabels)
         liz.setProperty('fanart_image', infoLabels['backdrop_url'])
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False)
@@ -1219,7 +1223,8 @@ def addDirM(name,url,mode,iconimage,plot,fanart,dur,genre,year):
         Commands.append(('Watch History','XBMC.Container.Update(%s?name=None&mode=222&url=None&iconimage=None)'% (sys.argv[0])))
         Commands.append(("My Fav's",'XBMC.Container.Update(%s?name=None&mode=639&url=None&iconimage=None)'% (sys.argv[0])))
         liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=infoLabels['cover_url'])
-        liz.addContextMenuItems( Commands )
+        Commands.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
+        liz.addContextMenuItems( Commands, replaceItems=True )
         liz.setInfo( type="Video", infoLabels = infoLabels)
         liz.setProperty('fanart_image', infoLabels['backdrop_url'])
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
@@ -1270,7 +1275,8 @@ def addPlayM(name,url,mode,iconimage,plot,fanart,dur,genre,year):
         Commands.append(('Watch History','XBMC.Container.Update(%s?name=None&mode=222&url=None&iconimage=None)'% (sys.argv[0])))
         Commands.append(("My Fav's",'XBMC.Container.Update(%s?name=None&mode=639&url=None&iconimage=None)'% (sys.argv[0])))
         liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=infoLabels['cover_url'])
-        liz.addContextMenuItems( Commands )
+        Commands.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
+        liz.addContextMenuItems( Commands, replaceItems=True )
         liz.setInfo( type="Video", infoLabels = infoLabels)
         liz.setProperty('fanart_image', infoLabels['backdrop_url'])
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False)
@@ -1295,7 +1301,8 @@ def addDirMs(name,url,mode,iconimage,plot,fanart,dur,genre,year):
             ("[B][COLOR red]Remove[/COLOR][/B] from My Fav's",fav.delete_item(name, section_title='Misc.', section_addon_title="Misc. Fav's"))]
         Commands.append(('Watch History','XBMC.Container.Update(%s?name=None&mode=222&url=None&iconimage=None)'% (sys.argv[0])))
         Commands.append(("My Fav's",'XBMC.Container.Update(%s?name=None&mode=639&url=None&iconimage=None)'% (sys.argv[0])))
-        liz.addContextMenuItems( Commands )
+        Commands.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
+        liz.addContextMenuItems( Commands, replaceItems=True )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok 
 
@@ -1318,7 +1325,8 @@ def addPlayMs(name,url,mode,iconimage,plot,fanart,dur,genre,year):
             ("[B][COLOR red]Remove[/COLOR][/B] from My Fav's",fav.delete_item(name, section_title='Misc.', section_addon_title="Misc. Fav's"))]
         Commands.append(('Watch History','XBMC.Container.Update(%s?name=None&mode=222&url=None&iconimage=None)'% (sys.argv[0])))
         Commands.append(("My Fav's",'XBMC.Container.Update(%s?name=None&mode=639&url=None&iconimage=None)'% (sys.argv[0])))
-        liz.addContextMenuItems( Commands )
+        Commands.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
+        liz.addContextMenuItems( Commands, replaceItems=True )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
         return ok
 
@@ -1342,7 +1350,8 @@ def addDirL(name,url,mode,iconimage,plot,fanart,dur,genre,year):
             ("[B][COLOR red]Remove[/COLOR][/B] from My Fav's",fav.delete_item(name, section_title='Live', section_addon_title="Live Fav's"))]
         Commands.append(('Watch History','XBMC.Container.Update(%s?name=None&mode=222&url=None&iconimage=None)'% (sys.argv[0])))
         Commands.append(("My Fav's",'XBMC.Container.Update(%s?name=None&mode=639&url=None&iconimage=None)'% (sys.argv[0])))
-        liz.addContextMenuItems( Commands )
+        Commands.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
+        liz.addContextMenuItems( Commands, replaceItems=True )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok 
 
@@ -1365,7 +1374,8 @@ def addPlayL(name,url,mode,iconimage,plot,fanart,dur,genre,year):
             ("[B][COLOR red]Remove[/COLOR][/B] from My Fav's",fav.delete_item(name, section_title='Live', section_addon_title="Live Fav's"))]
         Commands.append(('Watch History','XBMC.Container.Update(%s?name=None&mode=222&url=None&iconimage=None)'% (sys.argv[0])))
         Commands.append(("My Fav's",'XBMC.Container.Update(%s?name=None&mode=639&url=None&iconimage=None)'% (sys.argv[0])))
-        liz.addContextMenuItems( Commands )
+        Commands.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
+        liz.addContextMenuItems( Commands, replaceItems=True )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
         return ok
 
@@ -1386,7 +1396,8 @@ def addPlayc(name,url,mode,iconimage,plot,fanart,dur,genre,year):
         liz.setProperty('fanart_image', fanart)
         contextMenuItems.append(('Watch History','XBMC.Container.Update(%s?name=None&mode=222&url=None&iconimage=None)'% (sys.argv[0])))
         contextMenuItems.append(("My Fav's",'XBMC.Container.Update(%s?name=None&mode=639&url=None&iconimage=None)'% (sys.argv[0])))
-        liz.addContextMenuItems(contextMenuItems, replaceItems=False)
+        Commands.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
+        liz.addContextMenuItems( Commands, replaceItems=True )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
         return ok
     
@@ -1561,7 +1572,7 @@ def addDown2(name,url,mode,iconimage,fan):
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
         return ok
 
-def addDown3(name,url,mode,iconimage,fanart,id=False):#starplay only
+def addDown3(name,url,mode,iconimage,fanart,id=False):#Noobroom only
         contextMenuItems = []
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
         ok=True
@@ -1606,7 +1617,7 @@ def addDown3(name,url,mode,iconimage,fanart,id=False):#starplay only
                 Commands.append(('Play Trailer','XBMC.RunPlugin(%s?mode=782&name=%s&url=%s&iconimage=%s)'% (sys.argv[0],cname,url,imdb)))
                 Commands.append((watched_mark, 'XBMC.RunPlugin(%s?mode=777&name=%s&url=%s&iconimage=%s)' % (sys.argv[0], cname, video_type,imdb)))
                 Commands.append(('Refresh Metadata', 'XBMC.RunPlugin(%s?mode=778&name=%s&url=%s&iconimage=%s)' % (sys.argv[0], cname, video_type,imdb)))
-        Commands.append(('[B][COLOR lime]Mash Up[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
+        Commands.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
         liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=infoLabels['cover_url'])
         liz.addContextMenuItems( Commands, replaceItems=True )
         if(id != False):
@@ -1690,8 +1701,9 @@ def addDown4(name,url,mode,iconimage,plot,fanart,dur,genre,year):
             Commands.append(('Refresh Metadata', 'XBMC.RunPlugin(%s?mode=780&name=%s&url=%s&iconimage=%s&season=%s&episode=%s)' % (sys.argv[0], cname, video_type,imdb_id,sea,epi)))
         Commands.append(('Watch History','XBMC.Container.Update(%s?name=None&mode=222&url=None&iconimage=None)'% (sys.argv[0])))
         Commands.append(("My Fav's",'XBMC.Container.Update(%s?name=None&mode=639&url=None&iconimage=None)'% (sys.argv[0])))
+        Commands.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
         liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=infoLabels['cover_url'])
-        liz.addContextMenuItems( Commands )
+        liz.addContextMenuItems( Commands, replaceItems=True )
         liz.setInfo( type="Video", infoLabels = infoLabels)
         liz.setProperty('fanart_image', infoLabels['backdrop_url'])
         if '</sublink>' in url:
@@ -1721,6 +1733,7 @@ def addInfo(name,url,mode,iconimage,gen,year):
                 xbmcplugin.addSortMethod( handle=int( sys.argv[ 1 ] ), sortMethod=xbmcplugin.SORT_METHOD_UNSORTED )
                 xbmcplugin.addSortMethod( handle=int( sys.argv[ 1 ] ), sortMethod=xbmcplugin.SORT_METHOD_LABEL )
         Commands=[
+                ('Search Movie25','XBMC.Container.Update(%s?mode=4&url=%s)'% (sys.argv[0],'m25')),
                 ("[B][COLOR blue]Add[/COLOR][/B] to My Fav's",fav.add_directory(name, u, section_title='Movies', section_addon_title="Movie25 Fav's", img=iconimage, infolabels={'item_mode':mode, 'item_url':url, 'genre':gen,'year':year})),
                 ("[B][COLOR red]Remove[/COLOR][/B] from My Fav's",fav.delete_item(name, section_title='Movies', section_addon_title="Movie25 Fav's"))]
         if selfAddon.getSetting("meta-view") == "true":
@@ -1730,9 +1743,9 @@ def addInfo(name,url,mode,iconimage,gen,year):
                 Commands.append(('Play Trailer','XBMC.RunPlugin(%s?mode=782&name=%s&url=%s&iconimage=%s)'% (sys.argv[0],cname,url,imdb)))
                 Commands.append((watched_mark, 'XBMC.RunPlugin(%s?mode=777&name=%s&url=%s&iconimage=%s)' % (sys.argv[0], cname, video_type,imdb)))
                 Commands.append(('Refresh Metadata', 'XBMC.RunPlugin(%s?mode=778&name=%s&url=%s&iconimage=%s)' % (sys.argv[0], cname, video_type,imdb)))
-            
+        Commands.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
         liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=infoLabels['cover_url'])
-        liz.addContextMenuItems( Commands )
+        liz.addContextMenuItems( Commands, replaceItems=True )
         liz.setInfo( type="Video", infoLabels = infoLabels)
         liz.setProperty('fanart_image', infoLabels['backdrop_url'])
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
@@ -1781,8 +1794,9 @@ def addDirIWO(name,url,mode,iconimage,plot,fanart,dur,genre,year):
                 Commands.append(('Refresh Metadata', 'XBMC.RunPlugin(%s?mode=778&name=%s&url=%s&iconimage=%s)' % (sys.argv[0], cname, video_type,imdb)))
         Commands.append(('Watch History','XBMC.Container.Update(%s?name=None&mode=222&url=None&iconimage=None)'% (sys.argv[0])))
         Commands.append(("My Fav's",'XBMC.Container.Update(%s?name=None&mode=639&url=None&iconimage=None)'% (sys.argv[0])))
+        Commands.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
         liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=infoLabels['cover_url'])
-        liz.addContextMenuItems( Commands )
+        liz.addContextMenuItems( Commands, replaceItems=True )
         liz.setInfo( type="Video", infoLabels = infoLabels)
         liz.setProperty('fanart_image', infoLabels['backdrop_url'])
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
@@ -1831,8 +1845,9 @@ def addDLog(name,url,mode,iconimage,plot,fanart,dur,genre,year):
             Commands.append(('Refresh Metadata', 'XBMC.RunPlugin(%s?mode=780&name=%s&url=%s&iconimage=%s&season=%s&episode=%s)' % (sys.argv[0], cname, video_type,imdb_id,sea,epi)))
         Commands.append(('Watch History','XBMC.Container.Update(%s?name=None&mode=222&url=None&iconimage=None)'% (sys.argv[0])))
         Commands.append(("My Fav's",'XBMC.Container.Update(%s?name=None&mode=639&url=None&iconimage=None)'% (sys.argv[0])))
+        Commands.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
         liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=infoLabels['cover_url'])
-        liz.addContextMenuItems( Commands )
+        liz.addContextMenuItems( Commands, replaceItems=True )
         liz.setInfo( type="Video", infoLabels = infoLabels)
         liz.setProperty('fanart_image', infoLabels['backdrop_url'])
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False)

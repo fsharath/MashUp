@@ -118,12 +118,11 @@ def MAIN():
                 main.addDirHome('Mash Sports','https://github.com/mash2k3/MashSports/raw/master/Mashsprt.xml',182,art+'/mashsports.png')
             elif index==22:
                 main.addDirHome('iLive Streams','ilive',119,art+'/ilive.png')
-        main.addPlayc('Need Help?','http://www.movie25.so/',100,art+'/xbmchub.png','','','','','')
-        main.addPlayc('Hub Maintenance','http://www.movie25.so/',156,art+'/hubmain.png','','','','','')
+        main.addPlayc('Need Help?','http://www.movie25.com/',100,art+'/xbmctalk2.png','','','','','')
+        main.addPlayc('XbmcTalk Maintenance','http://www.movie25.so/',156,art+'/talkmain.png','','','','','')
         main.addPlayc('Click Me!!!','https://github.com/mash2k3/MashupArtwork/raw/master/art/donation.png',244,art+'/paypalmash2.png','','','','','')
         main.addLink('@mashupxbmc','',art+'/twittermash.png')
         main.addPlayc('Addon Settings','http://www.movie25.so/',1999,art+'/ASettings.png','','','','','')
-        main.addPlayc('Resolver Settings','http://www.movie25.so/',99,art+'/resset.png','','','','','')
               
 def Announcements():
         #Announcement Notifier from xml file
@@ -203,7 +202,7 @@ def Announcements():
 
 
 def CheckForAutoUpdate(force = False):
-        GitHubRepo    = 'MashUp'
+        GitHubRepo    = 'AutoUpdate'
         GitHubUser    = 'mash2k3'
         GitHubBranch  = 'master'
         verCheck=main.CheckVersion()#Checks If Plugin Version is up to date
@@ -386,6 +385,8 @@ def TV():
         main.addDir('Latest Episodes (Newmyvideolinks) True HD[COLOR red] DC[/COLOR]','TV',34,art+'/tvb.png')
         main.addDir('Latest Episodes (Rlsmix)[COLOR red](Debrid Only)[/COLOR] True HD[COLOR red] DC[/COLOR]','TV',61,art+'/tvb.png')
         main.addDir('Latest Episodes (Sceper)[COLOR red](Debrid Only)[/COLOR] True HD','http://sceper.ws/home/category/tv-shows',545,art+'/tvb.png')
+        main.addDir('Latest Episodes (TvRelease) True HD[COLOR red] DC[/COLOR]','http://www.tv-release.net/category/tvshows/tv720p/',1001,art+'/tvb.png')
+        main.addDir('Latest Episodes (TubePlus)[COLOR red] DC[/COLOR]','http://www.tubeplus.me/browse/tv-shows/Last/ALL/',1041,art+'/tvb.png')
         main.addDir('Latest Episodes (Watchseries)','http://watchseries.lt/tvschedule/-1',573,art+'/tvb.png')
         main.addDir('Latest Episodes (iWatchonline)','http://www.iwatchonline.to/tv-schedule',592,art+'/tvb.png')
         main.addDir('Latest Episodes (Movie1k)','movintv',30,art+'/tvb.png')
@@ -434,15 +435,11 @@ def HD():
         main.addDir('Latest HD Movies (Oneclickmovies)[COLOR red](Debrid Only)[/COLOR] True HD[COLOR red] DC[/COLOR]','www.scnsrc.me',55,art+'/hd2.png')
         main.addDir('Latest HD Movies (Sceper)[COLOR red](Debrid Only)[/COLOR] True HD','http://sceper.ws/category/movies/movies-bluray-rip',541,art+'/hd2.png')
         main.addDir('Latest HD Movies (Oneclickwatch)','http://oneclickwatch.org/category/movies/',25,art+'/hd2.png')
-        link=main.OPENURL('https://github.com/mash2k3/MashUpNotifications/raw/master/Directories/HD_Directory.xml')
-        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
-        match=re.compile('<name>(.+?)</name><link>(.+?)</link><thumbnail>(.+?)</thumbnail><mode>(.+?)</mode>').findall(link)
-        for name,url,thumb,mode in match:
-                if re.findall('http',thumb):
-                    thumbs=thumb
-                else:
-                    thumbs=art+'/'+thumb+'.png'
-                main.addDir(name,url,int(mode),thumbs)
+        main.addDir('HackerMil HD Movies','https://github.com/HackerMil/HackerMilsMovieStash/raw/master/Movies/5%20HD.xml',236,'https://github.com/mash2k3/MashupArtwork/raw/master/art/hd2.png')
+        main.addDir('TNPB HD Movies','https://github.com/mash2k3/MashUpTNPB/raw/master/720p%20Movies.xml',236,'https://github.com/mash2k3/MashupArtwork/raw/master/art/hd2.png')
+        main.addDir('MorePower HD Movies','https://github.com/mash2k3/MashUpMorePower/raw/master/Full1080P.xml',236,'https://github.com/mash2k3/MashupArtwork/raw/master/art/hd2.png')
+        main.addDir('Staael1982 HD Movies','https://github.com/mash2k3/Staael1982/raw/master/veehdCollection.xml',236,'https://github.com/mash2k3/MashupArtwork/raw/master/art/hd2.png')
+                
         main.GA("None","HD")
 def INT():
         main.addDir('Latest Indian Subtitled Movies (einthusan)','http://www.einthusan.com',37,art+'/intl.png')
@@ -451,15 +448,8 @@ def INT():
         main.addDir('Latest Indian Dubbed Movies (Movie1k)','movindub',30,art+'/intl.png')
         main.addDir('Latest Spanish Dubbed & Subtitled(ESP) Movies (cinevip)','http://www.cinevip.org/',66,art+'/intl.png')
         main.addDir("XcTech's Bollywood Playlist",'PLvNKtQkKaqg8IPssr3WG4-YkOEAe8TQ0j',205,art+'/intl.png')
-        link=main.OPENURL('https://github.com/mash2k3/MashUpNotifications/raw/master/Directories/INT_Directory.xml')
-        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
-        match=re.compile('<name>(.+?)</name><link>(.+?)</link><thumbnail>(.+?)</thumbnail><mode>(.+?)</mode>').findall(link)
-        for name,url,thumb,mode in match:
-                if re.findall('http',thumb):
-                    thumbs=thumb
-                else:
-                    thumbs=art+'/'+thumb+'.png'
-                main.addDir(name,url,int(mode),thumbs)
+        main.addDir('Staael1982 Danish Movies','https://github.com/mash2k3/Staael1982/raw/master/danish%20movies.xml',236,'https://github.com/mash2k3/MashupArtwork/raw/master/art/intl.png')
+                
         main.GA("None","INT")
 
 def SPORTS():
@@ -488,30 +478,16 @@ def MMA():
         main.addDir('UFC','ufc',59,art+'/ufc.png')
         main.addDir('Bellator','BellatorMMA',47,art+'/bellator.png')
         main.addDir('MMA Fighting.com','http://www.mmafighting.com/videos',113,art+'/mmafig.png')
-        link=main.OPENURL('https://github.com/mash2k3/MashUpNotifications/raw/master/Directories/MMA_Directory.xml')
-        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
-        match=re.compile('<name>(.+?)</name><link>(.+?)</link><thumbnail>(.+?)</thumbnail><mode>(.+?)</mode>').findall(link)
-        for name,url,thumb,mode in match:
-                if re.findall('http',thumb):
-                    thumbs=thumb
-                else:
-                    thumbs=art+'/'+thumb+'.png'
-                main.addDir(name,url,int(mode),thumbs)
+        main.addDir('HackerMil Fight Club','https://github.com/HackerMil/HackerMilsMovieStash/raw/master/Fight%20Club/Fight%20Club.xml',236,'https://github.com/mash2k3/MashupArtwork/raw/master/art/mma.png')
+                
 
 def WorkoutMenu():
         main.addDir('Fitness Blender[COLOR red](Full Workouts)[/COLOR]','fb',198,art+'/fitnessblender.png')
         main.addDir('Insanity','http://watchseries.lt/serie/INSANITY_-_The_Asylum',578,art+'/insanity.png')
         main.addDir('P90X','http://watchseries.lt/serie/p90x',578,art+'/p90x.png')
         main.addDir('Body Building[COLOR red](Instructional Only)[/COLOR]','bb',195,art+'/bodybuilding.png')
-        link=main.OPENURL('https://github.com/mash2k3/MashUpNotifications/raw/master/Directories/Workout_Directory.xml')
-        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
-        match=re.compile('<name>(.+?)</name><link>(.+?)</link><thumbnail>(.+?)</thumbnail><mode>(.+?)</mode>').findall(link)
-        for name,url,thumb,mode in match:
-                if re.findall('http',thumb):
-                    thumbs=thumb
-                else:
-                    thumbs=art+'/'+thumb+'.png'
-                main.addDir(name,url,int(mode),thumbs)
+        main.addDir('HackerMil Workouts','https://github.com/HackerMil/HackerMilsMovieStash/raw/master/Workouts/Workouts.xml',236,'https://github.com/mash2k3/MashupArtwork/raw/master/art/workout.png')
+                
         
 
 def UFC():
@@ -536,15 +512,10 @@ def KIDZone(murl):
         main.addDir('National Geographic Kids','ngk',71,art+'/ngk.png')
         main.addDir('WB Kids','wbk',77,art+'/wb.png')
         main.addDir('Youtube Kids','wbk',84,art+'/youkids.png')
-        link=main.OPENURL('https://github.com/mash2k3/MashUpNotifications/raw/master/Directories/Kids_Directory.xml')
-        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
-        match=re.compile('<name>(.+?)</name><link>(.+?)</link><thumbnail>(.+?)</thumbnail><mode>(.+?)</mode>').findall(link)
-        for name,url,thumb,mode in match:
-                if re.findall('http',thumb):
-                    thumbs=thumb
-                else:
-                    thumbs=art+'/'+thumb+'.png'
-                main.addDir(name,url,int(mode),thumbs)
+        main.addDir('TNPB KidsZone','https://github.com/mash2k3/MashUpTNPB/raw/master/kidszone.xml',236,'https://github.com/mash2k3/MashupArtwork/raw/master/art/kidzone2.png')
+        main.addDir('MorePower Family and Kids shows and movies','https://github.com/mash2k3/MashUpMorePower/raw/master/KidsShowsMovies.xml',236,'https://github.com/mash2k3/MashupArtwork/raw/master/art/kidzone2.png')
+        main.addDir('Staael1982 Animated Movies','https://github.com/mash2k3/Staael1982/raw/master/animated_movies.xml',236,'https://github.com/mash2k3/MashupArtwork/raw/master/art/kidzone2.png')
+                
         main.GA("None","KidZone")
         main.VIEWSB()
     
@@ -608,15 +579,9 @@ def DOCS():
         main.addDir('Documentary Wire','doc1',226,art+'/docwire.png')
         main.addDir('Top Documentary Films','doc2',86,art+'/topdoc.png')
         main.addDir('Documentary Log','doc3',86,art+'/doclog.png')
-        link=main.OPENURL('https://github.com/mash2k3/MashUpNotifications/raw/master/Directories/Documentary_Directory.xml')
-        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
-        match=re.compile('<name>(.+?)</name><link>(.+?)</link><thumbnail>(.+?)</thumbnail><mode>(.+?)</mode>').findall(link)
-        for name,url,thumb,mode in match:
-                if re.findall('http',thumb):
-                    thumbs=thumb
-                else:
-                    thumbs=art+'/'+thumb+'.png'
-                main.addDir(name,url,int(mode),thumbs)
+        main.addDir('HackerMil Documentaries','https://github.com/HackerMil/HackerMilsMovieStash/raw/master/Misc/7%20DOCUMENTARY.xml',236,'https://github.com/mash2k3/MashupArtwork/raw/master/art/docsec1.png')
+        main.addDir('MorePower Documentaries','https://github.com/mash2k3/MashUpMorePower/raw/master/Documentries.xml',236,'https://github.com/mash2k3/MashupArtwork/raw/master/art/docsec1.png')
+                
         main.addDir('Documentaries (Movie25)','http://www.movie25.so/movies/documentary/',1,art+'/doc.png')
         main.GA("None","Documentary")
 
@@ -759,7 +724,7 @@ class HUB( xbmcgui.WindowXMLDialog ):
         xbmc.executebuiltin( "Skin.SetBool(AnimeWindowXMLDialogClose)" )
                                        
     def onInit( self ):
-        xbmc.Player().play('%s/resources/skins/DefaultSkin/media/xbmchub.mp3'%selfAddon.getAddonInfo('path'))# Music.
+        xbmc.Player().play('%s/resources/skins/DefaultSkin/media/theme.mp3'%selfAddon.getAddonInfo('path'))# Music.
         while self.shut > 0:
             xbmc.sleep(1000)
             self.shut -= 1

@@ -52,7 +52,6 @@ def LINK(mname,murl):
         return ok
 
 def REMOVE(mname,murl):
-    print mname+' ** '+murl
     try:
         os.remove(murl)
     except:

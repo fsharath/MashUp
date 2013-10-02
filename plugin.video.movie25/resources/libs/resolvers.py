@@ -297,7 +297,12 @@ def resolve_billionuploads(url):
                 dialog.update(50)
             
             data.update({'submit_btn':''})
-            data.update({'please':'yeahman'})
+            enc_input = re.compile('decodeURIComponent\("(.+?)"\)').findall(html)[0]
+            if enc_input:
+                dec_input = urllib2.unquote(enc_input)
+                r = re.findall(r'type="hidden" name="(.+?)" value="(.+?)">', dec_input)
+                for name, value in r:
+                    data[name] = value
             
             print 'Mash Up BillionUploads - Requesting POST URL: %s' % url
             html = normal.open(url, urllib.urlencode(data)).read()
