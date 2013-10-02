@@ -25,3 +25,16 @@ def moveFiles(root_src_dir,root_dst_dir):
             if os.path.exists(dst_file):
                 os.remove(dst_file)
             shutil.move(src_file, dst_dir)
+            
+def getUpdateFile(path,default = 0):
+    if os.path.exists(path):
+        try:
+            f = open(path, 'r')
+            return f.read()
+        except: pass
+    return default
+
+def saveUpdateFile(path,value):
+    try:
+        open(path,'w+').write(value)
+    except: pass

@@ -208,6 +208,7 @@ def CheckForAutoUpdate(force = False):
         GitHubRepo    = 'AutoUpdate'
         GitHubUser    = 'mash2k3'
         GitHubBranch  = 'master'
+        UpdateVerFile = 'update'
         verCheck=main.CheckVersion()#Checks If Plugin Version is up to date
         if verCheck == True:
             try:
@@ -217,13 +218,14 @@ def CheckForAutoUpdate(force = False):
             m = re.search("View (\d+) commit",html,re.I)
             if m: gitver = int(m.group(1))
             else: gitver = 0
-            try: locver = int(selfAddon.getSetting("updatever"))
+            UpdateVerPath = os.path.join(UpdatePath,UpdateVerFile)
+            try: locver = int(autoupdate.getUpdateFile(UpdateVerPath))
             except: locver = 0
             if force: locver = 0
             if locver < gitver:
                 UpdateUrl = 'https://github.com/'+GitHubUser+'/'+GitHubRepo+'/archive/'+GitHubBranch+'.zip'
-                UpdateLocalName= GitHubRepo+'.zip'
-                UpdateDirName = GitHubRepo+'-'+GitHubBranch
+                UpdateLocalName = GitHubRepo+'.zip'
+                UpdateDirName   = GitHubRepo+'-'+GitHubBranch
                 UpdateLocalFile = xbmc.translatePath(os.path.join(UpdatePath, UpdateLocalName))
             
                 print "auto update - new update available ("+str(gitver)+")"
@@ -239,7 +241,7 @@ def CheckForAutoUpdate(force = False):
                         extractFolder = xbmc.translatePath('special://home/addons')
                         pluginsrc =  xbmc.translatePath(os.path.join(extractFolder,UpdateDirName))
                         if autoupdate.unzipAndMove(UpdateLocalFile,extractFolder,pluginsrc):
-                            selfAddon.setSetting("updatever",str(gitver))
+                            autoupdate.saveUpdateFile(UpdateVerPath,str(gitver))
                             main.GA("Autoupdate",str(gitver)+" Successful")
                             print "Mashup auto update - update install successful ("+str(gitver)+")"
                             xbmc.executebuiltin("XBMC.Notification(MashUp Update,Successful,5000,"+main.slogo+")")
@@ -261,6 +263,7 @@ def CheckForAutoUpdateDev(force = False):
         GitHubRepo    = 'MashUp'
         GitHubUser    = 'mash2k3'
         GitHubBranch  = 'master'
+        UpdateVerFile = 'devupdate'
         try:
             print "Mashup auto update - started"
             html=main.OPENURL('https://github.com/'+GitHubUser+'/'+GitHubRepo+'?files=1', mobile=True)
@@ -268,13 +271,14 @@ def CheckForAutoUpdateDev(force = False):
         m = re.search("View (\d+) commit",html,re.I)
         if m: gitver = int(m.group(1))
         else: gitver = 0
-        try: locver = int(selfAddon.getSetting("localver"))
+        UpdateVerPath = os.path.join(UpdatePath,UpdateVerFile)
+        try: locver = int(autoupdate.getUpdateFile(UpdateVerPath))
         except: locver = 0
         if force: locver = 0
         if locver < gitver:
             UpdateUrl = 'https://github.com/'+GitHubUser+'/'+GitHubRepo+'/archive/'+GitHubBranch+'.zip'
-            UpdateLocalName= GitHubRepo+'.zip'
-            UpdateDirName = GitHubRepo+'-'+GitHubBranch
+            UpdateLocalName = GitHubRepo+'.zip'
+            UpdateDirName   = GitHubRepo+'-'+GitHubBranch
             UpdateLocalFile = xbmc.translatePath(os.path.join(UpdatePath, UpdateLocalName))
         
             print "auto update - new update available ("+str(gitver)+")"
@@ -290,7 +294,7 @@ def CheckForAutoUpdateDev(force = False):
                     extractFolder = xbmc.translatePath('special://home/addons')
                     pluginsrc =  xbmc.translatePath(os.path.join(extractFolder,UpdateDirName))
                     if autoupdate.unzipAndMove(UpdateLocalFile,extractFolder,pluginsrc):
-                        selfAddon.setSetting("localver",str(gitver))
+                        autoupdate.saveUpdateFile(UpdateVerPath,str(gitver))
                         print "Mashup auto update - update install successful ("+str(gitver)+")"
                         xbmc.executebuiltin("XBMC.Notification(MashUp Update,Successful,5000,"+main.slogo+")")
                         xbmc.executebuiltin("XBMC.Container.Refresh")
@@ -650,7 +654,6 @@ def setListFile(url, path, excepturl = None):
                 content=main.OPENURL(excepturl)
         if content:
             try:
-                print 'open file'
                 open(path,'w+').write(content)
             except: pass
         return

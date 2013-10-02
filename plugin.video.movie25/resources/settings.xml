@@ -2,9 +2,6 @@
 <settings>
 
    <category label="General">
-		<setting id="localver" type="text" default="114" visible="false"/>
-		<setting id="updatever" type="text" default="0" visible="false"/>
-		
 		<setting id="meta-view" type="bool" label="[B]Metadata (Movies)[/B]" default="true"/>
 		<setting id="meta-view-tv" type="bool" label="[B]Metadata (TV Shows)[/B]" default="true"/>
 		<setting id="whistory" type="bool" label="[B]Watch History[/B]" default="true"/>

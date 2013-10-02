@@ -89,7 +89,7 @@ def iLiveList(murl):
         for durl in urllist:
                 link=main.OPENURL(durl)
                 link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
-                match=re.compile('src=".+?" alt=".+?<img width=".+?" height=".+?" src="([^<]+)" alt=".+?"/></noscript></a><a href="(.+?)"><strong>(.+?)</strong></a><br/>').findall(link)
+                match=re.compile('src=".+?" alt=".+?<img width=".+?" height=".+?" src="([^<]+)" alt=".+?"/></noscript></a><a href="(.+?)"><strong>(.*?)</strong></a><br/>').findall(link)
                 for thumb,url,name in match:
                         match=re.compile('Hongkong').findall(name)
                         match2=re.compile('sex').findall(name)
