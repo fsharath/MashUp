@@ -36,8 +36,11 @@ wh = watchhistory.WatchHistory('plugin.video.movie25')
 UpdatePath=os.path.join(main.datapath,'Update')
 try:
     os.makedirs(UpdatePath)
-except:
-    pass
+except: pass
+ListsPath=os.path.join(main.datapath,'Lists')
+try:
+    os.makedirs(ListsPath)
+except: pass
 
 def AtoZ():
         main.addDir('0-9','http://www.movie25.so/movies/0-9/',1,art+'/09.png')
@@ -401,7 +404,7 @@ def TV():
 
 def ThreeDsec():
         main.addDir('3D Movies (Newmyvideolinks) True HD[COLOR red] DC[/COLOR]','3D',34,art+'/3d.png')
-        link=main.OPENURL('https://github.com/mash2k3/MashUpNotifications/raw/master/Directories/3D_Directory.xml')
+        link=getListFile('https://github.com/mash2k3/MashUpNotifications/raw/master/Directories/3D_Directory.xml', os.path.join(ListsPath,'ThreeD'))
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
         match=re.compile('<name>(.+?)</name><link>(.+?)</link><thumbnail>(.+?)</thumbnail><mode>(.+?)</mode>').findall(link)
         for name,url,thumb,mode in match:
@@ -462,7 +465,7 @@ def SPORTS():
         main.addDir('Wild TV','https://www.wildtv.ca/shows',92,art+'/wildtv.png')
         main.addDir('Workouts','https://www.wildtv.ca/shows',194,art+'/workout.png')
         main.addDir('The Golf Channel','golf',217,art+'/golfchannel.png')
-        link=main.OPENURL('https://github.com/mash2k3/MashUpNotifications/raw/master/Sport_Directory.xml')
+        link=getListFile('https://github.com/mash2k3/MashUpNotifications/raw/master/Sport_Directory.xml', os.path.join(ListsPath,'Sports'))
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
         match=re.compile('<name>(.+?)</name><link>(.+?)</link><thumbnail>(.+?)</thumbnail><mode>(.+?)</mode>').findall(link)
         for name,url,thumb,mode in match:
@@ -520,43 +523,14 @@ def KIDZone(murl):
         main.VIEWSB()
     
 def LiveStreams():
-        #Announcement Notifier from xml file
-        try:
-                link=main.OPENURL('https://github.com/mash2k3/MashUpNotifications/raw/master/NotifierLive.xml')
-        except:
-                link='nill'
-
-        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
-        match=re.compile('<item><new>(.+?)</new><message1>(.+?)</message1><message2>(.+?)</message2><message3>(.+?)</message3><old>(.+?)</old></item>').findall(link)
-        if len(match)>0:
-                for new,mes1,mes2,mes3,old in match:
-                        continue
-                if new != ' ':
-                        runonce=os.path.join(main.datapath,'RunOnce')
-                        notified=os.path.join(runonce,str(new))
-                        if not os.path.exists(notified):
-                                open(notified,'w').write('version="%s",'%new)
-                                dialog = xbmcgui.Dialog()
-                                ok=dialog.ok('[B]Live Section Announcement![/B]', str(mes1) ,str(mes2),str(mes3))
-                        if old != ' ':
-                                notified=os.path.join(runonce,str(old))
-                                if  os.path.exists(notified):
-                                        os.remove(notified)
-                else:
-                        print 'No Messages'
-    
-        else:
-            print 'Github Link Down'
+        threading.Thread(target=showLiveAnnouncements).start()
         main.addDir('Livestation News','http://mobile.livestation.com/',116,art+'/livestation.png')
         main.addDir('iLive Streams','ilive',119,art+'/ilive.png')
         main.addDir('Castalba Streams','castalgba',122,art+'/castalba.png')
         main.addDir('Misc. Music Streams','music',127,art+'/miscmusic.png')
         main.addDir('By Country','navi',143,art+'/countrysec.png')
         main.addDir('Arabic Streams','navi',231,art+'/arabicstream.png')
-        try:
-                link=main.OPENURL('https://github.com/mash2k3/MashUpNotifications/raw/master/LiveDirectory(mash2k3Only).xml')
-        except:
-                link=main.OPENURL('https://mash2k3-repository.googlecode.com/svn/trunk/LiveDirectory%28mash2k3Only%29.xml')
+        link=getListFile('https://github.com/mash2k3/MashUpNotifications/raw/master/LiveDirectory(mash2k3Only).xml',os.path.join(ListsPath,'LiveStreams'))
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','').replace('type=playlistname=Sorted by user-assigned order','').replace('name=Sorted [COLOR=FF00FF00]by user-assigned order[/COLOR]','').replace('name=Live Tv Channels Twothumb','')
         match=re.compile('<name>(.+?)</name><link>(.+?)</link><thumbnail>(.+?)</thumbnail><mode>(.+?)</mode>').findall(link)
         for name,url,thumb,mode in match:
@@ -587,10 +561,7 @@ def DOCS():
 
 
 def PlaylistDir():
-        try:
-                link=main.OPENURL('https://github.com/mash2k3/MashUpNotifications/raw/master/MoviePlaylist_Dir.xml')
-        except:
-                xbmc.executebuiltin("XBMC.Notification(Sorry!,Movie Playlist Down,5000,"")")
+        link=getListFile('https://github.com/mash2k3/MashUpNotifications/raw/master/MoviePlaylist_Dir.xml',os.path.join(ListsPath,'Playlist'))
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
         match=re.compile('<name>(.+?)</name><link>(.+?)</link><thumbnail>(.+?)</thumbnail><mode>(.+?)</mode>').findall(link)
         for name,url,thumb,mode in match:
@@ -631,6 +602,58 @@ def HTVList(murl):
         for name,url,thumb in match:
                 main.addPlayc(name,url,259,thumb,'','','','','')
         main.GA("None","How To Videos")        
+        
+def showLiveAnnouncements():
+                #Announcement Notifier from xml file
+        try:
+                link=main.OPENURL('https://github.com/mash2k3/MashUpNotifications/raw/master/NotifierLive.xml')
+        except:
+                link='nill'
+
+        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
+        match=re.compile('<item><new>(.+?)</new><message1>(.+?)</message1><message2>(.+?)</message2><message3>(.+?)</message3><old>(.+?)</old></item>').findall(link)
+        if len(match)>0:
+                for new,mes1,mes2,mes3,old in match:
+                        continue
+                if new != ' ':
+                        runonce=os.path.join(main.datapath,'RunOnce')
+                        notified=os.path.join(runonce,str(new))
+                        if not os.path.exists(notified):
+                                open(notified,'w').write('version="%s",'%new)
+                                dialog = xbmcgui.Dialog()
+                                ok=dialog.ok('[B]Live Section Announcement![/B]', str(mes1) ,str(mes2),str(mes3))
+                        if old != ' ':
+                                notified=os.path.join(runonce,str(old))
+                                if  os.path.exists(notified):
+                                        os.remove(notified)
+                else:
+                        print 'No Messages'
+    
+        else:
+            print 'Github Link Down'
+def getListFile(url, path, excepturl = None ):
+        link = ''
+        t = threading.Thread(target=setListFile,args=(url,path,excepturl))
+        t.start()
+        if not os.path.exists(path):
+            t.join()
+        if os.path.exists(path):
+            try: link = open(path).read()
+            except: pass
+        return link       
+def setListFile(url, path, excepturl = None):
+        content = None
+        try:
+            content=main.OPENURL(url)
+        except:
+            if excepturl:
+                content=main.OPENURL(excepturl)
+        if content:
+            try:
+                print 'open file'
+                open(path,'w+').write(content)
+            except: pass
+        return
 ################################################################################ XBMCHUB Repo & Hub Maintenance Installer ##########################################################################################################
 
 
