@@ -237,6 +237,7 @@ def LINKSP2(mname,url):
                     murl='h'+murl
                     hosted_media = urlresolver.HostedMediaFile(url=murl, title=name)
                     match2=re.compile("{'url': '(.+?)', 'host': '(.+?)', 'media_id': '.+?'}").findall(str(hosted_media))
+                    host = ''
                     for murl,host in match2:
                             main.addDown2(mname+' [COLOR blue]'+name+'[/COLOR]',murl,209,art+'/hosts/'+thumb+".png",art+'/hosts/'+thumb+".png")
                     if 'mightyupload.com' in murl and not host:
