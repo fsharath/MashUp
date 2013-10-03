@@ -131,7 +131,7 @@ def Announcements():
         #Announcement Notifier from xml file
         
         try:
-                link=main.OPENURL('https://github.com/mash2k3/MashUpNotifications/raw/master/Notifier.xml')
+                link=main.OPENURL('https://github.com/mash2k3/MashUpNotifications/raw/master/Notifier.xml',verbose=False)
                 link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
 
         except:
@@ -213,7 +213,7 @@ def CheckForAutoUpdate(force = False):
         if verCheck == True:
             try:
                 print "Mashup auto update - started"
-                html=main.OPENURL('https://github.com/'+GitHubUser+'/'+GitHubRepo+'?files=1', mobile=True)
+                html=main.OPENURL('https://github.com/'+GitHubUser+'/'+GitHubRepo+'?files=1', mobile=True, verbose=False)
             except: html=''
             m = re.search("View (\d+) commit",html,re.I)
             if m: gitver = int(m.group(1))
@@ -266,7 +266,7 @@ def CheckForAutoUpdateDev(force = False):
         UpdateVerFile = 'devupdate'
         try:
             print "Mashup auto update - started"
-            html=main.OPENURL('https://github.com/'+GitHubUser+'/'+GitHubRepo+'?files=1', mobile=True)
+            html=main.OPENURL('https://github.com/'+GitHubUser+'/'+GitHubRepo+'?files=1', mobile=True, verbose=False)
         except: html=''
         m = re.search("View (\d+) commit",html,re.I)
         if m: gitver = int(m.group(1))
@@ -610,7 +610,7 @@ def HTVList(murl):
 def showLiveAnnouncements():
                 #Announcement Notifier from xml file
         try:
-                link=main.OPENURL('https://github.com/mash2k3/MashUpNotifications/raw/master/NotifierLive.xml')
+                link=main.OPENURL('https://github.com/mash2k3/MashUpNotifications/raw/master/NotifierLive.xml', verbose=False)
         except:
                 link='nill'
 
@@ -648,10 +648,10 @@ def getListFile(url, path, excepturl = None ):
 def setListFile(url, path, excepturl = None):
         content = None
         try:
-            content=main.OPENURL(url)
+            content=main.OPENURL(url, verbose=False)
         except:
             if excepturl:
-                content=main.OPENURL(excepturl)
+                content=main.OPENURL(excepturl, verbose=False)
         if content:
             try:
                 open(path,'w+').write(content)

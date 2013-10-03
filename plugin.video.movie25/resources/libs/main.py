@@ -53,7 +53,7 @@ art = 'https://github.com/mash2k3/MashupArtwork/raw/master/art'
 elogo = xbmc.translatePath('special://home/addons/plugin.video.movie25/resources/art/bigx.png')
 slogo = xbmc.translatePath('special://home/addons/plugin.video.movie25/resources/art/smallicon.png')
 
-def OPENURL(url, mobile = False, q = False):
+def OPENURL(url, mobile = False, q = False, verbose = True):
     UserAgent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3'
     try:
         print "MU-Openurl = " + url
@@ -71,7 +71,8 @@ def OPENURL(url, mobile = False, q = False):
         if q: q.put(link)
         return link
     except:
-        xbmc.executebuiltin("XBMC.Notification(Sorry!,Source Website is Down,3000,"+elogo+")")
+        if verbose:
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Source Website is Down,3000,"+elogo+")")
         link ='website down'
         return link
     
