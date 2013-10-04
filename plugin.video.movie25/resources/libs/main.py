@@ -74,6 +74,7 @@ def OPENURL(url, mobile = False, q = False, verbose = True):
         if verbose:
             xbmc.executebuiltin("XBMC.Notification(Sorry!,Source Website is Down,3000,"+elogo+")")
         link ='website down'
+        if q: q.put(link)
         return link
     
 def batchOPENURL(urls, mobile = False):
