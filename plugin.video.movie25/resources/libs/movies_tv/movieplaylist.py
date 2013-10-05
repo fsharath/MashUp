@@ -231,7 +231,8 @@ def MLink2(mname,murl,thumb,verbose=True):
                 match=re.compile('<referer>(.+?)</referer>').findall(murl)
                 if match:
                         video=match[0]
-
+                else:
+                        video=murl
                 infoLabels =main.GETMETAT(mname,'','','')
                 video_type='movie'
                 season=''
