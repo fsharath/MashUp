@@ -110,17 +110,23 @@ def subLink(mname,suburl):
                 for url2 in match6:
                         host = url2.replace('www.','').replace('.in','').replace('.net','').replace('.com','').replace('.to','').replace('.org','').replace('.ch','')
                         if re.findall('\d+.\d+.\d+.\d+',host):
-                            host='Static Link'
+                            host='Static'
                         main.addDown2(mname+' [COLOR blue]'+host.upper()+'[/COLOR]',url,237,art+'/hosts/'+host.lower()+'.png',art+'/hosts/'+host.lower()+'.png')
 
 def MLink(mname,murl,thumb):
         main.GA(mname,"Watched")
         ok=True
         xbmc.executebuiltin("XBMC.Notification(Please Wait!,Opening Link,5000)")
-        infoLabels =main.GETMETAT(mname,'','','')
-        video_type='movie'
-        season=''
-        episode=''
+        if re.findall('(.+?)\ss(\d+)e(\d+)\s',mname,re.I) or re.findall('Season(.+?)Episode([^<]+)',mname,re.I):
+                infoLabels =main.GETMETAEpiT(mname,thumb,'')
+                video_type='episode'
+                season=infoLabels['season']
+                episode=infoLabels['episode']
+        else: 
+                infoLabels =main.GETMETAT(mname,'','','')
+                video_type='movie'
+                season=''
+                episode=''
         img=infoLabels['cover_url']
         fanart =infoLabels['backdrop_url']
         imdb_id=infoLabels['imdb_id']

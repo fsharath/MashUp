@@ -19,7 +19,7 @@ def LISTINT3(url):
         urllist=main.OPENURL('http://www.cinevip.org/')+main.OPENURL('http://www.cinevip.org/page/2')+main.OPENURL('http://www.cinevip.org/page/3')+main.OPENURL('http://www.cinevip.org/page/4')+main.OPENURL('http://www.cinevip.org/page/5')+main.OPENURL('http://www.cinevip.org/page/6')+main.OPENURL('http://www.cinevip.org/page/7')+main.OPENURL('http://www.cinevip.org/page/8')+main.OPENURL('http://www.cinevip.org/page/9')+main.OPENURL('http://www.cinevip.org/page/10')        
         if urllist:
                 urllist=urllist.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
-                match=re.compile('<div class=".+?</div> <a href="(.+?)"><img alt="(.+?)" title=".+?" height=".+?" width=".+?" src="(.+?)"></a>').findall(urllist)
+                match=re.compile('<div class="thumbnail"><a href="(.+?)"><img alt="(.+?)" title=".+?" height=".+?" width=".+?" src="(.+?)"></a>').findall(urllist)
                 dialogWait = xbmcgui.DialogProgress()
                 ret = dialogWait.create('Please wait until Movie list is cached.')
                 totalLinks = len(match)
@@ -27,7 +27,7 @@ def LISTINT3(url):
                 remaining_display = 'Movies loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
                 dialogWait.update(0,'[B]Will load instantly from now on[/B]',remaining_display)
                 for url,name,thumb in match:
-                        name=name.replace('ver online','').replace('Ver ','')
+                        name=name.replace('ver online','').replace('Ver ','').replace(' Online','')
                         main.addPlayM(name,url,67,thumb,'','','','','')
                         loadedLinks = loadedLinks + 1
                         percent = (loadedLinks * 100)/totalLinks

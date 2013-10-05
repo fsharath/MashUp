@@ -17,7 +17,7 @@ wh = watchhistory.WatchHistory('plugin.video.movie25')
 def DISC(murl):
         link=main.OPENURL(murl)
         link=main.unescapes(link)
-        match= re.compile('<a href="([^<]+)" class="event-click-tracking" data-track-rule="module" data-module-name="other-shows".+?<img src="(.+?)" alt=".+?" title="(.+?)" style=".+?" />').findall(link)
+        match= re.compile('<a href="([^<]+)" class="event-click-tracking" data-track-rule="module" data-module-name="shows-carousel".+?<img class=".+?" src=".+?" data-original="(.+?)" alt="(.+?)" title=".+?" />').findall(link)
         for url,thumb,name in sorted(match):
             thumb=thumb.replace(' ','%20')
             main.addDir(name,'http://dsc.discovery.com'+url,64,thumb)
@@ -27,7 +27,7 @@ def DISC(murl):
 def ANIP(murl):
         link=main.OPENURL(murl)
         link=main.unescapes(link)
-        match= re.compile('<a href="([^<]+)" class="event-click-tracking" data-track-rule="module" data-module-name="other-shows".+?<img src="(.+?)" alt=".+?" title="(.+?)" style=".+?" />').findall(link)
+        match= re.compile('<a href="([^<]+)" class="event-click-tracking" data-track-rule="module" data-module-name="shows-carousel".+?<img class=".+?" src=".+?" data-original="(.+?)" alt="(.+?)" title=".+?" />').findall(link)
         for url,thumb,name in sorted(match):
             thumb=thumb.replace(' ','%20')
             main.addDir(name,'http://animal.discovery.com'+url,64,thumb)
@@ -38,7 +38,7 @@ def MILIT(murl):
         main.addDir('AIR ACES','aa',90,'http://viewersguide.ca/wp-content/uploads/2013/01/air-aces-ss-280x200.png')
         link=main.OPENURL(murl)
         link=main.unescapes(link)
-        match= re.compile('<a href="([^<]+)" class="event-click-tracking" data-track-rule="module" data-module-name="other-shows".+?<img src="(.+?)" alt=".+?" title="(.+?)" style=".+?" />').findall(link)
+        match= re.compile('<a href="([^<]+)" class="event-click-tracking" data-track-rule="module" data-module-name="shows-carousel".+?<img class=".+?" src=".+?" data-original="(.+?)" alt="(.+?)" title=".+?" />').findall(link)
         for url,thumb,name in sorted(match):
             thumb=thumb.replace(' ','%20')
             main.addDir(name,'http://military.discovery.com'+url,64,thumb)
@@ -48,7 +48,7 @@ def MILIT(murl):
 def SCI(murl):
         link=main.OPENURL(murl)
         link=main.unescapes(link)
-        match= re.compile('<a href="([^<]+)" class="event-click-tracking" data-track-rule="module" data-module-name="other-shows".+?<img src="(.+?)" alt=".+?" title="(.+?)" style=".+?" />').findall(link)
+        match= re.compile('<a href="([^<]+)" class="event-click-tracking" data-track-rule="module" data-module-name="shows-carousel".+?<img class=".+?" src=".+?" data-original="(.+?)" alt="(.+?)" title=".+?" />').findall(link)
         for url,thumb,name in sorted(match):
             thumb=thumb.replace(' ','%20')
             main.addDir(name,'http://science.discovery.com'+url,64,thumb)
@@ -58,7 +58,7 @@ def SCI(murl):
 def VELO(murl):
         link=main.OPENURL(murl)
         link=main.unescapes(link)
-        match= re.compile('<a href="([^<]+)" class="event-click-tracking" data-track-rule="module" data-module-name="other-shows".+?<img src="(.+?)" alt=".+?" title="(.+?)" style=".+?" />').findall(link)
+        match= re.compile('<a href="([^<]+)" class="event-click-tracking" data-track-rule="module" data-module-name="shows-carousel".+?<img class=".+?" src=".+?" data-original="(.+?)" alt="(.+?)" title=".+?" />').findall(link)
         for url,thumb,name in sorted(match):
             thumb=thumb.replace(' ','%20')
             main.addDir(name,'http://velocity.discovery.com'+url,64,thumb)

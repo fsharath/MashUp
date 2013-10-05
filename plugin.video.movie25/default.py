@@ -317,7 +317,7 @@ def CheckForAutoUpdateDev(force = False):
         return
     
 def Notify():
-        mashup=137
+        mashup=138
         runonce=os.path.join(main.datapath,'RunOnce')
         try:
             os.makedirs(runonce)

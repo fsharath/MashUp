@@ -1,3 +1,59 @@
+[B]Version 1.3.8[/B]
+
+-Added Option to Customize home screen in addon settings
+-Added Auto update function that syncs with repo(coder kuba)
+-Improved MetaData function for both Movies & TV(coder kuba)
+-Improved start up speed by threading functions(coder kuba)
+-Improved noobroom sorting(coder kuba)
+-Added some noobroom credential check error handling
+-Added option to run last auto-update in settings(coder kuba)
+-Added option to hide Download instructions in settings
+-Fixed xbmc subtitles issue
+-Added Mashup settings to context menu
+-Added option to Disable Google Analytics in settings
+-Put GA into threads to speed up plugin(coder kuba)
+-Cleaned up some unnecessary code(coder kuba)
+-Added builtin resolvers (epicshare, lemuploads) from eldorado
+-Removed captcha check of billions resolver
+-Converted all movie&tv section to use resolver script (coder kuba)
+-Re-coded Disney JR for new website changes
+-Fixed oneclickwatch (coder kuba)
+-Fixed VeedHD resolver (coder JasonPc)
+-iLive Token added(coder the-one)
+-Fixed rlsmix for new site
+-Improved meta refresh for movies(coder kuba)
+-Added Universal Favorites(coder the-one)
+-Fixed Homescreen and video addons view glitch
+-Added grouped favorites for Universal favorites(coder kuba)
+-Changed how the user get module import errors(more descriptive)
+-Fixed Movie25 regex and code due to site domain change
+-Fixed Livestation
+-Improved VIPlaylist metadata display and error handling(coder kuba)
+-Added buitlin mightyupload resolver
+-Changed to MyNewVideoLinks view by pages for speed(coder kuba)
+-Moved MyNewVideoLinks HD Host links on top followed by SD(coder kuba)
+-Fixed Movie1k regex.
+-Fixed Vice and Discovery sections
+-Changed and re-coded the whole custom xml section
+-Split Metadata on/off option in settings to TV & Movies
+-Fixed iWatchOnline latest tv section(coder kuba)
+-Added missing arabic streams channels
+-Added HacekrMil Vip++ section
+-Fixed iLive Again
+-Added addon settings on home screen
+-Added resolver, metahandler & universal settings within addon settings(coder kuba)
+-Added VIPlaylisters content to section thru out mashup
+-Fixed Castalba regex
+-Improved MashUp settings(coder kuba)
+-Added batch retrieve for websites to improve speed (coder kuba)
+-Github lists get cached to improve speed(coder kuba)
+-Added Emergency fix for launch errors in settings
+-Split builtin plugins to anime and more tv & movies
+-Added search function in movie25 context menu
+-Changed Support to XBMCTALK.COM 
+-Changed a few home screen icons
+-Added more live sections to sports section
+
 [B]Version 1.3.7[/B]
 
 -Reduced memory footprint, speeds page navigation(coder JasonPc) 

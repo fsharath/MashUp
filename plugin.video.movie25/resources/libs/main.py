@@ -29,7 +29,7 @@ if selfAddon.getSetting('visitor_ga')=='':
     from random import randint
     selfAddon.setSetting('visitor_ga',str(randint(0, 0x7fffffff)))
 
-VERSION = "1.3.7b"
+VERSION = "1.3.8"
 PATH = "MashUp-"            
 UATRACK="UA-38312513-1" 
 
