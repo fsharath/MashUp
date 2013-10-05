@@ -858,22 +858,24 @@ def parseDate(dateString):
 
 
 def checkGA():
+    if selfAddon.getSetting("gastatus") == "true":
+        secsInHour = 60 * 60
+        threshold  = 2 * secsInHour
 
-    secsInHour = 60 * 60
-    threshold  = 2 * secsInHour
+        now   = datetime.datetime.today()
+        prev  = parseDate(selfAddon.getSetting('ga_time'))
+        delta = now - prev
+        nDays = delta.days
+        nSecs = delta.seconds
 
-    now   = datetime.datetime.today()
-    prev  = parseDate(selfAddon.getSetting('ga_time'))
-    delta = now - prev
-    nDays = delta.days
-    nSecs = delta.seconds
+        doUpdate = (nDays > 0) or (nSecs > threshold)
+        if not doUpdate:
+            return
 
-    doUpdate = (nDays > 0) or (nSecs > threshold)
-    if not doUpdate:
-        return
-
-    selfAddon.setSetting('ga_time', str(now).split('.')[0])
-    threading.Thread(target=APP_LAUNCH).start()
+        selfAddon.setSetting('ga_time', str(now).split('.')[0])
+        threading.Thread(target=APP_LAUNCH).start()
+    else:
+        print "MashUp Google Analytics disabled"
     
                     
 def send_request_to_google_analytics(utm_url):
@@ -889,8 +891,9 @@ def send_request_to_google_analytics(utm_url):
     return response
        
 def GA(group,name):
-    threading.Thread(target=GAthread, args=(group,name)).start()
-    
+    if selfAddon.getSetting("gastatus") == "true":
+        threading.Thread(target=GAthread, args=(group,name)).start()
+
 def GAthread(group,name):
         try:
             try:

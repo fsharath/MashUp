@@ -5,13 +5,14 @@
 		<setting id="meta-view" type="bool" label="[B]Metadata (Movies)[/B]" default="true"/>
 		<setting id="meta-view-tv" type="bool" label="[B]Metadata (TV Shows)[/B]" default="true"/>
 		<setting id="whistory" type="bool" label="[B]Watch History[/B]" default="true"/>
+		<setting id="gastatus" type="bool" label="[B]Google Analytics[/B]" default="true"/>
 		<setting id="switchup" type="bool" label="[B]SwitchUp[/B]" default="false"/>
 		<setting id="groupfavs" type="bool" label="[B]Group Favorites[/B]" default="false"/>
 		<setting label="[B]Re-install last auto update[/B]" type="action" action="RunPlugin(plugin://plugin.video.movie25/?mode=1998&url=0)"/>
 		<setting label="External Settings" type="lsep" />
 		<setting label="Resolver Settings" type="action" action="Addon.OpenSettings(script.module.urlresolver)" enable="System.HasAddon(script.module.urlresolver)"/>
-		<setting label="MetaHandler Settings" type="action" action="Addon.OpenSettings(script.module.metahandler)" enable ="eq(-8,true) || eq(-7,true)" />
-		<setting label="Universal Settings (Watch History)" type="action" action="Addon.OpenSettings(script.module.universal)" enable="eq(-7,true)"/>
+		<setting label="MetaHandler Settings" type="action" action="Addon.OpenSettings(script.module.metahandler)" enable ="eq(-9,true) || eq(-8,true)" />
+		<setting label="Universal Settings (Watch History)" type="action" action="Addon.OpenSettings(script.module.universal)" enable="eq(-8,true)"/>
    </category>
    
    <category label="Auto View">
@@ -43,38 +44,40 @@
 			<setting id="home_item_6" type="number" label="     Order" default="60" visible="!eq(-1,false)"/>
 		<setting id="home_item_7_enabled" type="bool" label="[B]Live Section[/B]" default="true"/>
 			<setting id="home_item_7" type="number" label="     Order" default="70" visible="!eq(-1,false)"/>
-		<setting id="home_item_8_enabled" type="bool" label="[B]Built-in Plugins[/B]" default="true"/>
+		<setting id="home_item_8_enabled" type="bool" label="[B]More Tv Shows & Movies[/B]" default="true"/>
 			<setting id="home_item_8" type="number" label="     Order" default="80" visible="!eq(-1,false)"/>
-		<setting id="home_item_9_enabled" type="bool" label="[B]VIPlaylist[/B]" default="true"/>
-			<setting id="home_item_9" type="number" label="     Order" default="90" visible="!eq(-1,false)"/>
-		<setting id="home_item_10_enabled" type="bool" label="[B]Sports Section[/B]" default="true"/>
+		<setting id="home_item_9_enabled" type="bool" label="[B]Anime[/B]" default="true"/>
+			<setting id="home_item_9" type="number" label="     Order" default="90" visible="!eq(-1,false)"/>	
+		<setting id="home_item_10_enabled" type="bool" label="[B]VIPlaylist[/B]" default="true"/>
 			<setting id="home_item_10" type="number" label="     Order" default="100" visible="!eq(-1,false)"/>
-		<setting id="home_item_11_enabled" type="bool" label="[B]Adventure[/B]" default="true"/>
+		<setting id="home_item_11_enabled" type="bool" label="[B]Sports Section[/B]" default="true"/>
 			<setting id="home_item_11" type="number" label="     Order" default="110" visible="!eq(-1,false)"/>
-		<setting id="home_item_12_enabled" type="bool" label="[B]Kids Zone[/B]" default="true"/>
+		<setting id="home_item_12_enabled" type="bool" label="[B]Adventure[/B]" default="true"/>
 			<setting id="home_item_12" type="number" label="     Order" default="120" visible="!eq(-1,false)"/>
-		<setting id="home_item_13_enabled" type="bool" label="[B]Documentaries[/B]" default="true"/>
+		<setting id="home_item_13_enabled" type="bool" label="[B]Kids Zone[/B]" default="true"/>
 			<setting id="home_item_13" type="number" label="     Order" default="130" visible="!eq(-1,false)"/>
-		<setting id="home_item_14_enabled" type="bool" label="[B]How to Videos[/B]" default="true"/>
+		<setting id="home_item_14_enabled" type="bool" label="[B]Documentaries[/B]" default="true"/>
 			<setting id="home_item_14" type="number" label="     Order" default="140" visible="!eq(-1,false)"/>
-		<setting id="home_item_15_enabled" type="bool" label="[B]FixIt Section[/B]" default="true"/>
+		<setting id="home_item_15_enabled" type="bool" label="[B]How to Videos[/B]" default="true"/>
 			<setting id="home_item_15" type="number" label="     Order" default="150" visible="!eq(-1,false)"/>
-		<setting id="home_item_16_enabled" type="bool" label="[B]HackerMils Stash[/B]" default="false"/>
+		<setting id="home_item_16_enabled" type="bool" label="[B]FixIt Section[/B]" default="false"/>
 			<setting id="home_item_16" type="number" label="     Order" default="160" visible="!eq(-1,false)"/>
-		<setting id="home_item_17_enabled" type="bool" label="[B]The New Pirate Bay[/B]" default="false"/>
+		<setting id="home_item_17_enabled" type="bool" label="[B]HackerMils Stash[/B]" default="false"/>
 			<setting id="home_item_17" type="number" label="     Order" default="170" visible="!eq(-1,false)"/>
-		<setting id="home_item_18_enabled" type="bool" label="[B]More Power[/B]" default="false"/>
+		<setting id="home_item_18_enabled" type="bool" label="[B]The New Pirate Bay[/B]" default="false"/>
 			<setting id="home_item_18" type="number" label="     Order" default="180" visible="!eq(-1,false)"/>
-		<setting id="home_item_19_enabled" type="bool" label="[B]Staael 1982[/B]" default="false"/>
+		<setting id="home_item_19_enabled" type="bool" label="[B]More Power[/B]" default="false"/>
 			<setting id="home_item_19" type="number" label="     Order" default="190" visible="!eq(-1,false)"/>
-		<setting id="home_item_20_enabled" type="bool" label="[B]Custom XML Channels[/B]" default="false"/>
+		<setting id="home_item_20_enabled" type="bool" label="[B]Staael 1982[/B]" default="false"/>
 			<setting id="home_item_20" type="number" label="     Order" default="200" visible="!eq(-1,false)"/>
-		<setting id="home_item_21_enabled" type="bool" label="[B]K1M05[/B]" default="false"/>
+		<setting id="home_item_21_enabled" type="bool" label="[B]Custom XML Channels[/B]" default="false"/>
 			<setting id="home_item_21" type="number" label="     Order" default="210" visible="!eq(-1,false)"/>
-		<setting id="home_item_22_enabled" type="bool" label="[B]Mash Sports[/B]" default="false"/>
+		<setting id="home_item_22_enabled" type="bool" label="[B]K1M05[/B]" default="false"/>
 			<setting id="home_item_22" type="number" label="     Order" default="220" visible="!eq(-1,false)"/>
-		<setting id="home_item_23_enabled" type="bool" label="[B]iLive[/B]" default="false"/>
+		<setting id="home_item_23_enabled" type="bool" label="[B]Mash Sports[/B]" default="false"/>
 			<setting id="home_item_23" type="number" label="     Order" default="230" visible="!eq(-1,false)"/>
+		<setting id="home_item_24_enabled" type="bool" label="[B]iLive[/B]" default="false"/>
+			<setting id="home_item_24" type="number" label="     Order" default="240" visible="!eq(-1,false)"/>
    </category>
    <category label="Custom Channels">
 		<setting id="customchannel" type="bool" label="Custom Channels" default="true"/>
@@ -114,4 +117,10 @@
 		<setting id="hide-download-instructions" type="bool" label="[B]Hide Download Instructions[/B]" default="false"/>
    </category>
    
+   <category label="Emergency FIX">
+   <setting label="Do not apply unless told by developer" type="lsep" />
+   <setting label="Fix Database Malformed Error" type="action" action="XBMC.RunScript(special://home/addons/plugin.video.movie25/resources/fixes/malformedFix.py)"/>
+   <setting label="Fix Metahandler mkdirs Error [COLOR red](EDEN Only)[/COLOR]" type="action" action="XBMC.RunScript(special://home/addons/plugin.video.movie25/resources/fixes/mkdirsFix.py)"/>
+		
+   </category>
 </settings>

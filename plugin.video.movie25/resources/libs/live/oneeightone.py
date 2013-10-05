@@ -23,7 +23,8 @@ def MAINFM():
         match = re.compile('700"><br>(.+?)</font></td>(.+?)</table>').findall(link)
         for name,url in match:
             name=name.replace('/','&')
-            main.addDir(name,url,192,art+name+".png")
+            thumb=name.replace(' ','%20')
+            main.addDir(name,url,192,art+'/'+thumb+".png")
     
 
 def LISTFM(mname,murl):
@@ -31,8 +32,8 @@ def LISTFM(mname,murl):
         if xbmc.Player().isPlayingAudio():
                 main.addPlayc('[COLOR red]Download Current Track Playing[/COLOR]','dummy', 213 ,art+"hubmusic.png",'','','','','')
                 main.addPlayc('[COLOR red]Search Current Artist Playing[/COLOR]','dummy', 214,art+"hubmusic2.png",'','','','','')
-        thumb=art+"%s.png"%(mname)
-        print "kk "+thumb
+        image=mname.replace(' ','%20')
+        thumb=art+'/'+"%s.png"%(image)
         match = re.compile('<a STYLE="text-decoration:none" href="(.+?)" class="left_link">(.+?)</a></font></td>').findall(murl)
         for url,name in match:
             main.addPlayL(name,url,193,thumb,'','','','','')

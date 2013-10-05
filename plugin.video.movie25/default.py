@@ -1,21 +1,21 @@
 #-*- coding: utf-8 -*-
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
+import urllib,urllib2,re,cookielib,string, urlparse,os,time,datetime,threading
 
 try:
-    import urllib,urllib2,re,cookielib,string, urlparse
-    import urlresolver,os,time
-    from t0mm0.common.addon import Addon
+    import urlresolver
     from t0mm0.common.net import Net as net
+    from t0mm0.common.addon import Addon
+    from universal import favorites, watchhistory, playbackengine
     from metahandler import metahandlers
-    import datetime,time
-    from resources.libs import main,settings,autoupdate
-    import threading
 except Exception, e:
     elogo = xbmc.translatePath('special://home/addons/plugin.video.movie25/resources/art/bigx.png')
-    xbmc.executebuiltin("XBMC.Notification([COLOR=FF67cc33]Mash Up Error[/COLOR],[COLOR red]Failed To Import Needed Modules Check Log For Details[/COLOR],7000,"+elogo+")")
+    dialog = xbmcgui.Dialog()
+    ok=dialog.ok('[B][COLOR=FF67cc33]Mash Up Import Error[/COLOR][/B]','Failed To Import Needed Modules',str(e),'Report missing Module at [COLOR=FF67cc33]Xbmctalk.com[/COLOR] to Fix')
     xbmc.log('Mash Up ERROR - Importing Modules: '+str(e))
-    sys.exit(0)
+
     
+from resources.libs import main,settings,autoupdate    
     
 #Mash Up - by Mash2k3 2012.
 
@@ -29,7 +29,7 @@ selfAddon = xbmcaddon.Addon(id=addon_id)
 grab = metahandlers.MetaData(preparezip = False)
 addon = Addon(addon_id)
 art = main.art
-from universal import watchhistory
+
 wh = watchhistory.WatchHistory('plugin.video.movie25')
 
 ################################################################################ Directories ##########################################################################################################
@@ -90,36 +90,38 @@ def MAIN():
             elif index==6:
                 main.addDirHome('Live Streams','http://www.movie25.so/',115,art+'/live.png')
             elif index==7:
-                main.addDirHome('Built in Plugins','http://www.movie25.so/',500,art+'/plugins.png')
+                main.addDirHome('More TV Shows & Movies','http://www.movie25.so/',500,art+'/moretvmovies.png')
             elif index==8:
-                main.addDirHome('[COLOR=FF67cc33]VIP[/COLOR]laylists','http://www.movie25.so/',234,art+'/moviepl.png')
+                main.addDirHome('Anime','http://www.movie25.so/',265,art+'/anime.png')
             elif index==9:
-                main.addDirHome('Sports','http://www.movie25.so/',43,art+'/sportsec2.png')
+                main.addDirHome('[COLOR=FF67cc33]VIP[/COLOR]laylists','http://www.movie25.so/',234,art+'/moviepl.png')
             elif index==10:
-                main.addDirHome('Adventure','http://www.movie25.so/',63,art+'/adv2.png')
+                main.addDirHome('Sports','http://www.movie25.so/',43,art+'/sportsec2.png')
             elif index==11:
-                main.addDirHome('Kids Zone','http://www.movie25.so/',76,art+'/kidzone2.png')
+                main.addDirHome('Adventure','http://www.movie25.so/',63,art+'/adv2.png')
             elif index==12:
-                main.addDirHome('Documentaries','http://www.movie25.so/',85,art+'/docsec1.png')
+                main.addDirHome('Kids Zone','http://www.movie25.so/',76,art+'/kidzone2.png')
             elif index==13:
-                main.addDirHome("Mash Up How To's",'https://github.com/mash2k3/MashUpFixes/raw/master/HowToVid.xml',264,art+'/howto.png')
+                main.addDirHome('Documentaries','http://www.movie25.so/',85,art+'/docsec1.png')
             elif index==14:
-                main.addDirHome('Fixes','http://www.movie25.so/',784,art+'/fixes.png')
+                main.addDirHome("Mash Up How To's",'https://github.com/mash2k3/MashUpFixes/raw/master/HowToVid.xml',264,art+'/howto.png')
             elif index==15:
-                main.addDirHome('HackerMils Stash','https://github.com/HackerMil/HackerMilsMovieStash/raw/master/Directory/HackerMil_Directory.xml',235,art+'/hackermil.png')
+                main.addDirHome('Fixes','http://www.movie25.so/',784,art+'/fixes.png')
             elif index==16:
-                main.addDirHome('The New Pirate Bay','https://github.com/mash2k3/MashUpTNPB/raw/master/TNPB_Directory.xml',235,'http://s20.postimg.org/jvq2l8xel/TNPB.png')
+                main.addDirHome('HackerMils Stash','https://github.com/HackerMil/HackerMilsMovieStash/raw/master/Directory/HackerMil_Directory.xml',235,art+'/hackermil.png')
             elif index==17:
-                main.addDirHome('MorePower','https://github.com/mash2k3/MashUpMorePower/raw/master/MorePower_Directory.xml',235,'https://dl.dropboxusercontent.com/u/35068738/icons/morepower.png')
+                main.addDirHome('The New Pirate Bay','https://github.com/mash2k3/MashUpTNPB/raw/master/TNPB_Directory.xml',235,'http://s20.postimg.org/jvq2l8xel/TNPB.png')
             elif index==18:
-                main.addDirHome('Staael 1982','https://github.com/mash2k3/Staael1982/raw/master/Staael_Directory.xml',235,'https://dl.dropboxusercontent.com/u/35068738/icons/staael.png')
+                main.addDirHome('MorePower','https://github.com/mash2k3/MashUpMorePower/raw/master/MorePower_Directory.xml',235,'https://dl.dropboxusercontent.com/u/35068738/icons/morepower.png')
             elif index==19:
-                main.addDirHome('My XML Channels','nills',238,art+'/xml.png')
+                main.addDirHome('Staael 1982','https://github.com/mash2k3/Staael1982/raw/master/Staael_Directory.xml',235,'https://dl.dropboxusercontent.com/u/35068738/icons/staael.png')
             elif index==20:
-                main.addDirHome("K1M05's Streams",'https://github.com/mash2k3/MashUpK1m05/raw/master/k1m05_mashupDirectory.xml',181,art+'/k1m05.png')
+                main.addDirHome('My XML Channels','nills',238,art+'/xml.png')
             elif index==21:
-                main.addDirHome('Mash Sports','https://github.com/mash2k3/MashSports/raw/master/Mashsprt.xml',182,art+'/mashsports.png')
+                main.addDirHome("K1M05's Streams",'https://github.com/mash2k3/MashUpK1m05/raw/master/k1m05_mashupDirectory.xml',181,art+'/k1m05.png')
             elif index==22:
+                main.addDirHome('Mash Sports','https://github.com/mash2k3/MashSports/raw/master/Mashsprt.xml',182,art+'/mashsports.png')
+            elif index==23:
                 main.addDirHome('iLive Streams','ilive',119,art+'/ilive.png')
         main.addPlayc('Need Help?','http://www.movie25.com/',100,art+'/xbmctalk2.png','','','','','')
         main.addPlayc('XbmcTalk Maintenance','http://www.movie25.so/',156,art+'/talkmain.png','','','','','')
@@ -184,7 +186,6 @@ def Announcements():
         
         match=re.compile('<vid><new>(.+?)</new><video>(.+?)</video><old>(.+?)</old></vid>').findall(link)
         if len(match)>0:
-                from resources.libs import youtube
                 for new,video,old in match:
                         continue
                 if new != ' ':
@@ -192,7 +193,13 @@ def Announcements():
                         notified=os.path.join(runonce,str(new))
                         if not os.path.exists(notified):
                                 open(notified,'w').write('version="%s",'%new)
-                                youtube.YOULink('Mash',video,'')
+                                if '</mu>' in video:
+                                    video=video.replace('</mu>','')
+                                    from resources.libs.movies_tv import movieplaylist
+                                    movieplaylist.MLink2('MashUp',video,'',verbose=False)
+                                else:
+                                    from resources.libs import youtube
+                                    youtube.YOULink('MashUp',video,'')
                         if old != ' ':
                                 notified=os.path.join(runonce,str(old))
                                 if  os.path.exists(notified):
@@ -430,10 +437,14 @@ def TVAll():
         main.addDir('SominalTvFilms','TV',619,art+'/wfs/sominal.png')
         main.addDir('Extramina','TV',530,art+'/wfs/extramina.png')
         main.addDir('FMA','TV',567,art+'/wfs/fma.png')
+        #main.addDir('Global BC','gbc',165,art+'/globalbc.png')       
+        main.GA("None","Plugin")
+
+def ANIME():
         main.addDir('dubzonline','TV',613,art+'/wfs/dubzonline.png')
         main.addDir('AnimeFreak TV','TV',625,art+'/animefreak.png')
-        main.addDir('Global BC','gbc',165,art+'/globalbc.png')       
-        main.GA("None","Plugin")
+        main.GA("None","Anime")
+    
 
 def HD():
         main.addDir('Latest HD Movies (Newmyvideolinks) True HD[COLOR red] DC[/COLOR]','http://newmyvideolinks.com',34,art+'/hd2.png')
@@ -669,7 +680,7 @@ def DownloaderClass2(url,dest):
         except Exception, e:
             dialog = xbmcgui.Dialog()
             main.ErrorReport(e)
-            dialog.ok("Mash Up", "Report the error below at xbmchub.com", str(e), "We will try our best to help you")
+            dialog.ok("Mash Up", "Report the error below at xbmctalk.com", str(e), "We will try our best to help you")
 
 
 def DownloaderClass(url,dest):
@@ -680,7 +691,7 @@ def DownloaderClass(url,dest):
         except Exception, e:
             dialog = xbmcgui.Dialog()
             main.ErrorReport(e)
-            dialog.ok("Mash Up", "Report the error below at xbmchub.com", str(e), "We will try our best to help you")
+            dialog.ok("Mash Up", "Report the error below at xbmctalk.com", str(e), "We will try our best to help you")
  
 def _pbhook(numblocks, blocksize, filesize, url=None,dp=None):
         try:
@@ -699,19 +710,7 @@ def HubMain():
             cmd = 'plugin://plugin.video.hubmaintenance/'
             xbmc.executebuiltin('XBMC.Container.Update(%s)' % cmd)
             return ok
-hubrepo = xbmc.translatePath(os.path.join('special://home/addons', 'repository.xbmchub'))
-try:  
-    if not os.path.exists(hubrepo): 
-        url = 'http://xbmc-hub-repo.googlecode.com/svn/addons/repository.xbmchub/repository.xbmchub-1.0.1.zip'
-        path = xbmc.translatePath(os.path.join('special://home/addons','packages'))
-        lib=os.path.join(path, 'repository.xbmchub-1.0.1.zip')
-        DownloaderClass2(url,lib)
-        print lib
-        addonfolder = xbmc.translatePath(os.path.join('special://home/addons',''))
-        time.sleep(2)
-        xbmc.executebuiltin("XBMC.Extract(%s,%s)"%(lib,addonfolder))
-except:
-    pass
+
 
 repopath = xbmc.translatePath(os.path.join('special://home/addons', 'repository.mash2k3'))
 try: 
@@ -2353,7 +2352,9 @@ elif mode==263:
 
 elif mode==264:
     HTVList(url)
-    
+
+elif mode==265:
+    ANIME()
 ######################################################################################################
         ######################################################################################
         ######################################################################################
