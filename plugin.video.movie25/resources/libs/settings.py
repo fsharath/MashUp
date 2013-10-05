@@ -9,7 +9,7 @@ selfAddon = xbmcaddon.Addon(id=addon_id)
 #Commands.append(('[B][COLOR lime]Mash Up[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
 def getHomeItems():
     d=[]
-    for x in range(23): 
+    for x in range(24): 
         d.append(None);
         itemid = str(x + 1)
         if selfAddon.getSetting("home_item_" +itemid+ "_enabled")== "true":

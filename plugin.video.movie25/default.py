@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
-import urllib,urllib2,re,cookielib,string, urlparse,os,time,datetime,threading
+import urllib,urllib2,re,cookielib,string,urlparse,os,time,datetime,threading
 
 try:
     import urlresolver
@@ -196,7 +196,7 @@ def Announcements():
                                 if '</mu>' in video:
                                     video=video.replace('</mu>','')
                                     from resources.libs.movies_tv import movieplaylist
-                                    movieplaylist.MLink2('MashUp',video,'',verbose=False)
+                                    movieplaylist.MLink2('MashUp',video,'',muvideo=True)
                                 else:
                                     from resources.libs import youtube
                                     youtube.YOULink('MashUp',video,'')

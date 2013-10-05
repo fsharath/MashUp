@@ -223,11 +223,11 @@ def resolve_mightyupload(url,referer):
                                5000, elogo)
         return
 
-def MLink2(mname,murl,thumb,verbose=True):
+def MLink2(mname,murl,thumb,muvideo=False):
         main.GA(mname,"Watched")
         ok=True
         xbmc.executebuiltin("XBMC.Notification(Please Wait!,Opening Link,5000)")
-        if verbose==True:
+        if not muvideo:
                 match=re.compile('<referer>(.+?)</referer>').findall(murl)
                 if match:
                         video=match[0]
