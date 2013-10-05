@@ -94,7 +94,7 @@ def MAIN():
             elif index==8:
                 main.addDirHome('Anime','http://www.movie25.so/',265,art+'/anime.png')
             elif index==9:
-                main.addDirHome('[COLOR=FF67cc33]VIP[/COLOR]laylists','http://www.movie25.so/',234,art+'/moviepl.png')
+                main.addDirHome('[COLOR=FF67cc33]VIP[/COLOR]laylists','http://www.movie25.so/',234,art+'/vipp.png')
             elif index==10:
                 main.addDirHome('Sports','http://www.movie25.so/',43,art+'/sportsec2.png')
             elif index==11:
@@ -127,7 +127,7 @@ def MAIN():
         main.addPlayc('XbmcTalk Maintenance','http://www.movie25.so/',156,art+'/talkmain.png','','','','','')
         main.addPlayc('Click Me!!!','https://github.com/mash2k3/MashupArtwork/raw/master/art/donation.png',244,art+'/paypalmash2.png','','','','','')
         main.addLink('@mashupxbmc','',art+'/twittermash.png')
-        main.addPlayc('Addon Settings','http://www.movie25.so/',1999,art+'/ASettings.png','','','','','')
+        main.addPlayc('MashUp Settings','http://www.movie25.so/',1999,art+'/MashSettings.png','','','','','')
               
 def Announcements():
         #Announcement Notifier from xml file
