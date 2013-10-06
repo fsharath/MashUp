@@ -199,9 +199,16 @@ def VIDEOLINKSSCEPER(mname,murl,thumb):
         ok=True
         playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
         playlist.clear()
-        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Collecting hosts,3000)")
+        msg = xbmcgui.DialogProgress()
+        msg.create('Please Wait!')
         match=re.compile('<a href="([^<]+)">htt').findall(link)
+        hostsmax = len(match)
+        h = 0
         for url in match:
+            h += 1
+            percent = (h * 100)/hostsmax
+            msg.update(percent,'Collecting hosts - ' + str(percent) + '%')
+            if (msg.iscanceled()): break
             vlink=re.compile('rar').findall(url)
             if len(vlink)==0:
                 match2=re.compile('http://(.+?)/.+?').findall(url)
@@ -219,12 +226,15 @@ def VIDEOLINKSSCEPER(mname,murl,thumb):
                     hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
                     sources.append(hosted_media)
         if (len(sources)==0):
-                xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")
+                xbmc.executebuiltin("XBMC.Notification(Sorry!,Could not find a playable link,3000)")
                 return
         else:
                 source = urlresolver.choose_source(sources)
+        msg.close()
         try:
                 if not source:
+                    if (len(sources)>0):
+                        xbmc.executebuiltin("XBMC.Notification(Sorry!,Could not find a playable link,3000)")
                     main.CloseAllDialogs()
                     return
                 xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
