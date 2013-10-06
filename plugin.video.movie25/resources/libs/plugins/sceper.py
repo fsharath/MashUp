@@ -194,13 +194,14 @@ def SEARCHSCEPER(murl):
 
 def VIDEOLINKSSCEPER(mname,murl,thumb):
         main.GA("Sceper","Watched")
+        msg = xbmcgui.DialogProgress()
+        msg.create('Please Wait!','')
+        msg.update(0,'Collecting hosts')
         link=main.OPENURL(murl)
         sources=[]
         ok=True
         playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
         playlist.clear()
-        msg = xbmcgui.DialogProgress()
-        msg.create('Please Wait!')
         match=re.compile('<a href="([^<]+)">htt').findall(link)
         hostsmax = len(match)
         h = 0
