@@ -208,6 +208,9 @@ def GETLINKSG(murl):
 
 def VIDEOLINKSSG(mname,murl,thumb):
         main.GA("SG","Watched")
+        msg = xbmcgui.DialogProgress()
+        msg.create('Please Wait!','')
+        msg.update(0,'Collecting hosts')
         sources = []
         ok=True
         infoLabels =main.GETMETAEpiT(mname,thumb,'')
@@ -219,22 +222,33 @@ def VIDEOLINKSSG(mname,murl,thumb):
         fanart =infoLabels['backdrop_url']
         imdb_id=infoLabels['imdb_id']
         infolabels = { 'supports_meta' : 'true', 'video_type':video_type, 'name':str(infoLabels['title']), 'imdb_id':str(infoLabels['imdb_id']), 'season':str(season), 'episode':str(episode), 'year':str(infoLabels['year']) }
-        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Collecting hosts,500)")
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
         match=re.compile('href="([^<]+)" TARGET=".+?" >([^<]+)</a>').findall(link)
+        hostsmax = len(match)
+        h = 0
         for url, host in sorted(match):
+                h += 1
+                percent = (h * 100)/hostsmax
+                msg.update(percent,'Collecting hosts - ' + str(percent) + '%')
+                if (msg.iscanceled()): break
                 hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
                 sources.append(hosted_media)                
         if (len(sources)==0):
                 xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")
-      
+                return
         else:
                 source = urlresolver.choose_source(sources)
+        msg.close()
         try:
+                if not source:
+                    if (len(sources)>0):
+                        xbmc.executebuiltin("XBMC.Notification(Sorry!,Could not find a playable link,3000)")
+                    main.CloseAllDialogs()
+                    return
                 xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
                 stream_url = main.resolve_url(source.get_url())
                 if(stream_url == False):
-                    return   
+                    return
 
                 infoL={'Title': infoLabels['title'], 'Plot': infoLabels['plot'], 'Genre': infoLabels['genre']}
                 # play with bookmark
