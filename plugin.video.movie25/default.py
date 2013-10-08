@@ -3,11 +3,8 @@ import xbmc, xbmcgui, xbmcaddon, xbmcplugin
 import urllib,urllib2,re,cookielib,string,urlparse,os,time,datetime,threading
 
 try:
-    import urlresolver
-    from t0mm0.common.net import Net as net
     from t0mm0.common.addon import Addon
     from universal import favorites, watchhistory, playbackengine
-    from metahandler import metahandlers
 except Exception, e:
     elogo = xbmc.translatePath('special://home/addons/plugin.video.movie25/resources/art/bigx.png')
     dialog = xbmcgui.Dialog()
@@ -26,7 +23,6 @@ ENV = "Dev"  # "Prod" or "Dev"
 Mainurl ='http://www.movie25.so/movies/'
 addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
-grab = metahandlers.MetaData(preparezip = False)
 addon = Addon(addon_id)
 art = main.art
 
@@ -53,64 +49,72 @@ def MAIN():
         for index, value in sorted(enumerate(d), key=lambda x:x[1]):
             if value==None: continue
             if index==0:
-                
-                    main.addDirHome('Search','http://www.movie25.so/',420,art+'/search2.png')
-                    main.addDirHome("All Fav's",'http://www.movie25.so/',639,art+'/favsu.png')
-                    main.addDirHome('A-Z','http://www.movie25.so/',6,art+'/AZ2.png')
-                    main.addDirHome('New Releases','http://www.movie25.so/movies/new-releases/',1,art+'/new2.png')
-                    main.addDirHome('Latest Added','http://www.movie25.so/movies/latest-added/',1,art+'/latest2.png')
-                    main.addDirHome('Featured Movies','http://www.movie25.so/movies/featured-movies/',1,art+'/feat2.png')
-                    main.addDirHome('Most Viewed','http://www.movie25.so/movies/most-viewed/',1,art+'/view2.png')
-                    main.addDirHome('Most Voted','http://www.movie25.so/movies/most-voted/',1,art+'/vote2.png')
-                    main.addDirHome('HD Releases','http://www.movie25.so/movies/latest-hd-movies/',1,art+'/dvd2hd.png')
-                    main.addDirHome('Genre','http://www.movie25.so/',2,art+'/genre2.png')
-                    main.addDirHome('By Year','http://www.movie25.so/',7,art+'/year2.png')
-
+                main.addDirHome('Search','http://www.movie25.so/',420,art+'/search2.png')
             elif index==1:
-                main.addDirHome('Watch History','history',222,art+'/whistory.png')
+                main.addDirHome("All Fav's",'http://www.movie25.so/',639,art+'/favsu.png')
             elif index==2:
-                main.addDirHome('HD Movies','http://oneclickwatch.org/category/movies/',33,art+'/hd2.png')
+                main.addDirHome('A-Z','http://www.movie25.so/',6,art+'/AZ2.png')
             elif index==3:
-                main.addDirHome('3D Movies','3D',223,art+'/3d.png')
+                main.addDirHome('New Releases','http://www.movie25.so/movies/new-releases/',1,art+'/new2.png')
             elif index==4:
-                main.addDirHome('International','http://www.movie25.so/',36,art+'/intl.png')
+                main.addDirHome('Latest Added','http://www.movie25.so/movies/latest-added/',1,art+'/latest2.png')
             elif index==5:
-                main.addDirHome('TV Latest','http://www.movie25.so/',27,art+'/tv2.png')
+                main.addDirHome('Featured Movies','http://www.movie25.so/movies/featured-movies/',1,art+'/feat2.png')
             elif index==6:
-                main.addDirHome('Live Streams','http://www.movie25.so/',115,art+'/live.png')
+                main.addDirHome('Most Viewed','http://www.movie25.so/movies/most-viewed/',1,art+'/view2.png')
             elif index==7:
-                main.addDirHome('More TV Shows & Movies','http://www.movie25.so/',500,art+'/moretvmovies.png')
+                main.addDirHome('Most Voted','http://www.movie25.so/movies/most-voted/',1,art+'/vote2.png')
             elif index==8:
-                main.addDirHome('Anime','http://www.movie25.so/',265,art+'/anime.png')
+                main.addDirHome('HD Releases','http://www.movie25.so/movies/latest-hd-movies/',1,art+'/dvd2hd.png')
             elif index==9:
-                main.addDirHome('[COLOR=FF67cc33]VIP[/COLOR]laylists','http://www.movie25.so/',234,art+'/vipp.png')
+                main.addDirHome('Genre','http://www.movie25.so/',2,art+'/genre2.png')
             elif index==10:
-                main.addDirHome('Sports','http://www.movie25.so/',43,art+'/sportsec2.png')
+                main.addDirHome('By Year','http://www.movie25.so/',7,art+'/year2.png')
             elif index==11:
-                main.addDirHome('Adventure','http://www.movie25.so/',63,art+'/adv2.png')
+                main.addDirHome('Watch History','history',222,art+'/whistory.png')
             elif index==12:
-                main.addDirHome('Kids Zone','http://www.movie25.so/',76,art+'/kidzone2.png')
+                main.addDirHome('HD Movies','http://oneclickwatch.org/category/movies/',33,art+'/hd2.png')
             elif index==13:
-                main.addDirHome('Documentaries','http://www.movie25.so/',85,art+'/docsec1.png')
+                main.addDirHome('3D Movies','3D',223,art+'/3d.png')
             elif index==14:
-                main.addDirHome("Mash Up How To's",'https://github.com/mash2k3/MashUpFixes/raw/master/HowToVid.xml',264,art+'/howto.png')
+                main.addDirHome('International','http://www.movie25.so/',36,art+'/intl.png')
             elif index==15:
-                main.addDirHome('Fixes','http://www.movie25.so/',784,art+'/fixes.png')
+                main.addDirHome('TV Latest','http://www.movie25.so/',27,art+'/tv2.png')
             elif index==16:
-                main.addDirHome('HackerMils Stash','https://github.com/HackerMil/HackerMilsMovieStash/raw/master/Directory/HackerMil_Directory.xml',235,art+'/hackermil.png')
+                main.addDirHome('Live Streams','http://www.movie25.so/',115,art+'/live.png')
             elif index==17:
-                main.addDirHome('The New Pirate Bay','https://github.com/mash2k3/MashUpTNPB/raw/master/TNPB_Directory.xml',235,'http://s20.postimg.org/jvq2l8xel/TNPB.png')
+                main.addDirHome('More TV Shows & Movies','http://www.movie25.so/',500,art+'/moretvmovies.png')
             elif index==18:
-                main.addDirHome('MorePower','https://github.com/mash2k3/MashUpMorePower/raw/master/MorePower_Directory.xml',235,'https://dl.dropboxusercontent.com/u/35068738/icons/morepower.png')
+                main.addDirHome('Anime','http://www.movie25.so/',265,art+'/anime.png')
             elif index==19:
-                main.addDirHome('Staael 1982','https://github.com/mash2k3/Staael1982/raw/master/Staael_Directory.xml',235,'https://dl.dropboxusercontent.com/u/35068738/icons/staael.png')
+                main.addDirHome('[COLOR=FF67cc33]VIP[/COLOR]laylists','http://www.movie25.so/',234,art+'/vipp.png')
             elif index==20:
-                main.addDirHome('My XML Channels','nills',238,art+'/xml.png')
+                main.addDirHome('Sports','http://www.movie25.so/',43,art+'/sportsec2.png')
             elif index==21:
-                main.addDirHome("K1M05's Streams",'https://github.com/mash2k3/MashUpK1m05/raw/master/k1m05_mashupDirectory.xml',181,art+'/k1m05.png')
+                main.addDirHome('Adventure','http://www.movie25.so/',63,art+'/adv2.png')
             elif index==22:
-                main.addDirHome('Mash Sports','https://github.com/mash2k3/MashSports/raw/master/Mashsprt.xml',182,art+'/mashsports.png')
+                main.addDirHome('Kids Zone','http://www.movie25.so/',76,art+'/kidzone2.png')
             elif index==23:
+                main.addDirHome('Documentaries','http://www.movie25.so/',85,art+'/docsec1.png')
+            elif index==24:
+                main.addDirHome("Mash Up How To's",'https://github.com/mash2k3/MashUpFixes/raw/master/HowToVid.xml',264,art+'/howto.png')
+            elif index==25:
+                main.addDirHome('Fixes','http://www.movie25.so/',784,art+'/fixes.png')
+            elif index==26:
+                main.addDirHome('HackerMils Stash','https://github.com/HackerMil/HackerMilsMovieStash/raw/master/Directory/HackerMil_Directory.xml',235,art+'/hackermil.png')
+            elif index==27:
+                main.addDirHome('The New Pirate Bay','https://github.com/mash2k3/MashUpTNPB/raw/master/TNPB_Directory.xml',235,'http://s20.postimg.org/jvq2l8xel/TNPB.png')
+            elif index==28:
+                main.addDirHome('MorePower','https://github.com/mash2k3/MashUpMorePower/raw/master/MorePower_Directory.xml',235,'https://dl.dropboxusercontent.com/u/35068738/icons/morepower.png')
+            elif index==29:
+                main.addDirHome('Staael 1982','https://github.com/mash2k3/Staael1982/raw/master/Staael_Directory.xml',235,'https://dl.dropboxusercontent.com/u/35068738/icons/staael.png')
+            elif index==30:
+                main.addDirHome('My XML Channels','nills',238,art+'/xml.png')
+            elif index==31:
+                main.addDirHome("K1M05's Streams",'https://github.com/mash2k3/MashUpK1m05/raw/master/k1m05_mashupDirectory.xml',181,art+'/k1m05.png')
+            elif index==32:
+                main.addDirHome('Mash Sports','https://github.com/mash2k3/MashSports/raw/master/Mashsprt.xml',182,art+'/mashsports.png')
+            elif index==33:
                 main.addDirHome('iLive Streams','ilive',119,art+'/ilive.png')
         main.addPlayc('Need Help?','http://www.movie25.com/',100,art+'/xbmctalk2.png','','','','','')
         main.addPlayc('XbmcTalk Maintenance','http://www.movie25.so/',156,art+'/talkmain.png','','','','','')
@@ -830,7 +834,6 @@ def popVIP(image):
     del popup
 ################################################################################ Favorites Function##############################################################################################################
 def getFavorites(section_title = None):
-        from universal import favorites
         fav = favorites.Favorites(addon_id, sys.argv)
  
         if(section_title):
@@ -1611,9 +1614,6 @@ elif mode==98:
     from resources.libs.sports import tsn
     print ""+url
     tsn.TSNLINK(name,url,iconimage)
-        
-elif mode==99:
-        urlresolver.display_settings()
         
 elif mode==100:
         pop()
