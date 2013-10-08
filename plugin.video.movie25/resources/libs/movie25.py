@@ -614,7 +614,6 @@ def PLAY(name,murl):
         name  = name.split('[COLOR red]')[0]
         infoLabels = main.GETMETAT(name,'','','')
         link=main.OPENURL(murl)
-        print link
         match=re.compile("Javascript:location.?href=.+?\\'(.+?)'").findall(link)
         for murl in match:
             print murl

@@ -1,4 +1,4 @@
-import urllib,urllib2,re,cookielib,string, urlparse,sys,os
+import urllib,urllib2,re,string,sys,os
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
 import resolvers
 from t0mm0.common.addon import Addon

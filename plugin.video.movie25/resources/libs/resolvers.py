@@ -1,6 +1,5 @@
-import urllib,urllib2,re,cookielib,string, urlparse,sys,os
+import urllib,urllib2,re,cookielib,string,os
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
-import urlresolver
 from t0mm0.common.addon import Addon
 from t0mm0.common.net import Net as net
 
@@ -18,6 +17,7 @@ class ResolverError(Exception):
         return repr(self.value,self.value2)
 
 def resolve_url(url):
+    import urlresolver
     stream_url = False
     if(url):
         try:

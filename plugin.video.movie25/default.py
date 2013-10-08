@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
-import urllib,urllib2,re,cookielib,string,urlparse,os,time,datetime,threading
+import urllib,re,string,os,time,threading
 
 try:
     from t0mm0.common.addon import Addon
