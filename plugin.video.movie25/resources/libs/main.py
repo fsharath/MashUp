@@ -550,6 +550,7 @@ def geturl(murl):
                 return match[0]
 
 def Download_Source(name,url):
+    
     originalName=name
     match=re.compile('watchseries.lt').findall(url)
     if match:
@@ -568,14 +569,13 @@ def Download_Source(name,url):
         name=name.replace('/','').replace('.','')
         url=GetUrliW(url)
     
-    
+    name=removeColoredText(name)
     name=name.split(' [')[0]
     name=name.split('[')[0]
     name=name.split(' /')[0]
     name=name.split('/')[0]
 
-    stream_url = resolve_url(url)
-        
+    stream_url = resolve_url(url)    
     if stream_url:
             print stream_url
             xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,2000)")
@@ -592,10 +592,16 @@ def Download_Source(name,url):
                 match4=re.compile("avi").findall(stream_url)
                 if len(match4)>0:
                     name=name+'.avi'
+                match5=re.compile("divx").findall(stream_url)
+                if len(match5)>0:
+                    name=name+'.divx'
+                if len(match1)==0 and len(match2)==0 and len(match2)==0 and len(match3)==0 and len(match4)==0 and len(match5)==0:
+                    name=name+'.mp4'
                 mypath=os.path.join(downloadPath,name)
                 if os.path.isfile(mypath) is True:
                     xbmc.executebuiltin("XBMC.Notification(Download Alert!,The video you are trying to download already exists!,8000)")
                 else:
+                    name=name.replace(' ','')
                     DownloadInBack=selfAddon.getSetting('download-in-background')
                     if DownloadInBack == 'true':
                         QuietDownload(stream_url,mypath,originalName,name)
@@ -1379,8 +1385,7 @@ def addPlayL(name,url,mode,iconimage,plot,fanart,dur,genre,year):
             ("[B][COLOR red]Remove[/COLOR][/B] from My Fav's",fav.delete_item(name, section_title='Live', section_addon_title="Live Fav's"))]
         Commands.append(('Watch History','XBMC.Container.Update(%s?name=None&mode=222&url=None&iconimage=None)'% (sys.argv[0])))
         Commands.append(("My Fav's",'XBMC.Container.Update(%s?name=None&mode=639&url=None&iconimage=None)'% (sys.argv[0])))
-        Commands.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
-        liz.addContextMenuItems( Commands, replaceItems=True )
+        liz.addContextMenuItems( Commands, replaceItems=False )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
         return ok
 
@@ -1507,11 +1512,11 @@ def addDirHome(name,url,mode,iconimage):
         liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
         liz.setProperty('fanart_image', Dir+'fanart.jpg')
-        contextMenuItems.append(('[COLOR green]Switch[/COLOR]Up', 'XBMC.RunPlugin(%s?mode=783&name=%s&url=%s)' % (sys.argv[0],'SwitchUp','switchup')))
         contextMenuItems.append(('Watch History','XBMC.Container.Update(%s?name=None&mode=222&url=None&iconimage=None)'% (sys.argv[0])))
         contextMenuItems.append(("My Fav's",'XBMC.Container.Update(%s?name=None&mode=639&url=None&iconimage=None)'% (sys.argv[0])))
-        liz.addContextMenuItems(contextMenuItems, replaceItems=False)
-        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
+        contextMenuItems.append(('[B][COLOR=FF67cc33]MashUp[/COLOR] Settings[/B]','XBMC.RunScript('+xbmc.translatePath(mashpath + '/resources/libs/settings.py')+')'))
+        liz.addContextMenuItems( contextMenuItems, replaceItems=True )
+        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
         return ok
 
 def addDir2(name,url,mode,iconimage,plot):

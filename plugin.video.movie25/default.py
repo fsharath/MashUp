@@ -53,7 +53,7 @@ def MAIN():
         for index, value in sorted(enumerate(d), key=lambda x:x[1]):
             if value==None: continue
             if index==0:
-                if selfAddon.getSetting("switchup") == "false":
+                
                     main.addDirHome('Search','http://www.movie25.so/',420,art+'/search2.png')
                     main.addDirHome("All Fav's",'http://www.movie25.so/',639,art+'/favsu.png')
                     main.addDirHome('A-Z','http://www.movie25.so/',6,art+'/AZ2.png')
@@ -65,18 +65,7 @@ def MAIN():
                     main.addDirHome('HD Releases','http://www.movie25.so/movies/latest-hd-movies/',1,art+'/dvd2hd.png')
                     main.addDirHome('Genre','http://www.movie25.so/',2,art+'/genre2.png')
                     main.addDirHome('By Year','http://www.movie25.so/',7,art+'/year2.png')
-                else:
-                    main.addDirHome('Search','http://www.iwatchonline.to',644,art+'/search+.png')
-                    main.addDirHome("All Fav's",'http://www.movie25.so/',639,art+'/gfavsu.png')
-                    main.addDirHome('A-Z','http://www.iwatchonline.to',595,art+'/AZ+.png')
-                    main.addDirHome('Upcoming','http://www.iwatchonline.to/main/content_more/movies/?sort=upcoming&start=0',587,art+'/new+.png')
-                    main.addDirHome('Latest Added','http://www.iwatchonline.to/main/content_more/movies/?sort=latest&start=0',587,art+'/latest+.png')
-                    main.addDirHome('Featured Movies','http://www.iwatchonline.to/main/content_more/movies/?sort=featured&start=0',587,art+'/feat+.png')
-                    main.addDirHome('Popular','http://www.iwatchonline.to/main/content_more/movies/?sort=popular&start=0',587,art+'/view+.png')
-                    main.addDirHome('Latest DVD Movies','http://www.iwatchonline.to/main/content_more/movies/?quality=dvd&start=0',587,art+'/dvd+.png')
-                    main.addDirHome('Latest HD Movies','http://www.iwatchonline.to/main/content_more/movies/?quality=hd&start=0',587,art+'/dvd2+.png')
-                    main.addDirHome('Genre','http://www.iwatchonline.to',596,art+'/genre+.png')
-                    main.addDirHome('By Year','year',652,art+'/year+.png')
+
             elif index==1:
                 main.addDirHome('Watch History','history',222,art+'/whistory.png')
             elif index==2:
@@ -2355,6 +2344,11 @@ elif mode==264:
 
 elif mode==265:
     ANIME()
+
+elif mode==266:
+    from resources.libs.live import customchannel
+    print ""+url
+    customchannel.subLink(name,url)
 ######################################################################################################
         ######################################################################################
         ######################################################################################

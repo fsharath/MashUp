@@ -6,7 +6,6 @@
 		<setting id="meta-view-tv" type="bool" label="[B]Metadata (TV Shows)[/B]" default="true"/>
 		<setting id="whistory" type="bool" label="[B]Watch History[/B]" default="true"/>
 		<setting id="gastatus" type="bool" label="[B]Google Analytics[/B]" default="true"/>
-		<setting id="switchup" type="bool" label="[B]SwitchUp[/B]" default="false"/>
 		<setting id="groupfavs" type="bool" label="[B]Group Favorites[/B]" default="false"/>
 		<setting label="[B]Re-install last auto update[/B]" type="action" action="RunPlugin(plugin://plugin.video.movie25/?mode=1998&url=0)"/>
 		<setting label="External Settings" type="lsep" />
@@ -30,54 +29,54 @@
    
    <category label="Home Layout">
 		<setting label="Customize your Home screen" type="lsep" />
-		<setting id="home_item_1_enabled" type="bool" label="[B]Movie25/iWatchonline[/B]" default="true"/>
-			<setting id="home_item_1" type="number" label="     Order" default="10" visible="!eq(-1,false)"/>
-		<setting id="home_item_2_enabled" type="bool" label="[B]Watch History[/B]" default="true"/>
-			<setting id="home_item_2" type="number" label="     Order" default="20" visible="!eq(-1,false)"/>
-		<setting id="home_item_3_enabled" type="bool" label="[B]HD Movies[/B]" default="true"/>
-			<setting id="home_item_3" type="number" label="     Order" default="30" visible="!eq(-1,false)"/>
-		<setting id="home_item_4_enabled" type="bool" label="[B]3D Movies[/B]" default="true"/>
-			<setting id="home_item_4" type="number" label="     Order" default="40" visible="!eq(-1,false)"/>
-		<setting id="home_item_5_enabled" type="bool" label="[B]International[/B]" default="true"/>
-			<setting id="home_item_5" type="number" label="     Order" default="50" visible="!eq(-1,false)"/>
-		<setting id="home_item_6_enabled" type="bool" label="[B]TV Latest[/B]" default="true"/>
-			<setting id="home_item_6" type="number" label="     Order" default="60" visible="!eq(-1,false)"/>
-		<setting id="home_item_7_enabled" type="bool" label="[B]Live Section[/B]" default="true"/>
-			<setting id="home_item_7" type="number" label="     Order" default="70" visible="!eq(-1,false)"/>
-		<setting id="home_item_8_enabled" type="bool" label="[B]More Tv Shows & Movies[/B]" default="true"/>
-			<setting id="home_item_8" type="number" label="     Order" default="80" visible="!eq(-1,false)"/>
-		<setting id="home_item_9_enabled" type="bool" label="[B]Anime[/B]" default="true"/>
-			<setting id="home_item_9" type="number" label="     Order" default="90" visible="!eq(-1,false)"/>	
-		<setting id="home_item_10_enabled" type="bool" label="[B]VIPlaylist[/B]" default="true"/>
-			<setting id="home_item_10" type="number" label="     Order" default="100" visible="!eq(-1,false)"/>
-		<setting id="home_item_11_enabled" type="bool" label="[B]Sports Section[/B]" default="true"/>
-			<setting id="home_item_11" type="number" label="     Order" default="110" visible="!eq(-1,false)"/>
-		<setting id="home_item_12_enabled" type="bool" label="[B]Adventure[/B]" default="true"/>
-			<setting id="home_item_12" type="number" label="     Order" default="120" visible="!eq(-1,false)"/>
-		<setting id="home_item_13_enabled" type="bool" label="[B]Kids Zone[/B]" default="true"/>
-			<setting id="home_item_13" type="number" label="     Order" default="130" visible="!eq(-1,false)"/>
-		<setting id="home_item_14_enabled" type="bool" label="[B]Documentaries[/B]" default="true"/>
-			<setting id="home_item_14" type="number" label="     Order" default="140" visible="!eq(-1,false)"/>
-		<setting id="home_item_15_enabled" type="bool" label="[B]How to Videos[/B]" default="true"/>
-			<setting id="home_item_15" type="number" label="     Order" default="150" visible="!eq(-1,false)"/>
-		<setting id="home_item_16_enabled" type="bool" label="[B]FixIt Section[/B]" default="false"/>
-			<setting id="home_item_16" type="number" label="     Order" default="160" visible="!eq(-1,false)"/>
-		<setting id="home_item_17_enabled" type="bool" label="[B]HackerMils Stash[/B]" default="false"/>
-			<setting id="home_item_17" type="number" label="     Order" default="170" visible="!eq(-1,false)"/>
-		<setting id="home_item_18_enabled" type="bool" label="[B]The New Pirate Bay[/B]" default="false"/>
-			<setting id="home_item_18" type="number" label="     Order" default="180" visible="!eq(-1,false)"/>
-		<setting id="home_item_19_enabled" type="bool" label="[B]More Power[/B]" default="false"/>
-			<setting id="home_item_19" type="number" label="     Order" default="190" visible="!eq(-1,false)"/>
-		<setting id="home_item_20_enabled" type="bool" label="[B]Staael 1982[/B]" default="false"/>
-			<setting id="home_item_20" type="number" label="     Order" default="200" visible="!eq(-1,false)"/>
-		<setting id="home_item_21_enabled" type="bool" label="[B]Custom XML Channels[/B]" default="false"/>
-			<setting id="home_item_21" type="number" label="     Order" default="210" visible="!eq(-1,false)"/>
-		<setting id="home_item_22_enabled" type="bool" label="[B]K1M05[/B]" default="false"/>
-			<setting id="home_item_22" type="number" label="     Order" default="220" visible="!eq(-1,false)"/>
-		<setting id="home_item_23_enabled" type="bool" label="[B]Mash Sports[/B]" default="false"/>
-			<setting id="home_item_23" type="number" label="     Order" default="230" visible="!eq(-1,false)"/>
-		<setting id="home_item_24_enabled" type="bool" label="[B]iLive[/B]" default="false"/>
-			<setting id="home_item_24" type="number" label="     Order" default="240" visible="!eq(-1,false)"/>
+		<setting id="home_items_1_enabled" type="bool" label="[B]Movie25/iWatchonline[/B]" default="true"/>
+			<setting id="home_items_1" type="number" label="     Order" default="10" visible="!eq(-1,false)"/>
+		<setting id="home_items_2_enabled" type="bool" label="[B]Watch History[/B]" default="true"/>
+			<setting id="home_items_2" type="number" label="     Order" default="20" visible="!eq(-1,false)"/>
+		<setting id="home_items_3_enabled" type="bool" label="[B]HD Movies[/B]" default="true"/>
+			<setting id="home_items_3" type="number" label="     Order" default="30" visible="!eq(-1,false)"/>
+		<setting id="home_items_4_enabled" type="bool" label="[B]3D Movies[/B]" default="true"/>
+			<setting id="home_items_4" type="number" label="     Order" default="40" visible="!eq(-1,false)"/>
+		<setting id="home_items_5_enabled" type="bool" label="[B]International[/B]" default="true"/>
+			<setting id="home_items_5" type="number" label="     Order" default="50" visible="!eq(-1,false)"/>
+		<setting id="home_items_6_enabled" type="bool" label="[B]TV Latest[/B]" default="true"/>
+			<setting id="home_items_6" type="number" label="     Order" default="60" visible="!eq(-1,false)"/>
+		<setting id="home_items_7_enabled" type="bool" label="[B]Live Section[/B]" default="true"/>
+			<setting id="home_items_7" type="number" label="     Order" default="70" visible="!eq(-1,false)"/>
+		<setting id="home_items_8_enabled" type="bool" label="[B]More Tv Shows & Movies[/B]" default="true"/>
+			<setting id="home_items_8" type="number" label="     Order" default="80" visible="!eq(-1,false)"/>
+		<setting id="home_items_9_enabled" type="bool" label="[B]Anime[/B]" default="true"/>
+			<setting id="home_items_9" type="number" label="     Order" default="90" visible="!eq(-1,false)"/>	
+		<setting id="home_items_10_enabled" type="bool" label="[B]VIPlaylist[/B]" default="true"/>
+			<setting id="home_items_10" type="number" label="     Order" default="100" visible="!eq(-1,false)"/>
+		<setting id="home_items_11_enabled" type="bool" label="[B]Sports Section[/B]" default="true"/>
+			<setting id="home_items_11" type="number" label="     Order" default="110" visible="!eq(-1,false)"/>
+		<setting id="home_items_12_enabled" type="bool" label="[B]Adventure[/B]" default="true"/>
+			<setting id="home_items_12" type="number" label="     Order" default="120" visible="!eq(-1,false)"/>
+		<setting id="home_items_13_enabled" type="bool" label="[B]Kids Zone[/B]" default="true"/>
+			<setting id="home_items_13" type="number" label="     Order" default="130" visible="!eq(-1,false)"/>
+		<setting id="home_items_14_enabled" type="bool" label="[B]Documentaries[/B]" default="true"/>
+			<setting id="home_items_14" type="number" label="     Order" default="140" visible="!eq(-1,false)"/>
+		<setting id="home_items_15_enabled" type="bool" label="[B]How to Videos[/B]" default="true"/>
+			<setting id="home_items_15" type="number" label="     Order" default="150" visible="!eq(-1,false)"/>
+		<setting id="home_items_16_enabled" type="bool" label="[B]FixIt Section[/B]" default="true"/>
+			<setting id="home_items_16" type="number" label="     Order" default="160" visible="!eq(-1,false)"/>
+		<setting id="home_items_17_enabled" type="bool" label="[B]HackerMils Stash[/B]" default="true"/>
+			<setting id="home_items_17" type="number" label="     Order" default="170" visible="!eq(-1,false)"/>
+		<setting id="home_items_18_enabled" type="bool" label="[B]The New Pirate Bay[/B]" default="false"/>
+			<setting id="home_items_18" type="number" label="     Order" default="180" visible="!eq(-1,false)"/>
+		<setting id="home_items_19_enabled" type="bool" label="[B]More Power[/B]" default="false"/>
+			<setting id="home_items_19" type="number" label="     Order" default="190" visible="!eq(-1,false)"/>
+		<setting id="home_items_20_enabled" type="bool" label="[B]Staael 1982[/B]" default="false"/>
+			<setting id="home_items_20" type="number" label="     Order" default="200" visible="!eq(-1,false)"/>
+		<setting id="home_items_21_enabled" type="bool" label="[B]Custom XML Channels[/B]" default="false"/>
+			<setting id="home_items_21" type="number" label="     Order" default="210" visible="!eq(-1,false)"/>
+		<setting id="home_items_22_enabled" type="bool" label="[B]K1M05[/B]" default="false"/>
+			<setting id="home_items_22" type="number" label="     Order" default="220" visible="!eq(-1,false)"/>
+		<setting id="home_items_23_enabled" type="bool" label="[B]Mash Sports[/B]" default="false"/>
+			<setting id="home_items_23" type="number" label="     Order" default="230" visible="!eq(-1,false)"/>
+		<setting id="home_items_24_enabled" type="bool" label="[B]iLive[/B]" default="false"/>
+			<setting id="home_items_24" type="number" label="     Order" default="240" visible="!eq(-1,false)"/>
    </category>
    <category label="Custom Channels">
 		<setting id="customchannel" type="bool" label="Custom Channels" default="true"/>

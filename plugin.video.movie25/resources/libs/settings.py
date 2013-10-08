@@ -12,15 +12,14 @@ def getHomeItems():
     for x in range(24): 
         d.append(None);
         itemid = str(x + 1)
-        if selfAddon.getSetting("home_item_" +itemid+ "_enabled")== "true":
-            d[x]=int(selfAddon.getSetting("home_item_" + itemid))
+        if selfAddon.getSetting("home_items_" +itemid+ "_enabled")== "true":
+            d[x]=int(selfAddon.getSetting("home_items_" + itemid))
     return d
 
 def getRefreshRequiredSettings():
     s=[]
     s.append(selfAddon.getSetting("meta-view"))
     s.append(selfAddon.getSetting("meta-view-tv"))
-    s.append(selfAddon.getSetting("switchup"))
     s.append(selfAddon.getSetting("groupfavs"))
     s.append(selfAddon.getSetting("con-view"))
     s.append(selfAddon.getSetting("xpr-view"))

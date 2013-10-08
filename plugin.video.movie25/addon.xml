@@ -2,7 +2,7 @@
 <addon id="plugin.video.movie25"
        name="Mash Up"
        version="1.3.8"
-       provider-name="Mash2k3">
+       provider-name="Mash2k3, Kuba">
     <requires>
         <import addon="xbmc.python" version="2.0"/>
 		<import addon="script.module.urlresolver"  version="0.0.1"/>

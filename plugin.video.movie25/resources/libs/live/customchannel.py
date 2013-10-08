@@ -577,7 +577,15 @@ def removeFolder(title,folders):
     xbmc.executebuiltin("XBMC.Notification([B][COLOR=FF67cc33]"+title+"[/COLOR][/B],[B]Folder Removed[/B],4000,"")")
     xbmc.executebuiltin("Container.Refresh")   
 
-
+def subLink(mname,suburl):
+        match=re.compile('<sublink>(.+?)</sublink>').findall(suburl)
+        for url in match:
+                match6=re.compile('http://(.+?)/.+?').findall(url)
+                for url2 in match6:
+                        host = url2.replace('www.','').replace('.in','').replace('.net','').replace('.com','').replace('.to','').replace('.org','').replace('.ch','')
+                        if re.findall('\d+.\d+.\d+.\d+',host):
+                            host='Static'
+                        main.addPlayMs(mname+' [COLOR blue]'+host.upper()+'[/COLOR]',url,240,art+'/hosts/'+host.lower()+'.png','',art+'/hosts/'+host.lower()+'.png','','','')
 
 def LIST(mname,murl):
     items=[]
@@ -586,24 +594,16 @@ def LIST(mname,murl):
         text = main.OPENURL(murl)
     else:
         f = open(murl)
-        text = f.read()
-    name=re.findall('<title>([^<]+)</title>',text)
-    for names in name:
-        name=re.findall('<title>([^<]+)</title>',text)
-        url=re.findall('<link>([^<]+)</link>',text)
-        thumb=re.findall('<thumbnail>([^<]+)</thumbnail>',text)
-        if thumb:
-            thumb=thumb[i]
+        text = f.readlines()
+    text=str(text)
+    text=text.replace(",","").replace("'","").replace("\\","").replace(">n <","><")
+    print text
+    match=re.compile('<title>(.+?)</title><link>(.+?)</link><thumbnail>(.+?)</thumbnail>').findall(text)
+    for name,url,thumb in match:
+        if '</sublink>' in url:
+            main.addDirMs(name,url,266,thumb,'','','','','')
         else:
-            thumb=''
-        items.append({
-            'title': name[i],
-            'thumbnail': thumb,
-            'path': url[i]
-        })
-        i=i+1
-    for channels in items:
-        main.addPlayMs(channels['title'],channels['path'],240,channels['thumbnail'],'','','','','')
+            main.addPlayMs(name,url,240,thumb,'','','','','')
 
 def listLS(name,url,fanart):
     ok=True

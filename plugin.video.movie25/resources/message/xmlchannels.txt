@@ -1,15 +1,8 @@
-[B][COLOR red]How to Add your Custom XML file for MashUp[/COLOR][/B]
+[COLOR="#FF0000"][B]How to Add your Custom XML file for MashUp v1.3.8 and Later[/B][/COLOR]
 
-Please follow instructions correctly.
+[B]Please follow instructions correctly.[/B]
 
-
-[B]Step 1:[/B] Set xml file path under custom channels tab in addon settings.--Note: Xml file path can not be an smb network drives.
-
-[B]Step 2:[/B] Go back and open My XML Channels Button and you will notice a notification stating that a MyXmlChannels has been created in the xml file path you have just set in previous step.
-
-[B]Step 3:[/B] Track down and open your recently created MyXmlChannels folder. In that Folder you will put your xml file. If you dont have an xml file move on to step 4.
-
-[B]Step 4:[/B] To create your xml file for MashUp you need to follow the format below.
+[B]Step 1:[/B] To create your xml file for MashUp you need to follow the format below or Get a completed xml file from crusadder88 or demon88(reachable via PM or forum).
 
 [COLOR red]<item>
 <title>CNBC</title>
@@ -17,17 +10,13 @@ Please follow instructions correctly.
 <thumbnail>http://i1112.photobucket.com/albums/k487/thiany25/cnbc.jpg.png</thumbnail>
 </item>[/COLOR]
 
-for more help visit us on xbmchub.com, MashUp section/Create and Share your Live Stream XML files
-(http://www.xbmchub.com/forums/addons-mash2k3/10511-create-share-your
--live-stream-xml-files-here.html)
-	
-[B]Step 5:[/B] After xml file is created make sure to save file neatly with first letter being CAPS and having the extention .xml. Example: My Sports.xml
+[B]Step 2:[/B] After xml file is created or downloaded you can either put locally and select via file manager or post it online then enter url address.
 
-[B]Step 6:[/B] To add a thumbnail and fanart for your xml file just simply get your thumbnail image and rename it to your xml filename. For example my xml file is called My Sports.xml so my thumbnail for that file will be My Sports.png or My Sports.jpg. With your fanart you will save it in this format My SportsFanart.png or  My SportsFanart.jpg. Once you are done put those files in the same folder as your xml file which is the My XML Channels folder located in the set xml file path.
+[B]Step 3:[/B] You need to add a playlist to MashUp by picking the following options bellow. Note both MashUp format and Livestreams format is supported.
 
+[B]Step 4:[/B] Once done adding xml files you will get option to enter name(required). Enter the name of playlist.
 
-Thats all thats needed for now, we will add to it while we improve the section.
-Open My XMl Channels in MashUp and you should see your xml file there.
+[B]Step 5:[/B] Then finally you will be prompted to add Thumbnail and Fanart(optional), press back or escape if you dont want to add a Thumbnail or Fanart.
 
-Thanks and Enjoy 
+Thanks and Enjoy
 Mash2k3
