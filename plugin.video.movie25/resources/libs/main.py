@@ -280,7 +280,7 @@ def GETMETAT(mname,genre,fan,thumb):
                    infoLabels['playcount'] = 0
                    
                 if infoLabels['cover_url']=='':
-                    thumb=art+'vidicon.png'
+                    thumb=art+'/vidicon.png'
                     infoLabels['cover_url']=thumb
                 #if int(year+'0'):
                 #    infoLabels['year']=year 
@@ -290,7 +290,7 @@ def GETMETAT(mname,genre,fan,thumb):
                 infoLabels['plot'] = infoLabels['plot'] + formatCast(infoLabels['cast'])
         else:
                 if thumb=='':
-                    thumb=art+'vidicon.png'
+                    thumb=art+'/vidicon.png'
                 if fan=='':
                     fan=Dir+'fanart.jpg'
                 else:
@@ -1048,13 +1048,13 @@ checkGA()
 def addDirT(name,url,mode,iconimage,plot,fanart,dur,genre,year):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&plot="+urllib.quote_plus(plot)+"&fanart="+urllib.quote_plus(fanart)+"&genre="+urllib.quote_plus(genre)
         ok=True
-        liz=xbmcgui.ListItem(name, iconImage=art+'vidicon.png', thumbnailImage=iconimage)
+        liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name, "Plot": plot, "Duration": dur, "Year": year ,"Genre": genre } )
         if fanart == '':
             fanart=Dir+'fanart.jpg'
         liz.setProperty('fanart_image', fanart)
         if iconimage=='':
-            iconimage=art+'vidicon.png'
+            iconimage=art+'/vidicon.png'
         if plot=='':
             plot='Sorry description not available'
         type='DIR'
@@ -1072,13 +1072,13 @@ def addDirT(name,url,mode,iconimage,plot,fanart,dur,genre,year):
 def addPlayT(name,url,mode,iconimage,plot,fanart,dur,genre,year):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&plot="+urllib.quote_plus(plot)+"&fanart="+urllib.quote_plus(fanart)+"&genre="+urllib.quote_plus(genre)
         ok=True
-        liz=xbmcgui.ListItem(name, iconImage=art+'vidicon.png', thumbnailImage=iconimage)
+        liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name, "Plot": plot, "Duration": dur, "Year": year ,"Genre": genre } )
         if fanart == '':
             fanart=Dir+'fanart.jpg'
         liz.setProperty('fanart_image', fanart)
         if iconimage=='':
-            iconimage=art+'vidicon.png'
+            iconimage=art+'/vidicon.png'
         if plot=='':
             plot='Sorry description not available'
         type='PLAY'
@@ -1107,7 +1107,7 @@ def addDirTE(name,url,mode,iconimage,plot,fanart,dur,genre,year):
             if fanart == '':
                 fanart=Dir+'fanart.jpg'
             if iconimage=='':
-                iconimage=art+'vidicon.png'
+                iconimage=art+'/vidicon.png'
             if plot=='':
                 plot='Sorry description not available'
         type='DIR'
@@ -1157,7 +1157,7 @@ def addPlayTE(name,url,mode,iconimage,plot,fanart,dur,genre,year):
             if fanart == '':
                 fanart=Dir+'fanart.jpg'
             if iconimage=='':
-                iconimage=art+'vidicon.png'
+                iconimage=art+'/vidicon.png'
             if plot=='':
                 plot='Sorry description not available'
         plot=infoLabels['plot']
@@ -1211,7 +1211,7 @@ def addDirM(name,url,mode,iconimage,plot,fanart,dur,genre,year):
             if fanart == '':
                 fanart=Dir+'fanart.jpg'
             if iconimage=='':
-                iconimage=art+'vidicon.png'
+                iconimage=art+'/vidicon.png'
             if plot=='':
                 plot='Sorry description not available'
             xbmcplugin.addSortMethod( handle=int( sys.argv[ 1 ] ), sortMethod=xbmcplugin.SORT_METHOD_UNSORTED )
@@ -1263,7 +1263,7 @@ def addPlayM(name,url,mode,iconimage,plot,fanart,dur,genre,year):
             if fanart == '':
                 fanart=Dir+'fanart.jpg'
             if iconimage=='':
-                iconimage=art+'vidicon.png'
+                iconimage=art+'/vidicon.png'
             if plot=='':
                 plot='Sorry description not available'
             xbmcplugin.addSortMethod( handle=int( sys.argv[ 1 ] ), sortMethod=xbmcplugin.SORT_METHOD_UNSORTED )
@@ -1296,13 +1296,13 @@ def addPlayM(name,url,mode,iconimage,plot,fanart,dur,genre,year):
 def addDirMs(name,url,mode,iconimage,plot,fanart,dur,genre,year):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&plot="+urllib.quote_plus(plot)+"&fanart="+urllib.quote_plus(fanart)+"&genre="+urllib.quote_plus(genre)
         ok=True
-        liz=xbmcgui.ListItem(name, iconImage=art+'vidicon.png', thumbnailImage=iconimage)
+        liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name, "Plot": plot, "Duration": dur, "Year": year ,"Genre": genre } )
         if fanart == '':
             fanart=Dir+'fanart.jpg'
         liz.setProperty('fanart_image', fanart)
         if iconimage=='':
-            iconimage=art+'vidicon.png'
+            iconimage=art+'/vidicon.png'
         if plot=='':
             plot='Sorry description not available'
         type='DIR'
@@ -1320,13 +1320,13 @@ def addDirMs(name,url,mode,iconimage,plot,fanart,dur,genre,year):
 def addPlayMs(name,url,mode,iconimage,plot,fanart,dur,genre,year):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&plot="+urllib.quote_plus(plot)+"&fanart="+urllib.quote_plus(fanart)+"&genre="+urllib.quote_plus(genre)
         ok=True
-        liz=xbmcgui.ListItem(name, iconImage=art+'vidicon.png', thumbnailImage=iconimage)
+        liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name, "Plot": plot, "Duration": dur, "Year": year ,"Genre": genre } )
         if fanart == '':
             fanart=Dir+'fanart.jpg'
         liz.setProperty('fanart_image', fanart)
         if iconimage=='':
-            iconimage=art+'vidicon.png'
+            iconimage=art+'/vidicon.png'
         if plot=='':
             plot='Sorry description not available'
         type='PLAY'
@@ -1344,13 +1344,13 @@ def addPlayMs(name,url,mode,iconimage,plot,fanart,dur,genre,year):
 def addDirL(name,url,mode,iconimage,plot,fanart,dur,genre,year):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&plot="+urllib.quote_plus(plot)+"&fanart="+urllib.quote_plus(fanart)+"&genre="+urllib.quote_plus(genre)
         ok=True
-        liz=xbmcgui.ListItem(name, iconImage=art+'vidicon.png', thumbnailImage=iconimage)
+        liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name, "Plot": plot, "Duration": dur, "Year": year ,"Genre": genre } )
         if fanart == '':
             fanart=Dir+'fanart.jpg'
         liz.setProperty('fanart_image', fanart)
         if iconimage=='':
-            iconimage=art+'vidicon.png'
+            iconimage=art+'/vidicon.png'
         if plot=='':
             plot='Sorry description not available'
         type='DIR'
@@ -1369,13 +1369,13 @@ def addDirL(name,url,mode,iconimage,plot,fanart,dur,genre,year):
 def addPlayL(name,url,mode,iconimage,plot,fanart,dur,genre,year):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&plot="+urllib.quote_plus(plot)+"&fanart="+urllib.quote_plus(fanart)+"&genre="+urllib.quote_plus(genre)
         ok=True
-        liz=xbmcgui.ListItem(name, iconImage=art+'vidicon.png', thumbnailImage=iconimage)
+        liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name, "Plot": plot, "Duration": dur, "Year": year ,"Genre": genre } )
         if fanart == '':
             fanart=Dir+'fanart.jpg'
         liz.setProperty('fanart_image', fanart)
         if iconimage=='':
-            iconimage=art+'vidicon.png'
+            iconimage=art+'/vidicon.png'
         if plot=='':
             plot='Sorry description not available'
         type='PLAY'
@@ -1569,7 +1569,7 @@ def addDown(name,url,mode,iconimage,fan):
 
 def addDown2(name,url,mode,iconimage,fan):
         contextMenuItems = []
-        u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
+        u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)
         ok=True
         sysurl = urllib.quote_plus(url)
         sysname= urllib.quote_plus(name)
@@ -1606,7 +1606,7 @@ def addDown3(name,url,mode,iconimage,fanart,id=False):#Noobroom only
             if fanart == '':
                 fanart=Dir+'fanart.jpg'
             if iconimage=='':
-                iconimage=art+'vidicon.png'
+                iconimage=art+'/vidicon.png'
             xbmcplugin.addSortMethod( handle=int( sys.argv[ 1 ] ), sortMethod=xbmcplugin.SORT_METHOD_UNSORTED )
             xbmcplugin.addSortMethod( handle=int( sys.argv[ 1 ] ), sortMethod=xbmcplugin.SORT_METHOD_LABEL )
 
@@ -1680,7 +1680,7 @@ def addDown4(name,url,mode,iconimage,plot,fanart,dur,genre,year):
             if fanart == '':
                 fanart=Dir+'fanart.jpg'
             if iconimage=='':
-                iconimage=art+'vidicon.png'
+                iconimage=art+'/vidicon.png'
             if plot=='':
                 plot='Sorry description not available'
             xbmcplugin.addSortMethod( handle=int( sys.argv[ 1 ] ), sortMethod=xbmcplugin.SORT_METHOD_UNSORTED )
@@ -1781,7 +1781,7 @@ def addDirIWO(name,url,mode,iconimage,plot,fanart,dur,genre,year):
             if fanart == '':
                 fanart=Dir+'fanart.jpg'
             if iconimage=='':
-                iconimage=art+'vidicon.png'
+                iconimage=art+'/vidicon.png'
             if plot=='':
                 plot='Sorry description not available'
             xbmcplugin.addSortMethod( handle=int( sys.argv[ 1 ] ), sortMethod=xbmcplugin.SORT_METHOD_UNSORTED )
@@ -1838,7 +1838,7 @@ def addDLog(name,url,mode,iconimage,plot,fanart,dur,genre,year):
             if fanart == '':
                 fanart=Dir+'fanart.jpg'
             if iconimage=='':
-                iconimage=art+'vidicon.png'
+                iconimage=art+'/vidicon.png'
             if plot=='':
                 plot='Sorry description not available'
         type='PLAY'
