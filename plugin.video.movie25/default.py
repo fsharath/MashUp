@@ -1,20 +1,14 @@
 #-*- coding: utf-8 -*-
-import xbmc, xbmcgui, xbmcaddon, xbmcplugin
+import xbmc,xbmcgui, xbmcaddon, xbmcplugin
 import urllib,re,string,os,time,threading
 
 try:
-    try:from xbmcads import ads
-    except:pass
-    from t0mm0.common.addon import Addon
-    from universal import favorites, watchhistory, playbackengine
+    from resources.libs import main,settings,autoupdate    
 except Exception, e:
     elogo = xbmc.translatePath('special://home/addons/plugin.video.movie25/resources/art/bigx.png')
     dialog = xbmcgui.Dialog()
     ok=dialog.ok('[B][COLOR=FF67cc33]Mash Up Import Error[/COLOR][/B]','Failed To Import Needed Modules',str(e),'Report missing Module at [COLOR=FF67cc33]Xbmctalk.com[/COLOR] to Fix')
-    xbmc.log('Mash Up ERROR - Importing Modules: '+str(e))
-
-    
-from resources.libs import main,settings,autoupdate    
+    xbmc.log('Mash Up ERROR - Importing Modules: '+str(e), xbmc.LOGERROR)
     
 #Mash Up - by Mash2k3 2012.
 
@@ -25,10 +19,7 @@ ENV = "Dev"  # "Prod" or "Dev"
 Mainurl ='http://www.movie25.so/movies/'
 addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
-addon = Addon(addon_id)
 art = main.art
-ads.ADDON_ADVERTISE(addon_id)
-wh = watchhistory.WatchHistory('plugin.video.movie25')
 
 ################################################################################ Directories ##########################################################################################################
 UpdatePath=os.path.join(main.datapath,'Update')
@@ -39,6 +30,12 @@ ListsPath=os.path.join(main.datapath,'Lists')
 try:
     os.makedirs(ListsPath)
 except: pass
+
+def ShowAds():
+    try:
+        from xbmcads import ads
+        ads.ADDON_ADVERTISE(addon_id)
+    except:pass
 
 def AtoZ():
         main.addDir('0-9','http://www.movie25.so/movies/0-9/',1,art+'/09.png')
@@ -321,7 +318,7 @@ def Notify():
         notified=os.path.join(runonce,str(mashup))
         if not os.path.exists(notified):
             open(notified,'w').write('version="%s",'%mashup)
-            dir = addon.get_path()
+            dir = selfAddon.getAddonInfo('path')
             chlg = os.path.join(dir, 'changelog.txt')
             TextBoxes("[B][COLOR red]Mash Up Changelog[/B][/COLOR]",chlg)
             mashup=mashup-1
@@ -400,7 +397,6 @@ def TV():
         main.addDir('Latest Episodes (Movie1k)','movintv',30,art+'/tvb.png')
         main.addDir('Latest Episodes (Oneclickwatch)','http://oneclickwatch.org',32,art+'/tvb.png')
         main.addDir('Latest Episodes (Seriesgate)','http://seriesgate.tv/latestepisodes/',602,art+'/tvb.png')
-        main.addLink('[COLOR red]Back Up Sources[/COLOR]','','')
         main.addDir('Latest 150 Episodes (ChannelCut)','http://www.channelcut.me/last-150',546,art+'/tvb.png')
         main.addDir('Latest 100 Episodes (Tv4stream)','http://www.tv4stream.info/last-100-links/',546,art+'/tvb.png')
         main.GA("None","TV-Latest")
@@ -846,6 +842,7 @@ def popVIP(image):
     del popup
 ################################################################################ Favorites Function##############################################################################################################
 def getFavorites(section_title = None):
+        from universal import favorites
         fav = favorites.Favorites(addon_id, sys.argv)
  
         if(section_title):
@@ -977,6 +974,8 @@ def ListglobalFavL():
 
 def History():
     main.GA("None","WatchHistory")
+    from universal import watchhistory
+    wh = watchhistory.WatchHistory(addon_id)
     if selfAddon.getSetting("whistory") == "true":
         history_items = wh.get_my_watch_history()
         for item in history_items:
@@ -1157,6 +1156,7 @@ print "Thumb: "+str(iconimage)
 if mode==None or url==None or len(url)<1:
         if ENV is 'Prod':
             threading.Thread(target=CheckForAutoUpdate).start()
+            threading.Thread(target=ShowAds).start()
         else:
             threading.Thread(target=CheckForAutoUpdateDev).start()
         threading.Thread(target=Notify).start()
