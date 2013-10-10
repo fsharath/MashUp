@@ -393,6 +393,7 @@ def TV():
         main.addDir('Latest Episodes (Rlsmix)[COLOR red](Debrid Only)[/COLOR] True HD[COLOR red] DC[/COLOR]','TV',61,art+'/tvb.png')
         main.addDir('Latest Episodes (Sceper)[COLOR red](Debrid Only)[/COLOR] True HD','http://sceper.ws/home/category/tv-shows',545,art+'/tvb.png')
         main.addDir('Latest Episodes (TvRelease) True HD[COLOR red] DC[/COLOR]','http://www.tv-release.net/category/tvshows/tv720p/',1001,art+'/tvb.png')
+        main.addDir('Latest Episodes (SceneLog) True HD[COLOR red] DC[/COLOR]','TV',657,art+'/tvb.png')
         main.addDir('Latest Episodes (TubePlus)[COLOR red] DC[/COLOR]','http://www.tubeplus.me/browse/tv-shows/Last/ALL/',1041,art+'/tvb.png')
         main.addDir('Latest Episodes (Watchseries)','http://watchseries.lt/tvschedule/-1',573,art+'/tvb.png')
         main.addDir('Latest Episodes (iWatchonline)','http://www.iwatchonline.to/tv-schedule',592,art+'/tvb.png')
@@ -2883,6 +2884,14 @@ elif mode==654:
 elif mode==655:
         print ""+url
         ListglobalFavIWO()
+elif mode==656:
+    print ""+url
+    from resources.libs.movies_tv import scenelog
+    scenelog.ListSceneLogLinks(name,url)
+elif mode==657:
+    print ""+url
+    from resources.libs.movies_tv import scenelog
+    scenelog.ListSceneLogItems(url,'HD')
 
 elif mode == 776:
         main.jDownloader(url)        
