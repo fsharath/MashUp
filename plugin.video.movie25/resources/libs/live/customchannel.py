@@ -11,10 +11,7 @@ addon = Addon('plugin.video.movie25', sys.argv)
 art = main.art
 from universal import watchhistory    
 wh = watchhistory.WatchHistory('plugin.video.movie25')
-try:
-    import json
-except:
-    import simplejson as json
+
 datapath = addon.get_profile()
 CustomChannel=os.path.join(datapath,'XmlChannels')
 
@@ -587,6 +584,16 @@ def subLink(mname,suburl):
                             host='Static'
                         main.addPlayMs(mname+' [COLOR blue]'+host.upper()+'[/COLOR]',url,240,art+'/hosts/'+host.lower()+'.png','',art+'/hosts/'+host.lower()+'.png','','','')
 
+def subLink(mname,suburl):
+        match=re.compile('<sublink>(.+?)</sublink>').findall(suburl)
+        for url in match:
+                match6=re.compile('http://(.+?)/.+?').findall(url)
+                for url2 in match6:
+                        host = url2.replace('www.','').replace('.in','').replace('.net','').replace('.com','').replace('.to','').replace('.org','').replace('.ch','')
+                        if re.findall('\d+.\d+.\d+.\d+',host):
+                            host='Static'
+                        main.addPlayMs(mname+' [COLOR blue]'+host.upper()+'[/COLOR]',url,240,art+'/hosts/'+host.lower()+'.png','',art+'/hosts/'+host.lower()+'.png','','','')
+
 def LIST(mname,murl):
     items=[]
     i=0
@@ -594,11 +601,8 @@ def LIST(mname,murl):
         text = main.OPENURL(murl)
     else:
         f = open(murl)
-        text = f.readlines()
-    text=str(text)
-    text=text.replace(",","").replace("'","").replace("\\","").replace(">n <","><")
-    print text
-    match=re.compile('<title>(.+?)</title><link>(.+?)</link><thumbnail>(.+?)</thumbnail>').findall(text)
+        text = f.read()
+    match=re.compile('<title>([^<]+)</title.+?link>(.+?)</link.+?thumbnail>([^<]+)</thumbnail>',re.DOTALL).findall(text)
     for name,url,thumb in match:
         if '</sublink>' in url:
             main.addDirMs(name,url,266,thumb,'','','','','')

@@ -3,6 +3,8 @@ import xbmc, xbmcgui, xbmcaddon, xbmcplugin
 import urllib,re,string,os,time,threading
 
 try:
+    try:from xbmcads import ads
+    except:pass
     from t0mm0.common.addon import Addon
     from universal import favorites, watchhistory, playbackengine
 except Exception, e:
@@ -25,7 +27,7 @@ addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addon = Addon(addon_id)
 art = main.art
-
+ads.ADDON_ADVERTISE(addon_id)
 wh = watchhistory.WatchHistory('plugin.video.movie25')
 
 ################################################################################ Directories ##########################################################################################################
@@ -310,7 +312,7 @@ def CheckForAutoUpdateDev(force = False):
         return
     
 def Notify():
-        mashup=138
+        mashup=139
         runonce=os.path.join(main.datapath,'RunOnce')
         try:
             os.makedirs(runonce)
@@ -326,7 +328,6 @@ def Notify():
             notified=os.path.join(runonce,str(mashup))
             if  os.path.exists(notified):
                 os.remove(notified)
-
         
         
 def GENRE(url):
@@ -399,7 +400,6 @@ def TV():
         main.addDir('Latest Episodes (Movie1k)','movintv',30,art+'/tvb.png')
         main.addDir('Latest Episodes (Oneclickwatch)','http://oneclickwatch.org',32,art+'/tvb.png')
         main.addDir('Latest Episodes (Seriesgate)','http://seriesgate.tv/latestepisodes/',602,art+'/tvb.png')
-        main.addDir('Latest Episodes (BTV Guide)','todays',555,art+'/tvb.png')
         main.addLink('[COLOR red]Back Up Sources[/COLOR]','','')
         main.addDir('Latest 150 Episodes (ChannelCut)','http://www.channelcut.me/last-150',546,art+'/tvb.png')
         main.addDir('Latest 100 Episodes (Tv4stream)','http://www.tv4stream.info/last-100-links/',546,art+'/tvb.png')
@@ -422,16 +422,28 @@ def ThreeDsec():
 def TVAll():
         main.addDir('Watchseries.lt[COLOR red] DC[/COLOR]','TV',572,art+'/wfs/watchseries.png')
         main.addDir('tubePLUS[COLOR red] DC[/COLOR]','tp+',1020,art+'/tubeplus.png')
-        main.addDir('BTV Guide','TV',551,art+'/wfs/btvguide.png')
         main.addDir('Series Gate','TV',601,art+'/wfs/sg.png')
         main.addDir('iWatchOnline [COLOR red] DC[/COLOR]','TV',584,art+'/iwatchonline.png')
         main.addDir('TV-Release[COLOR red] DC[/COLOR][COLOR blue] (Works Best With Debrid)[/COLOR]','tvr',1000,art+'/tvrelease.png')
+        main.addDir('Movie25 [COLOR red]DC[/COLOR]','TV',267,art+'/movie25.png')
         main.addDir('Sceper [COLOR red](Debrid Only)[/COLOR]','TV',539,art+'/wfs/sceper.png')
         main.addDir('SominalTvFilms','TV',619,art+'/wfs/sominal.png')
         main.addDir('Extramina','TV',530,art+'/wfs/extramina.png')
         main.addDir('FMA','TV',567,art+'/wfs/fma.png')
         #main.addDir('Global BC','gbc',165,art+'/globalbc.png')       
         main.GA("None","Plugin")
+
+def Movie25():
+        main.addDirHome('Search','http://www.movie25.so/',420,art+'/search2.png')
+        main.addDirHome('A-Z','http://www.movie25.so/',6,art+'/AZ2.png')
+        main.addDirHome('New Releases','http://www.movie25.so/movies/new-releases/',1,art+'/new2.png')
+        main.addDirHome('Latest Added','http://www.movie25.so/movies/latest-added/',1,art+'/latest2.png')
+        main.addDirHome('Featured Movies','http://www.movie25.so/movies/featured-movies/',1,art+'/feat2.png')
+        main.addDirHome('Most Viewed','http://www.movie25.so/movies/most-viewed/',1,art+'/view2.png')
+        main.addDirHome('Most Voted','http://www.movie25.so/movies/most-voted/',1,art+'/vote2.png')
+        main.addDirHome('HD Releases','http://www.movie25.so/movies/latest-hd-movies/',1,art+'/dvd2hd.png')
+        main.addDirHome('Genre','http://www.movie25.so/',2,art+'/genre2.png')
+        main.addDirHome('By Year','http://www.movie25.so/',7,art+'/year2.png')
 
 def ANIME():
         main.addDir('dubzonline','TV',613,art+'/wfs/dubzonline.png')
@@ -2349,6 +2361,9 @@ elif mode==266:
     from resources.libs.live import customchannel
     print ""+url
     customchannel.subLink(name,url)
+
+elif mode==267:
+    Movie25()
 ######################################################################################################
         ######################################################################################
         ######################################################################################
@@ -2458,84 +2473,7 @@ elif mode==550:
     from resources.libs.movies_tv import newmyvideolinks
     newmyvideolinks.SearchhistoryEtowns(url)
 
-elif mode==551:
-    from resources.libs.plugins import btvguide
-    btvguide.MAINBTV()
 
-elif mode==552:
-    from resources.libs.plugins import btvguide
-    print ""+url
-    btvguide.LISTShowsBTV(url)
-
-elif mode==553:
-    from resources.libs.plugins import btvguide
-    print ""+url
-    btvguide.LISTSeasonBTV(name,url,iconimage)
-
-elif mode==554:
-    from resources.libs.plugins import btvguide
-    print ""+url
-    btvguide.LISTEpilistBTV(name,url)
-
-elif mode==555:
-    from resources.libs.plugins import btvguide
-    print ""+url
-    btvguide.LISTPopBTV(url)
-
-elif mode==556:
-    from resources.libs.plugins import btvguide
-    print ""+url
-    btvguide.GENREBTV(url)
-
-elif mode==557:
-    from resources.libs.plugins import btvguide
-    print ""+url
-    btvguide.SEARCHBTV(url)
-        
-elif mode==558:
-    from resources.libs.plugins import btvguide
-    print ""+url
-    btvguide.SearchhistoryBTV()
-
-elif mode==559:
-    from resources.libs.plugins import btvguide
-    print ""+url
-    btvguide.VIDEOLINKSBTV(name,url)     
-        
-elif mode==560:
-    from resources.libs.plugins import btvguide
-    print ""+url
-    btvguide.AtoZBTV()
-        
-elif mode==561:
-    from resources.libs.plugins import btvguide
-    print ""+url
-    btvguide.AllShowsBTV(url)
-
-elif mode==562:
-    from resources.libs.plugins import btvguide
-    print ""+url
-    btvguide.LISTPOPShowsBTV(url)
-
-elif mode==563:
-    from resources.libs.plugins import btvguide
-    print ""+url
-    btvguide.PLAYBTV(name,url)
-    
-elif mode==564:
-    from resources.libs.plugins import btvguide
-    print ""+url
-    btvguide.LISTNEWShowsBTV(url)
-
-elif mode==565:
-    from resources.libs.plugins import btvguide
-    print ""+url
-    btvguide.LISTNEWEpiBTV(url)
-
-elif mode==566:
-    from resources.libs.plugins import btvguide
-    print ""+url
-    btvguide.DECADEBTV(url)
         
 
 elif mode==567:

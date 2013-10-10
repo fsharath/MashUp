@@ -1,3 +1,20 @@
+[B]Version 1.3.9[/B]
+
+-Fixed download issue where video are 0 bytes
+-Removed BTV guide source
+-Added Developers Fund ad Service
+-Movie25 sections are now customizable on Homecscreen individually
+-Removed unused code and imports to improve speed
+-Fixed a glitch in VIPlaylist for tv meta
+-Added Progress Dialog for sceper and seriesgate
+-Added Movie25 to More tv & Movies section
+-Added 256 colors (8 bit) Artwork for PI & ATV(MashUp Settings)
+-Modified custom xml section to allow sublinks and better scraping
+-Hackermil and Fixit enabled on homescreen by default
+-Fixed VIPlaylist download issues
+-Added option to allow livestreams to be favorited for dixie tvguide
+-Removed Switchup
+
 [B]Version 1.3.8[/B]
 
 -Added Option to Customize home screen in addon settings

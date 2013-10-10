@@ -6,12 +6,13 @@
 		<setting id="meta-view-tv" type="bool" label="[B]Metadata (TV Shows)[/B]" default="true"/>
 		<setting id="whistory" type="bool" label="[B]Watch History[/B]" default="true"/>
 		<setting id="gastatus" type="bool" label="[B]Google Analytics[/B]" default="true"/>
+		<setting id="artwork" type="bool" label="[B]8bit Artwork[/B] (Recommended for Raspberry PI & ATV's)" default="false"/>
 		<setting id="groupfavs" type="bool" label="[B]Group Favorites[/B]" default="false"/>
 		<setting label="[B]Re-install last auto update[/B]" type="action" action="RunPlugin(plugin://plugin.video.movie25/?mode=1998&url=0)"/>
 		<setting label="External Settings" type="lsep" />
 		<setting label="Resolver Settings" type="action" action="Addon.OpenSettings(script.module.urlresolver)" enable="System.HasAddon(script.module.urlresolver)"/>
-		<setting label="MetaHandler Settings" type="action" action="Addon.OpenSettings(script.module.metahandler)" enable ="eq(-8,true) || eq(-7,true)" />
-		<setting label="Universal Settings (Watch History)" type="action" action="Addon.OpenSettings(script.module.universal)" enable="eq(-7,true)"/>
+		<setting label="MetaHandler Settings" type="action" action="Addon.OpenSettings(script.module.metahandler)" enable ="eq(-9,true) || eq(-8,true)" />
+		<setting label="Universal Settings (Watch History)" type="action" action="Addon.OpenSettings(script.module.universal)" enable="eq(-8,true)"/>
    </category>
    
    <category label="Auto View">

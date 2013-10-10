@@ -23,6 +23,7 @@ def getRefreshRequiredSettings():
     s.append(selfAddon.getSetting("groupfavs"))
     s.append(selfAddon.getSetting("con-view"))
     s.append(selfAddon.getSetting("xpr-view"))
+    s.append(selfAddon.getSetting("artwork"))
     return s
 
 def openSettings():

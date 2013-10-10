@@ -29,7 +29,7 @@ if selfAddon.getSetting('visitor_ga')=='':
     from random import randint
     selfAddon.setSetting('visitor_ga',str(randint(0, 0x7fffffff)))
 
-VERSION = "1.3.8"
+VERSION = "1.3.9"
 PATH = "MashUp-"            
 UATRACK="UA-38312513-1" 
 
@@ -48,8 +48,10 @@ except:
 
 sys.path.append( os.path.join( selfAddon.getAddonInfo('path'), 'resources', 'libs' ))
 ################################################################################ Common Calls ##########################################################################################################
-
-art = 'https://github.com/mash2k3/MashupArtwork/raw/master/art'
+if selfAddon.getSetting("artwork") == "false":
+    art = 'https://github.com/mash2k3/MashupArtwork/raw/master/art'
+else:
+    art = 'https://github.com/mash2k3/MashupArtwork/raw/master/art256'
 elogo = xbmc.translatePath('special://home/addons/plugin.video.movie25/resources/art/bigx.png')
 slogo = xbmc.translatePath('special://home/addons/plugin.video.movie25/resources/art/smallicon.png')
 
@@ -129,6 +131,7 @@ def removeColorTags(text):
     
 def removeColoredText(text):
         return re.sub('\[COLOR.*?\[/COLOR\]','',text,re.I)
+    
 
 def SwitchUp():
         if selfAddon.getSetting("switchup") == "false":
@@ -570,6 +573,7 @@ def Download_Source(name,url):
         url=GetUrliW(url)
     
     name=removeColoredText(name)
+    name=re.sub(r'[^\w]', ' ', name)
     name=name.split(' [')[0]
     name=name.split('[')[0]
     name=name.split(' /')[0]
