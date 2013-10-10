@@ -3,7 +3,7 @@ import xbmc,xbmcgui, xbmcaddon, xbmcplugin
 import urllib,re,string,os,time,threading
 
 try:
-    from resources.libs import main,settings,autoupdate    
+    from resources.libs import main,settings    
 except Exception, e:
     elogo = xbmc.translatePath('special://home/addons/plugin.video.movie25/resources/art/bigx.png')
     dialog = xbmcgui.Dialog()
@@ -210,6 +210,7 @@ def CheckForAutoUpdate(force = False):
         UpdateVerFile = 'update'
         verCheck=main.CheckVersion()#Checks If Plugin Version is up to date
         if verCheck == True:
+            from resources.libs import autoupdate
             try:
                 print "Mashup auto update - started"
                 html=main.OPENURL('https://github.com/'+GitHubUser+'/'+GitHubRepo+'?files=1', mobile=True, verbose=False)
@@ -263,6 +264,7 @@ def CheckForAutoUpdateDev(force = False):
         GitHubUser    = 'mash2k3'
         GitHubBranch  = 'master'
         UpdateVerFile = 'devupdate'
+        from resources.libs import autoupdate
         try:
             print "Mashup auto update - started"
             html=main.OPENURL('https://github.com/'+GitHubUser+'/'+GitHubRepo+'?files=1', mobile=True, verbose=False)
