@@ -1,18 +1,13 @@
-import urllib,urllib2,re,cookielib,urlresolver,os,sys
+import re,sys
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
 from resources.libs import main
 
 #Mash Up - by Mash2k3 2012.
 
-from t0mm0.common.addon import Addon
-from universal import playbackengine, watchhistory
 addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
-addon = Addon('plugin.video.movie25', sys.argv)
 art = main.art
     
-wh = watchhistory.WatchHistory('plugin.video.movie25')
-
 def LISTSP2(murl):
         if murl.startswith('3D'):
                 main.addDir('Search Newmyvideolinks','movieNEW',102,art+'/search.png')
@@ -28,7 +23,6 @@ def LISTSP2(murl):
                 category = "bluray"
         parts = murl.split('-', 1 );
         max = subpages
-        print murl
         try:
             pages = parts[1].split(',', 1 );
             page = int(pages[0])
@@ -66,7 +60,6 @@ def LISTSP2(murl):
                                         match=re.compile('720p').findall(name)
                                         if (len(match)>0):
                                                 main.addDirTE(name,url,35,thumb,'','','','','')
-                                     
                                 else:
                                         main.addDirM(name,url,35,thumb,'','','','','')
                                         xbmcplugin.setContent(int(sys.argv[1]), 'Movies')
@@ -82,6 +75,7 @@ def LISTSP2(murl):
         dialogWait.close()
         del dialogWait
         main.GA("HD-3D-HDTV","Newmyvideolinks")
+        print "list newmyvideolinks"
         main.VIEWS()
 
 def SearchhistoryNEW(murl):
@@ -230,6 +224,7 @@ def LINKSP2(mname,url):
         if selfAddon.getSetting("hide-download-instructions") != "true":
             main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         match0=re.compile('<h4>(.+?)</h4>(.+?)</ul>').findall(link)
+        import urlresolver
         for mname, links in reversed(match0):
             match=re.compile('<li><a href="h(.+?)">(.+?)</a></li>').findall(links)
             for murl, name in match:
@@ -270,9 +265,12 @@ def LINKSP2B(mname,murl):
                 infoL={'Title': infoLabels['title'], 'Plot': infoLabels['plot'], 'Genre': infoLabels['genre']}
                 if not video_type is 'episode': infoL['originalTitle']=main.removeColoredText(infoLabels['metaName']) 
                 # play with bookmark
+                from universal import playbackengine
                 player = playbackengine.PlayWithoutQueueSupport(resolved_url=stream_url, addon_id=addon_id, video_type=video_type, title=infoLabels['title'],season=season, episode=episode, year=str(infoLabels['year']),img=img,infolabels=infoL, watchedCallbackwithParams=main.WatchedCallbackwithParams,imdb_id=imdb_id)
                 #WatchHistory
                 if selfAddon.getSetting("whistory") == "true":
+                    from universal import watchhistory
+                    wh = watchhistory.WatchHistory(addon_id)
                     wh.add_item(mname+' '+'[COLOR green]NewmyVideoLink[/COLOR]', sys.argv[0]+sys.argv[2], infolabels=infolabels, img=infoLabels['cover_url'], fanart=infoLabels['backdrop_url'], is_folder=False)
                 player.KeepAlive()
                 return ok

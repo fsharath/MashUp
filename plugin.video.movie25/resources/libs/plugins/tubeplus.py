@@ -1,35 +1,12 @@
-import urllib, urllib2, re, string, urlparse, sys,   os
-import xbmc, xbmcgui, xbmcaddon, xbmcplugin, HTMLParser
+import xbmc, xbmcgui, xbmcaddon, xbmcplugin
+import urllib,re,string,sys,os
 from resources.libs import main
-from t0mm0.common.addon import Addon
 
 addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
-addon = Addon(addon_id, sys.argv)
-
-    
 art = main.art
 error_logo = art+'/bigx.png'
-
-try:
-    import urllib, urllib2, re, string, urlparse, sys, os
-    
-    from t0mm0.common.net import Net
-    from metahandler import metahandlers
-    from sqlite3 import dbapi2 as database
-    from universal import playbackengine, watchhistory
-    import urlresolver
-except Exception, e:
-    addon.log_error(str(e))
-    addon.show_small_popup('MashUP: tubePLUS','Failed To Import Modules', 5000, error_logo)
-    addon.show_ok_dialog(['Failed To Import Modules','Please Post Logfile In MashUP Forum @','http://www.xbmchub.com'],
-                          'MashUP: TV-Release')
-net = Net()
 BASE_URL = 'http://www.tubeplus.me/'
-wh = watchhistory.WatchHistory(addon_id)
-
-
-
 
 def MAINMENU():
     main.addDir('Search',    BASE_URL+'?s=',1024,art+'/tpsearch.png')
@@ -609,6 +586,7 @@ def VIDEOLINKS(mname,url):
         imdb_id=infoLabels['imdb_id']
         infolabels = { 'supports_meta' : 'true', 'video_type':video_type, 'name':str(infoLabels['title']), 'imdb_id':str(infoLabels['imdb_id']), 'season':str(season), 'episode':str(episode), 'year':str(infoLabels['year']) }
         r=re.findall('xoxv(.+?)xoxe(.+?)xoxc',url)
+        import urlresolver
         for hoster, url in r:
             source = urlresolver.HostedMediaFile(host=hoster, media_id=url)
         try :
@@ -619,9 +597,13 @@ def VIDEOLINKS(mname,url):
                                 
             infoL={'Title': infoLabels['title'], 'Plot': infoLabels['plot'], 'Genre': infoLabels['genre']}
             # play with bookmark
+            
+            from universal import playbackengine
             player = playbackengine.PlayWithoutQueueSupport(resolved_url=stream_url, addon_id=addon_id, video_type=video_type, title=str(infoLabels['title']),season=str(season), episode=str(episode), year=str(infoLabels['year']),img=img,infolabels=infoL, watchedCallbackwithParams=main.WatchedCallbackwithParams,imdb_id=imdb_id)
             #WatchHistory
             if selfAddon.getSetting("whistory") == "true":
+                from universal import playbackengine, watchhistory
+                wh = watchhistory.WatchHistory(addon_id)
                 wh.add_item(hname+' '+'[COLOR=FF67cc33]TubePlus[/COLOR]', sys.argv[0]+sys.argv[2], infolabels=infolabels, img=str(img), fanart=str(fanart), is_folder=False)
             player.KeepAlive()
             return ok

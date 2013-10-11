@@ -1,4 +1,4 @@
-import urllib,urllib2,re,cookielib,urlresolver,os,sys
+import re,sys
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
 from resources.libs import main
 
@@ -17,7 +17,6 @@ def ListSceneLogItems(murl,quality='all'):
             category = "tv-shows"
     parts = murl.split('-', 1 );
     max = subpages
-    print murl
     try:
         pages = parts[1].split(',', 1 );
         page = int(pages[0])
@@ -94,6 +93,7 @@ def ListSceneLogLinks(mname,url):
     if selfAddon.getSetting("hide-download-instructions") != "true":
         main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
     match=re.compile('<p><a href="(.*?)"').findall(link)
+    import urlresolver
     for url in match:
 #                 thumb=name.lower()
 #                 murl='h'+murl
@@ -102,5 +102,45 @@ def ListSceneLogLinks(mname,url):
         host = ''
         for murl,host in match2:
             host = re.sub('^([aA-zZ]*?\.)?(.*?)\.[aA-zZ].*','\\2',host).title()
-            main.addDown2(mname+' [COLOR blue]'+host+'[/COLOR]',murl,209,'','')
+            main.addDown2(mname+' [COLOR blue]'+host+'[/COLOR]',murl,658,'','')
 
+def PlaySceneLogLink(mname,murl):
+    main.GA("SceneLog","Watched") 
+    ok=True
+    r = re.findall('s(\d+)e(\d\d+)',mname,re.I)
+    if r:
+        infoLabels =main.GETMETAEpiT(mname,'','')
+        video_type='episode'
+        season=infoLabels['season']
+        episode=infoLabels['episode']
+    else:
+        infoLabels =main.GETMETAT(mname,'','','')
+        video_type='movie'
+        season=''
+        episode=''
+    img=infoLabels['cover_url']
+    fanart =infoLabels['backdrop_url']
+    imdb_id=infoLabels['imdb_id']
+    infolabels = { 'supports_meta' : 'true', 'video_type':video_type, 'name':str(infoLabels['title']), 'imdb_id':str(infoLabels['imdb_id']), 'season':str(season), 'episode':str(episode), 'year':str(infoLabels['year']) }
+    playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+    playlist.clear()
+    try :
+        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
+        stream_url = main.resolve_url(murl)
+        infoLabels['title'] = main.removeColoredText(infoLabels['title'])
+        infoL={'Title': infoLabels['title'], 'Plot': infoLabels['plot'], 'Genre': infoLabels['genre']}
+        if not video_type is 'episode': infoL['originalTitle']=main.removeColoredText(infoLabels['metaName']) 
+        # play with bookmark
+        from universal import playbackengine
+        player = playbackengine.PlayWithoutQueueSupport(resolved_url=stream_url, addon_id=addon_id, video_type=video_type, title=infoLabels['title'],season=season, episode=episode, year=str(infoLabels['year']),img=img,infolabels=infoL, watchedCallbackwithParams=main.WatchedCallbackwithParams,imdb_id=imdb_id)
+        #WatchHistory
+        if selfAddon.getSetting("whistory") == "true":
+            from universal import watchhistory
+            wh = watchhistory.WatchHistory(addon_id)
+            wh.add_item(mname+' '+'[COLOR green]SceneLog[/COLOR]', sys.argv[0]+sys.argv[2], infolabels=infolabels, img=infoLabels['cover_url'], fanart=infoLabels['backdrop_url'], is_folder=False)
+        player.KeepAlive()
+        return ok
+    except Exception, e:
+        if stream_url != False:
+                main.ErrorReport(e)
+        return ok

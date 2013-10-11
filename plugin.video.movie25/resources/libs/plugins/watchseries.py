@@ -1,19 +1,13 @@
 # -*- coding: cp1252 -*-
-import urllib,urllib2,re,cookielib,string, urlparse,sys,os
-import xbmc, xbmcgui, xbmcaddon, xbmcplugin,urlresolver
-from t0mm0.common.net import Net as net
+import urllib,re,string,sys,os
+import xbmc,xbmcgui,xbmcaddon,xbmcplugin
 from resources.libs import main
 
 #Mash Up - by Mash2k3 2012.
 
-from t0mm0.common.addon import Addon
-from universal import playbackengine, watchhistory
 addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
-addon = Addon('plugin.video.movie25', sys.argv)
 art = main.art
-wh = watchhistory.WatchHistory('plugin.video.movie25')
-
 
 def MAINWATCHS():
         main.addDir('Search','s',581,art+'/wfs/searchws.png')
@@ -336,9 +330,9 @@ def LINKWATCHS(mname,murl):
         playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
         playlist.clear()
         match=re.compile('(.+?)xocx(.+?)xocx').findall(murl)
+        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Checking Link,3000)")
         for hurl, durl in match:
                 furl=geturl('http://watchseries.lt'+hurl)
-        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Checking Link,1500)")
         link=main.OPENURL(durl)
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
         match2=re.compile('<h1 class=".+?"><a href=".+?">.+?</a> - <a href="(.+?)" title=".+?">.+?</a>').findall(link)
@@ -374,9 +368,12 @@ def LINKWATCHS(mname,murl):
 
                 infoL={'Title': infoLabels['title'], 'Plot': infoLabels['plot'], 'Genre': infoLabels['genre']}
                 # play with bookmark
+                from universal import playbackengine
                 player = playbackengine.PlayWithoutQueueSupport(resolved_url=stream_url, addon_id=addon_id, video_type=video_type, title=str(infoLabels['title']),season=str(season), episode=str(episode), year=str(infoLabels['year']),img=img,infolabels=infoL, watchedCallbackwithParams=main.WatchedCallbackwithParams,imdb_id=imdb_id)
                 #WatchHistory
                 if selfAddon.getSetting("whistory") == "true":
+                    from universal import watchhistory
+                    wh = watchhistory.WatchHistory('plugin.video.movie25')
                     wh.add_item(mname+' '+'[COLOR green]WatchSeries[/COLOR]', sys.argv[0]+sys.argv[2], infolabels='', img=thumb, fanart='', is_folder=False)
                 player.KeepAlive()
                 return ok
