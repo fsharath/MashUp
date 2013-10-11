@@ -56,7 +56,7 @@ def OPENURL(url, mobile = False, q = False, verbose = True):
         link=response.read()
         response.close()
         #link = net(UserAgent).http_GET(url).content
-        link=link.replace('&#39;',"'").replace('&quot;','"').replace('&amp;',"&").replace("&#39;","'").replace('&lt;i&gt;','').replace("#8211;","-").replace('&lt;/i&gt;','').replace("&#8217;","'").replace('&amp;quot;','"').replace('&#215;','').replace('&#038;','&').replace('&#8216;','').replace('&#8211;','').replace('&#8220;','').replace('&#8221;','').replace('&#8212;','')
+        link=link.replace('&#39;',"'").replace('&quot;','"').replace('&amp;',"&").replace("&#39;","'").replace('&lt;i&gt;','').replace("#8211;","-").replace('&lt;/i&gt;','').replace("&#8217;","'").replace('&amp;quot;','"').replace('&#215;','x').replace('&#038;','&').replace('&#8216;','').replace('&#8211;','').replace('&#8220;','').replace('&#8221;','').replace('&#8212;','')
         link=link.replace('%3A',':').replace('%2F','/')
         if q: q.put(link)
         return link
@@ -127,10 +127,10 @@ def unescapes(text):
         return text
 
 def removeColorTags(text):
-        return re.sub('\[COLOR[^\]]{,15}\]','',text.replace("[/COLOR]", ""),re.I)
+        return re.sub('\[COLOR[^\]]{,15}\]','',text.replace("[/COLOR]", ""),re.I|re.DOTALL).strip()
     
 def removeColoredText(text):
-        return re.sub('\[COLOR.*?\[/COLOR\]','',text,re.I)
+        return re.sub('\[COLOR.*?\[/COLOR\]','',text,re.I|re.DOTALL).strip()
 
 def SwitchUp():
         if selfAddon.getSetting("switchup") == "false":
@@ -305,8 +305,8 @@ def GETMETAT(mname,genre,fan,thumb):
 
 def GETMETAEpiT(mname,thumb,desc):
         setGrab()
-        mname = removeColoredText(mname)
         originalName=mname
+        mname = removeColoredText(mname)
         if selfAddon.getSetting("meta-view-tv") == "true":
                 mname = mname.replace('New Episode','').replace('Main Event','').replace('New Episodes','')
                 mname = mname.strip()
@@ -1594,7 +1594,7 @@ def addDown(name,url,mode,iconimage,fan):
         contextMenuItems.append(('Direct Download', 'XBMC.RunPlugin(%s?mode=190&name=%s&url=%s)' % (sys.argv[0], sysname, sysurl)))
         contextMenuItems.append(('Download with jDownloader', 'XBMC.RunPlugin(%s?mode=776&name=%s&url=%s)' % (sys.argv[0], sysname, sysurl)))
         liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=iconimage)
-        liz.setInfo( type="Video", infoLabels={ "Title": name } )
+        liz.setInfo( type="Video", infoLabels={ "Title": name, "OriginalTitle" : removeColoredText(name) } )
         liz.setProperty('fanart_image', fan)
         liz.addContextMenuItems(contextMenuItems, replaceItems=True)
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
@@ -1610,7 +1610,7 @@ def addDown2(name,url,mode,iconimage,fan):
         contextMenuItems.append(('Direct Download', 'XBMC.RunPlugin(%s?mode=190&name=%s&url=%s)' % (sys.argv[0], sysname, sysurl)))
         contextMenuItems.append(('Download with jDownloader', 'XBMC.RunPlugin(%s?mode=776&name=%s&url=%s)' % (sys.argv[0], sysname, sysurl)))
         liz=xbmcgui.ListItem(name, iconImage=art+'/vidicon.png', thumbnailImage=iconimage)
-        liz.setInfo( type="Video", infoLabels={ "Title": name } )
+        liz.setInfo( type="Video", infoLabels={ "Title": name, "OriginalTitle" : removeColoredText(name) } )
         liz.setProperty('fanart_image', fan)
         liz.addContextMenuItems(contextMenuItems, replaceItems=True)
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
