@@ -239,9 +239,9 @@ def formatCast(cast):
         return roles
 
 def GETMETAT(mname,genre,fan,thumb):
-        setGrab()
         originalName=mname
         if selfAddon.getSetting("meta-view") == "true":
+                setGrab()
                 mname = re.sub(r'\[COLOR red\]\(?(\d{4})\)?\[/COLOR\]',r'\1',mname)
                 mname = removeColoredText(mname)
                 mname = mname.replace(' EXTENDED and UNRATED','').replace('Webrip','').replace('MaxPowers','').replace('720p','').replace('1080p','').replace('TS','').replace('HD','').replace('R6','').replace('H.M.','').replace('HackerMil','').replace('(','').replace(')','').replace('[','').replace(']','')
@@ -304,10 +304,10 @@ def GETMETAT(mname,genre,fan,thumb):
 ################################################################################ TV Shows Metahandler ##########################################################################################################
 
 def GETMETAEpiT(mname,thumb,desc):
-        setGrab()
         originalName=mname
         mname = removeColoredText(mname)
         if selfAddon.getSetting("meta-view-tv") == "true":
+                setGrab()
                 mname = mname.replace('New Episode','').replace('Main Event','').replace('New Episodes','')
                 mname = mname.strip()
                 r = re.findall('(.+?)\ss(\d+)e(\d+)\s',mname + " ",re.I)

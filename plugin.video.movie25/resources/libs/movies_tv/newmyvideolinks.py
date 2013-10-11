@@ -75,7 +75,6 @@ def LISTSP2(murl):
         dialogWait.close()
         del dialogWait
         main.GA("HD-3D-HDTV","Newmyvideolinks")
-        print "list newmyvideolinks"
         main.VIEWS()
 
 def SearchhistoryNEW(murl):
