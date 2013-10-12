@@ -870,7 +870,7 @@ def TextBoxes(heading,anounce):
 
 
 def parseDate(dateString):
-    import datetime
+    from datetime import datetime
     try:
         return datetime.datetime.fromtimestamp(time.mktime(time.strptime(dateString.encode('utf-8', 'replace'), "%Y-%m-%d %H:%M:%S")))
     except:
