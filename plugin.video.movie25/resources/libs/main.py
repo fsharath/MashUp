@@ -869,8 +869,7 @@ def TextBoxes(heading,anounce):
 ################################################################################ Google Analytics ##########################################################################################################
 
 
-def parseDate(dateString):
-    from datetime import datetime
+def parseDate(dateString,datetime):
     try:
         return datetime.datetime.fromtimestamp(time.mktime(time.strptime(dateString.encode('utf-8', 'replace'), "%Y-%m-%d %H:%M:%S")))
     except:
@@ -879,11 +878,12 @@ def parseDate(dateString):
 
 def checkGA():
     if selfAddon.getSetting("gastatus") == "true":
+        import datetime
         secsInHour = 60 * 60
         threshold  = 2 * secsInHour
 
         now   = datetime.datetime.today()
-        prev  = parseDate(selfAddon.getSetting('ga_time'))
+        prev  = parseDate(selfAddon.getSetting('ga_time'),datetime)
         delta = now - prev
         nDays = delta.days
         nSecs = delta.seconds
