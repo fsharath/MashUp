@@ -2896,6 +2896,14 @@ elif mode==658:
     print ""+url
     from resources.libs.movies_tv import scenelog
     scenelog.PlaySceneLogLink(name,url)
+elif mode==659:
+    print ""+url
+    from resources.libs.movies_tv import scenelog
+    scenelog.StartSceneLogSearch(url)
+elif mode==660:
+    print ""+url
+    from resources.libs.movies_tv import scenelog
+    scenelog.SearchSceneLog(name,url)
 
 elif mode == 776:
         main.jDownloader(url)        

@@ -1,4 +1,4 @@
-import re,sys
+import re,sys,os
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
 from resources.libs import main
 
@@ -10,11 +10,13 @@ art = main.art
     
 def ListSceneLogItems(murl,quality='all'):
     if murl.startswith('Movies'):
-            subpages = 5
-            category = "movies"
+        main.addDir('Search SceneLog','Movies',659,art+'/search.png')
+        subpages = 5
+        category = "movies"
     elif murl.startswith('TV'):
-            subpages = 5
-            category = "tv-shows"
+        main.addDir('Search SceneLog','TV',659,art+'/search.png')
+        subpages = 5
+        category = "tv-shows"
     parts = murl.split('-', 1 );
     max = subpages
     try:
@@ -38,71 +40,150 @@ def ListSceneLogItems(murl,quality='all'):
     if hasMax:
         max = hasMax[0]
     if html:
-        html = main.unescapes(html)
-        match = re.compile('<h1>.*?href="(.+?)".*?title="(.+?)"').findall(html)
-        dialogWait = xbmcgui.DialogProgress()
-        ret = dialogWait.create('Please wait until Movie list is cached.')
-        totalLinks = len(match)
-        loadedLinks = 0
-        remaining_display = 'Movies/Episodes Cached :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
-        dialogWait.update(0,'[B]Will load instantly from now on[/B]',remaining_display)
-        if match:
-            for url,title in match:
-                isHD = re.compile('720p|1080p').findall(title)
-                title = title.replace("."," ").replace("_"," ")
-                episode = re.search('(\d+)x(\d\d+)',title, re.I)
-                if(episode):
-                    e = str(episode.group(2))
-                    s = str(episode.group(1))
-                    if len(s)==1: s = "0" + s
-                    episode = "S" + s + "E" + e
-                    title = re.sub('(\d+)x(\d\d+)',episode,title,re.I)
-                else:
-                    title = re.sub('(\d{4}) (\d{2}) (\d{2})','\\1.\\2.\\3',title,re.I)
-                if isHD:
-                    title = title.split(isHD[0])[0].strip()
-                else:
-                    title = title.split('HDTV')[0].strip()
-                title = re.sub('(\d{4}\.\d{2}\.\d{2})(.*)','\\1[COLOR blue]\\2[/COLOR]',title,re.I)
-                title = re.sub('(S\d+E\d+)(.*)','\\1[COLOR blue]\\2[/COLOR]',title,re.I)
-                if isHD:
-                    title += " [COLOR red]HD[/COLOR]"
-                if (isHD or quality != 'HD'):
-                    if murl=='TV':
-                        main.addDirTE(title,url,656,'','','','','','')
-                    else:
-                        main.addDirM(title,url,656,'','','','','','')
-                        xbmcplugin.setContent(int(sys.argv[1]), 'Movies')
-                loadedLinks = loadedLinks + 1
-                percent = (loadedLinks * 100)/totalLinks
-                remaining_display = 'Movies/Episodes Cached :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
-                dialogWait.update(percent,'[B]Will load instantly from now on[/B]',remaining_display)
-                if (dialogWait.iscanceled()):
-                    return False
+        ShowSceneLogItems(html,murl,quality)
         if not page is None:
             main.addDir('Page ' + str(page/subpages+1) + ', Next Page >>>',murl + "-" + str(page/subpages+1) + "," + max,657,art+'/next2.png')
-
-    dialogWait.close()
-    del dialogWait
     main.GA("Movies-TV","SceneLog")
     main.VIEWS()
-            
+    
+def ShowSceneLogItems(html,category,quality):
+    html = main.unescapes(html)
+    match = re.compile('<h1>.*?href="(.+?)".*?title="(.+?)"').findall(html)
+    dialogWait = xbmcgui.DialogProgress()
+    ret = dialogWait.create('Please wait until Movie list is cached.')
+    totalLinks = len(match)
+    loadedLinks = 0
+    remaining_display = 'Movies/Episodes Cached :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+    dialogWait.update(0,'[B]Will load instantly from now on[/B]',remaining_display)
+    if match:
+        for url,title in match:
+            title = title.replace("."," ").replace("_"," ")
+            episode = re.search('(\d+)x(\d\d+)',title, re.I)
+            if(episode):
+                e = str(episode.group(2))
+                s = str(episode.group(1))
+                if len(s)==1: s = "0" + s
+                episode = "S" + s + "E" + e
+                title = re.sub('(\d+)x(\d\d+)',episode,title,re.I)
+            else:
+                title = re.sub('(\d{4}) (\d{2}) (\d{2})','\\1.\\2.\\3',title,re.I)
+            isHD = re.compile('720p|1080p').findall(title)
+            if isHD:
+                title = title.split(isHD[0])[0].strip()
+            else:
+                title = title.split('HDTV')[0].strip()
+                title = title.split('PDTV')[0].strip()
+            title = re.sub('(\d{4}\.\d{2}\.\d{2})(.*)','\\1[COLOR blue]\\2[/COLOR]',title,re.I)
+            title = re.sub('(S\d+E\d+.*?) (.*)','\\1 [COLOR blue]\\2[/COLOR]',title,re.I)
+            if isHD:
+                title += " [COLOR red]"+isHD[0]+"[/COLOR]"
+            if (isHD or quality != 'HD'):
+                if category=='TV':
+                    main.addDirTE(title,url,656,'','','','','','')
+                else:
+                    main.addDirM(title,url,656,'','','','','','')
+                    xbmcplugin.setContent(int(sys.argv[1]), 'Movies')
+            loadedLinks = loadedLinks + 1
+            percent = (loadedLinks * 100)/totalLinks
+            remaining_display = 'Movies/Episodes Cached :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+            dialogWait.update(percent,'[B]Will load instantly from now on[/B]',remaining_display)
+            if (dialogWait.iscanceled()):
+                return False
+    dialogWait.close()
+    del dialogWait
+    
+def StartSceneLogSearch(searchCategory):
+    seapath=os.path.join(main.datapath,'Search')
+    if searchCategory == 'TV':
+        searchHistoryFile = "SearchHistoryTv"
+    else:
+        searchCategory = "Movies"
+        searchHistoryFile = "SearchHistory25"
+    SeaFile=os.path.join(seapath,searchHistoryFile)
+    if not os.path.exists(SeaFile):
+        SearchSceneLog('Search',searchCategory)
+    else:
+        main.addDir('Search',searchCategory,660,art+'/search.png')
+        main.addDir('Clear History',SeaFile,128,art+'/cleahis.png')
+        thumb=art+'/link.png'
+        searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+        for seahis in reversed(searchis):
+            seahis=seahis.replace('%20',' ')
+            main.addDir(seahis,searchCategory,660,thumb)
+
+def SearchSceneLog(searchQuery,searchCategory):
+    print searchQuery
+    addToSearchHistory = True
+    seapath=os.path.join(main.datapath,'Search')
+    if searchCategory == 'TV':
+        searchHistoryFile = "SearchHistoryTv"
+        cat = 5
+    else:
+        searchCategory = "Movies"
+        searchHistoryFile = "SearchHistory25"
+        cat = 4
+    SeaFile=os.path.join(seapath,searchHistoryFile)
+    if searchQuery == 'Search' :
+        searchQuery = ''
+        try:
+            os.makedirs(seapath)
+        except:
+            pass
+        keyb = xbmc.Keyboard('', 'Search ' + searchCategory )
+        keyb.doModal()
+        if (keyb.isConfirmed()):
+            searchQuery = keyb.getText()
+        else:
+            xbmcplugin.endOfDirectory(int(sys.argv[1]),False)
+    else:
+        addToSearchHistory = False
+    import urllib
+    searchQuery=urllib.quote(searchQuery)
+    if addToSearchHistory:
+        if not os.path.exists(SeaFile) and searchQuery != '':
+            open(SeaFile,'w').write('search="%s",'%searchQuery)
+        elif searchQuery != '':
+                open(SeaFile,'a').write('search="%s",'%searchQuery)
+        else: return False
+        searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+        if len(searchis)>=10:
+            searchis.remove(searchis[0])
+            os.remove(SeaFile)
+            for seahis in searchis:
+                try: open(SeaFile,'a').write('search="%s",'%seahis)
+                except: pass
+    searchUrl='http://scenelog.eu/?s='+searchQuery+'&cat='+str(cat)
+    html = main.OPENURL(searchUrl)
+    if html:
+        ShowSceneLogItems(html,searchCategory,'all')
+    main.GA("SceneLog","Search")
+                    
 def ListSceneLogLinks(mname,url):
-    link=main.OPENURL(url)
-    link=main.unescapes(link)
+    html = main.OPENURL(url)
+    html = main.unescapes(html)
     if selfAddon.getSetting("hide-download-instructions") != "true":
         main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
-    match=re.compile('<p><a href="(.*?)"').findall(link)
+    paragraphs = re.compile('<p><a href=.*?</p>',re.I|re.DOTALL).findall(html)
     import urlresolver
-    for url in match:
-#                 thumb=name.lower()
-#                 murl='h'+murl
-        hosted_media = urlresolver.HostedMediaFile(url=url)
-        match2=re.compile("{'url': '(.+?)', 'host': '(.+?)', 'media_id': '.+?'}").findall(str(hosted_media))
-        host = ''
-        for murl,host in match2:
-            host = re.sub('^([aA-zZ]*?\.)?(.*?)\.[aA-zZ].*','\\2',host).title()
-            main.addDown2(mname+' [COLOR blue]'+host+'[/COLOR]',murl,658,'','')
+    itemsAdded = 0
+    for paragraph in paragraphs:
+        links = re.compile('<a href="(.*?)"',re.I|re.DOTALL).findall(paragraph)
+        if len(links) == 1: # if more than 1 links per paragraph, its probably splitted file
+            for url in links:
+                if not re.search('rar',url,re.I):
+                    hosted_media = urlresolver.HostedMediaFile(url=url)
+                    match2 = re.compile("{'url': '(.+?)', 'host': '(.+?)', 'media_id': '.+?'}").findall(str(hosted_media))
+                    host = ''
+                    for url,host in match2:
+                        host = re.sub('^([aA-zZ]*?\.)?(.*?)\.[aA-zZ].*','\\2',host).title()
+                        main.addDown2(mname+' [COLOR blue]'+host+'[/COLOR]',url,658,'','')
+                        itemsAdded += 1
+    if not itemsAdded:
+        xbmcplugin.endOfDirectory(int(sys.argv[1]), False, False)
+        xbmc.executebuiltin("XBMC.Notification(Sorry,No sources found!,3000)")
+#     if itemsAdded == 1:
+#         xbmcplugin.endOfDirectory(int(sys.argv[1]), False, False)
+#         PlaySceneLogLink(mname+' [COLOR blue]'+host+'[/COLOR]',murl)
 
 def PlaySceneLogLink(mname,murl):
     main.GA("SceneLog","Watched") 
@@ -138,6 +219,7 @@ def PlaySceneLogLink(mname,murl):
             from universal import watchhistory
             wh = watchhistory.WatchHistory(addon_id)
             wh.add_item(mname+' '+'[COLOR green]SceneLog[/COLOR]', sys.argv[0]+sys.argv[2], infolabels=infolabels, img=infoLabels['cover_url'], fanart=infoLabels['backdrop_url'], is_folder=False)
+        main.CloseAllDialogs()
         player.KeepAlive()
         return ok
     except Exception, e:

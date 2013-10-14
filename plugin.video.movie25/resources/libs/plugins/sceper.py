@@ -1,17 +1,12 @@
-import urllib,urllib2,re,cookielib,string, urlparse,sys,os
-import xbmc, xbmcgui, xbmcaddon, xbmcplugin,urlresolver
-from t0mm0.common.net import Net as net
+import urllib,re,sys,os
+import xbmc, xbmcgui, xbmcaddon, xbmcplugin
 from resources.libs import main
 
 #Mash Up - by Mash2k3 2012.
 
-from t0mm0.common.addon import Addon
-from universal import playbackengine, watchhistory
 addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
-addon = Addon('plugin.video.movie25', sys.argv)
 art = main.art
-wh = watchhistory.WatchHistory('plugin.video.movie25')
 
 def MAINSCEPER():
         main.GA("Plugin","Sceper")
@@ -205,6 +200,7 @@ def VIDEOLINKSSCEPER(mname,murl,thumb):
         match=re.compile('<a href="([^<]+)">htt').findall(link)
         hostsmax = len(match)
         h = 0
+        import urlresolver
         for url in match:
             h += 1
             percent = (h * 100)/hostsmax
@@ -226,12 +222,12 @@ def VIDEOLINKSSCEPER(mname,murl,thumb):
                         
                     hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
                     sources.append(hosted_media)
+        msg.close()
         if (len(sources)==0):
                 xbmc.executebuiltin("XBMC.Notification(Sorry!,Could not find a playable link,3000)")
                 return
         else:
                 source = urlresolver.choose_source(sources)
-        msg.close()
         try:
                 if not source:
                     if (len(sources)>0):
@@ -262,9 +258,12 @@ def VIDEOLINKSSCEPER(mname,murl,thumb):
                 infoL={'Title': infoLabels['title'], 'Plot': infoLabels['plot'], 'Genre': infoLabels['genre']}
                 if not video_type is 'episode': infoL['originalTitle']=main.removeColoredText(infoLabels['metaName'])
                 # play with bookmark
+                from universal import playbackengine
                 player = playbackengine.PlayWithoutQueueSupport(resolved_url=stream_url, addon_id=addon_id, video_type=video_type, title=str(infoLabels['title']),season=str(season), episode=str(episode), year=str(infoLabels['year']),img=img,infolabels=infoL, watchedCallbackwithParams=main.WatchedCallbackwithParams,imdb_id=imdb_id)
                 #WatchHistory
                 if selfAddon.getSetting("whistory") == "true":
+                    from universal import watchhistory
+                    wh = watchhistory.WatchHistory('plugin.video.movie25')
                     wh.add_item(mname+' '+'[COLOR green]Sceper[/COLOR]', sys.argv[0]+sys.argv[2], infolabels=infolabels, img=img, fanart=fanart, is_folder=False)
                 player.KeepAlive()
                 return ok

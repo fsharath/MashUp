@@ -1,4 +1,4 @@
-import re,sys
+import re,sys,os
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
 from resources.libs import main
 

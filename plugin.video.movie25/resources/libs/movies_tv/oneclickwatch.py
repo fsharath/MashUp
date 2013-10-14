@@ -1,17 +1,12 @@
-import urllib,urllib2,re,cookielib,urlresolver,sys,os
-import xbmc, xbmcgui, xbmcaddon, xbmcplugin
+import urllib,re,sys,os
+import xbmc,xbmcgui,xbmcaddon,xbmcplugin
 from resources.libs import main
 
 #Mash Up - by Mash2k3 2012.
 
-from t0mm0.common.addon import Addon
-from universal import playbackengine, watchhistory
 addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
-addon = Addon('plugin.video.movie25', sys.argv)
 art = main.art 
-wh = watchhistory.WatchHistory('plugin.video.movie25')
-
 
 def LISTSP(murl):
         #urllist=main.OPENURL('http://oneclickwatch.org/category/movies/')+main.OPENURL('http://oneclickwatch.org/category/movies/page/2/')+main.OPENURL('http://oneclickwatch.org/category/movies/page/3/')+main.OPENURL('http://oneclickwatch.org/category/movies/page/4/')+main.OPENURL('http://oneclickwatch.org/category/movies/page/5/')+main.OPENURL('http://oneclickwatch.org/category/movies/page/6/')+main.OPENURL('http://oneclickwatch.org/category/movies/page/7/')+main.OPENURL('http://oneclickwatch.org/category/movies/page/8/')+main.OPENURL('http://oneclickwatch.org/category/movies/page/9/')+main.OPENURL('http://oneclickwatch.org/category/movies/page/10/')
@@ -153,7 +148,8 @@ def VIDEOLINKST3(mname,murl):
                 thumbs=thumb[0]
         else:
                thumbs=''
-        main.CloseAllDialogs()               
+        main.CloseAllDialogs()
+        import urlresolver          
         for url,host in match:
                 print url
                 hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
@@ -181,10 +177,13 @@ def VIDEOLINKST3(mname,murl):
 
                 infoL={'Title': infoLabels['title'], 'Plot': infoLabels['plot'], 'Genre': infoLabels['genre']}
                 # play with bookmark
+                from universal import playbackengine
                 player = playbackengine.PlayWithoutQueueSupport(resolved_url=stream_url, addon_id=addon_id, video_type=video_type, title=str(infoLabels['title']),season=str(season), episode=str(episode), year=str(infoLabels['year']),img=img,infolabels=infoL, watchedCallbackwithParams=main.WatchedCallbackwithParams,imdb_id=imdb_id)
                 #WatchHistory
                 if selfAddon.getSetting("whistory") == "true":
-                        wh.add_item(mname+' '+'[COLOR green]Oneclickwatch[/COLOR]', sys.argv[0]+sys.argv[2], infolabels='', img=img, fanart='', is_folder=False)
+                    from universal import watchhistory
+                    wh = watchhistory.WatchHistory('plugin.video.movie25')
+                    wh.add_item(mname+' '+'[COLOR green]Oneclickwatch[/COLOR]', sys.argv[0]+sys.argv[2], infolabels='', img=img, fanart='', is_folder=False)
                 player.KeepAlive()
                 return ok
         except Exception, e:
