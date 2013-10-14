@@ -381,7 +381,10 @@ def resolve_180upload(url):
         
         print 'Mash Up 180Upload - Requesting GET URL: %s' % url
         html = net().http_GET(url).content
-
+        if ">File Not Found" in html:
+            addon.log_error('Mash Up: Resolve 180Upload - File Not Found')
+            xbmc.executebuiltin("XBMC.Notification(File Not Found,180Upload,2000)")
+            return False
         dialog.update(50)
                 
         data = {}
