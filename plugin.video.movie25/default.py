@@ -266,7 +266,7 @@ def CheckForAutoUpdateDev(force = False):
         UpdateVerFile = 'devupdate'
         from resources.libs import autoupdate
         try:
-            print "Mashup auto update - started"
+            print "Mashup DEV auto update - started"
             html=main.OPENURL('https://github.com/'+GitHubUser+'/'+GitHubRepo+'?files=1', mobile=True, verbose=False)
         except: html=''
         m = re.search("View (\d+) commit",html,re.I)
@@ -281,9 +281,8 @@ def CheckForAutoUpdateDev(force = False):
             UpdateLocalName = GitHubRepo+'.zip'
             UpdateDirName   = GitHubRepo+'-'+GitHubBranch
             UpdateLocalFile = xbmc.translatePath(os.path.join(UpdatePath, UpdateLocalName))
-        
-            print "auto update - new update available ("+str(gitver)+")"
-            xbmc.executebuiltin("XBMC.Notification(MashUp Update,New Update detected,3000,"+main.slogo+")")
+            print "Mashup DEV auto update - new update available ("+str(gitver)+")"
+            xbmc.executebuiltin("XBMC.Notification(MashUp DEV Update,New Update detected,3000,"+main.slogo+")")
             dialog = xbmcgui.Dialog()
             ret = dialog.yesno('Mash Up DEV Update', 'There is a new update available.','Would you like to update now?','','No', 'Yes')
             if ret:
@@ -296,18 +295,18 @@ def CheckForAutoUpdateDev(force = False):
                     pluginsrc =  xbmc.translatePath(os.path.join(extractFolder,UpdateDirName))
                     if autoupdate.unzipAndMove(UpdateLocalFile,extractFolder,pluginsrc):
                         autoupdate.saveUpdateFile(UpdateVerPath,str(gitver))
-                        print "Mashup auto update - update install successful ("+str(gitver)+")"
-                        xbmc.executebuiltin("XBMC.Notification(MashUp Update,Successful,5000,"+main.slogo+")")
+                        print "Mashup DEV auto update - update install successful ("+str(gitver)+")"
+                        xbmc.executebuiltin("XBMC.Notification(MashUp DEV Update,Successful,5000,"+main.slogo+")")
                         xbmc.executebuiltin("XBMC.Container.Refresh")
                     else:
-                        print "Mashup auto update - update install failed ("+str(gitver)+")"
-                        xbmc.executebuiltin("XBMC.Notification(MashUp Update,Failed,3000,"+main.elogo+")")
+                        print "Mashup DEV auto update - update install failed ("+str(gitver)+")"
+                        xbmc.executebuiltin("XBMC.Notification(MashUp DEV Update,Failed,3000,"+main.elogo+")")
                 else:
-                    print "Mashup auto update - cannot find downloaded update ("+str(gitver)+")"
-                    xbmc.executebuiltin("XBMC.Notification(MashUp Update,Failed,3000,"+main.elogo+")")
+                    print "Mashup DEV auto update - cannot find downloaded update ("+str(gitver)+")"
+                    xbmc.executebuiltin("XBMC.Notification(MashUp DEV Update,Failed,3000,"+main.elogo+")")
         else:
-            if force: xbmc.executebuiltin("XBMC.Notification(MashUp Update,MashUp is up-to-date,3000,"+main.slogo+")")
-            print "Mashup auto update - Mashup is up-to-date ("+str(locver)+")"
+            if force: xbmc.executebuiltin("XBMC.Notification(MashUp DEV Update,MashUp is up-to-date,3000,"+main.slogo+")")
+            print "Mashup auto update - Mashup DEV is up-to-date ("+str(locver)+")"
         return
     
 def Notify():
