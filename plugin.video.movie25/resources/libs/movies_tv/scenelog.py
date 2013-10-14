@@ -99,34 +99,39 @@ def StartSceneLogSearch(searchCategory):
     else:
         searchCategory = "Movies"
         searchHistoryFile = "SearchHistory25"
-    SeaFile=os.path.join(seapath,searchHistoryFile)
-    if not os.path.exists(SeaFile):
+    SearchFile=os.path.join(seapath,searchHistoryFile)
+    if not os.path.exists(SearchFile):
         SearchSceneLog('Search',searchCategory)
     else:
         main.addDir('Search',searchCategory,660,art+'/search.png')
-        main.addDir('Clear History',SeaFile,128,art+'/cleahis.png')
+        main.addDir('Clear History',SearchFile,128,art+'/cleahis.png')
         thumb=art+'/link.png'
-        searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+        searchis=re.compile('search="(.+?)",').findall(open(SearchFile,'r').read())
         for seahis in reversed(searchis):
             seahis=seahis.replace('%20',' ')
             main.addDir(seahis,searchCategory,660,thumb)
 
 def SearchSceneLog(searchQuery,searchCategory):
-    print searchQuery
     addToSearchHistory = True
-    seapath=os.path.join(main.datapath,'Search')
-    if searchCategory == 'TV':
+    searchpath=os.path.join(main.datapath,'Search')
+    if searchCategory.startswith('TV'):
         searchHistoryFile = "SearchHistoryTv"
         cat = 5
     else:
         searchCategory = "Movies"
         searchHistoryFile = "SearchHistory25"
         cat = 4
-    SeaFile=os.path.join(seapath,searchHistoryFile)
+    try:
+        params = searchCategory.split('-', 2 );
+        searchCategory = params[0]
+        page = int(params[1])
+        searchQuery = params[2]
+    except: page = 1
+    SearchFile=os.path.join(searchpath,searchHistoryFile)
     if searchQuery == 'Search' :
         searchQuery = ''
         try:
-            os.makedirs(seapath)
+            os.makedirs(searchpath)
         except:
             pass
         keyb = xbmc.Keyboard('', 'Search ' + searchCategory )
@@ -134,28 +139,34 @@ def SearchSceneLog(searchQuery,searchCategory):
         if (keyb.isConfirmed()):
             searchQuery = keyb.getText()
         else:
-            xbmcplugin.endOfDirectory(int(sys.argv[1]),False)
+            xbmcplugin.endOfDirectory(int(sys.argv[1]),False,False)
     else:
         addToSearchHistory = False
     import urllib
     searchQuery=urllib.quote(searchQuery)
     if addToSearchHistory:
-        if not os.path.exists(SeaFile) and searchQuery != '':
-            open(SeaFile,'w').write('search="%s",'%searchQuery)
+        if not os.path.exists(SearchFile) and searchQuery != '':
+            open(SearchFile,'w').write('search="%s",'%searchQuery)
         elif searchQuery != '':
-                open(SeaFile,'a').write('search="%s",'%searchQuery)
+                open(SearchFile,'a').write('search="%s",'%searchQuery)
         else: return False
-        searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
-        if len(searchis)>=10:
-            searchis.remove(searchis[0])
-            os.remove(SeaFile)
-            for seahis in searchis:
-                try: open(SeaFile,'a').write('search="%s",'%seahis)
+        searchitems=re.compile('search="(.+?)",').findall(open(SearchFile,'r').read())
+        if len(searchitems)>=10:
+            searchitems.remove(searchitems[0])
+            os.remove(SearchFile)
+            for searchitem in searchitems:
+                try: open(SearchFile,'a').write('search="%s",'%searchitem)
                 except: pass
-    searchUrl='http://scenelog.eu/?s='+searchQuery+'&cat='+str(cat)
+    searchUrl='http://scenelog.eu/page/'+str(page)+'/?s='+searchQuery+'&cat='+str(cat)
     html = main.OPENURL(searchUrl)
     if html:
+        hasNextPage = re.compile('<strong>&raquo;</strong>').findall(html)
         ShowSceneLogItems(html,searchCategory,'all')
+        if hasNextPage:
+            main.addDir('Page ' + str(page) + ', Next Page >>>',searchCategory + "-" + str(page+1) + '-' + searchQuery,660,art+'/next2.png')
+    else:
+        xbmcplugin.endOfDirectory(int(sys.argv[1]), False, False)
+        xbmc.executebuiltin("XBMC.Notification(Sorry,Could not connect to SceneLog,3000)") 
     main.GA("SceneLog","Search")
                     
 def ListSceneLogLinks(mname,url):
