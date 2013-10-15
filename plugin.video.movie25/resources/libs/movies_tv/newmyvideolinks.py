@@ -140,6 +140,9 @@ def SEARCHNEW(mname,murl):
                                     open(SeaFile,'a').write('search="%s",'%seahis)
                                 except:
                                     pass
+                else: 
+                    xbmcplugin.endOfDirectory(int(sys.argv[1]),False,False)
+                    return
                 link=main.OPENURL(surl)
                 link=main.unescapes(link)
                 match=re.compile("""<a href=".+?" rel=".+?" title=".+?"> <img src="(.+?)" width=".+?" height=".+?" title="(.+?)" class=".+?"></a><h4><a href="(.+?)" rel""").findall(link)
@@ -179,6 +182,9 @@ def SEARCHNEW(mname,murl):
                                     open(SeaFile,'a').write('search="%s",'%seahis)
                                 except:
                                     pass
+                else: 
+                    xbmcplugin.endOfDirectory(int(sys.argv[1]),False,False)
+                    return
                 link=main.OPENURL(surl)
                 link=main.unescapes(link)
                 match=re.compile("""<a href=".+?" rel=".+?" title=".+?"> <img src="(.+?)" width=".+?" height=".+?" title="(.+?)" class=".+?"></a><h4><a href="(.+?)" rel""").findall(link)

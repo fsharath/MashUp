@@ -1,4 +1,4 @@
-import re,sys,os
+import urllib,re,sys,os
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
 from resources.libs import main
 
@@ -128,6 +128,7 @@ def SearchSceneLog(searchQuery,searchCategory):
         searchQuery = params[2]
     except: page = 1
     SearchFile=os.path.join(searchpath,searchHistoryFile)
+    searchQuery=urllib.unquote(searchQuery)
     if searchQuery == 'Search' :
         searchQuery = ''
         try:
@@ -142,7 +143,6 @@ def SearchSceneLog(searchQuery,searchCategory):
             xbmcplugin.endOfDirectory(int(sys.argv[1]),False,False)
     else:
         addToSearchHistory = False
-    import urllib
     searchQuery=urllib.quote(searchQuery)
     if addToSearchHistory:
         if not os.path.exists(SearchFile) and searchQuery != '':

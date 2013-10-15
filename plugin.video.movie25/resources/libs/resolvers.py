@@ -1,12 +1,10 @@
 import urllib,urllib2,re,cookielib,string,os
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
-from t0mm0.common.addon import Addon
 from t0mm0.common.net import Net as net
 
 addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
-addon = Addon(addon_id)
-datapath = addon.get_profile()
+datapath = xbmc.translatePath(selfAddon.getAddonInfo('profile'))
 elogo = xbmc.translatePath('special://home/addons/plugin.video.movie25/resources/art/bigx.png')
 
 class ResolverError(Exception):
@@ -17,12 +15,12 @@ class ResolverError(Exception):
         return repr(self.value,self.value2)
 
 def resolve_url(url):
-    import urlresolver
     stream_url = False
     if(url):
         try:
             match = re.search('xoxv(.+?)xoxe(.+?)xoxc',url)
             if(match):
+                import urlresolver
                 source = urlresolver.HostedMediaFile(host=match.group(1), media_id=match.group(2))
                 if source:
                     stream_url = source.resolve()
@@ -33,14 +31,20 @@ def resolve_url(url):
             elif re.search('veehd',url,re.I):
                 stream_url=resolve_veehd(url)
             elif re.search('vidto',url,re.I):
-                stream_url=resolve_videto(url)
+                stream_url=resolve_vidto(url)
             elif re.search('epicshare',url,re.I):
                 stream_url=resolve_epicshare(url)
             elif re.search('lemuploads',url,re.I):
                 stream_url=resolve_lemupload(url)
             elif re.search('mightyupload',url,re.I):
                 stream_url=resolve_mightyupload(url)               
+            elif re.search('hugefiles',url,re.I):
+                stream_url=resolve_hugefiles(url)
+            elif re.search('youtube',url,re.I):
+                url=url.split('watch?v=')[1]
+                stream_url='plugin://plugin.video.youtube/?action=play_video&videoid=' +url
             else:
+                import urlresolver
                 source = urlresolver.HostedMediaFile(url)
                 if source:
                     stream_url = source.resolve()
@@ -52,18 +56,24 @@ def resolve_url(url):
             except:
                 pass
         except ResolverError as e:
-            #addon.show_small_popup('[COLOR=FF67cc33]Mash Up URLresolver Error[/COLOR] ' + e.value2,'[B][COLOR red]'+e.value+'[/COLOR][/B]',5000, elogo)
+            #showpopup('[COLOR=FF67cc33]Mash Up URLresolver Error[/COLOR] ' + e.value2,'[B][COLOR red]'+e.value+'[/COLOR][/B]',5000, elogo)
             try:
+                import urlresolver
                 source = urlresolver.HostedMediaFile(url)
                 if source:
                     stream_url = source.resolve()
             except Exception as e:
-                addon.show_small_popup('[COLOR=FF67cc33]Mash Up URLresolver Error[/COLOR]','[B][COLOR red]'+str(e)+'[/COLOR][/B]',5000, elogo)   
+                showpopup('[COLOR=FF67cc33]Mash Up URLresolver Error[/COLOR]','[B][COLOR red]'+str(e)+'[/COLOR][/B]',5000, elogo)
         except Exception as e:
-            addon.show_small_popup('[COLOR=FF67cc33]Mash Up URLresolver Error[/COLOR]','[B][COLOR red]'+str(e)+'[/COLOR][/B]',5000, elogo)
+            showpopup('[COLOR=FF67cc33]Mash Up URLresolver Error[/COLOR]','[B][COLOR red]'+str(e)+'[/COLOR][/B]',5000, elogo)
     else:
-        addon.show_small_popup('[COLOR=FF67cc33]Mash Up URLresolver Error[/COLOR]','[B][COLOR red]video url not valid[/COLOR][/B]',5000, elogo)
+        showpopup('[COLOR=FF67cc33]Mash Up URLresolver Error[/COLOR]','[B][COLOR red]video url not valid[/COLOR][/B]',5000, elogo)
     return stream_url
+
+def logerror(log):
+    xbmc.log(log, xbmc.LOGERROR)
+def showpopup(title='', msg='', delay=5000, image=''):
+    xbmc.executebuiltin('XBMC.Notification("%s","%s",%d,"%s")' % (title, msg, delay, image))
     
 def grab_cloudflare(url):
 
@@ -83,6 +93,7 @@ def grab_cloudflare(url):
         
     jschl=re.compile('name="jschl_vc" value="(.+?)"/>').findall(response)
     if jschl:
+        import time
         jschl = jschl[0]    
     
         maths=re.compile('value = (.+?);').findall(response)[0].replace('(','').replace(')','')
@@ -128,14 +139,14 @@ def resolve_veehd(url):
             if r:
                 stream_url = r.group(1)
             if not r:
-                message = name + '- 1st attempt at finding the stream_url failed probably an Mp4, finding Mp4'
-                addon.log_debug(message)
+                print name + '- 1st attempt at finding the stream_url failed probably an Mp4, finding Mp4'
                 a = re.search('"url":"(.+?)"', html)
                 if a:
                     r=urllib.unquote(a.group(1))
                     if r:
                         stream_url = r
                     else:
+                        logerror('***** VeeHD - File Not Found')
                         xbmc.executebuiltin("XBMC.Notification(File Not Found,VeeHD,2000)")
                         return False
                 if not a:
@@ -143,13 +154,11 @@ def resolve_veehd(url):
                     stream_url = a[1]
             return stream_url
         except Exception, e:
-            print '**** Mash Up VeeHD Error occured: %s' % e
-            #addon.show_small_popup('[B][COLOR green]Mash Up: VeeHD Resolver[/COLOR][/B]','Error, Check XBMC.log for Details',5000, error_logo)
+            logerror('**** Mash Up VeeHD Error occured: %s' % e)
             raise ResolverError(str(e),"VeeHD")
 
 def resolve_billionuploads(url):
 # UPDATED BY THE-ONE @ XBMCHUB - 09-09-2013
-# UPDATED BY THE-ONE @ XBMCHUB - 08-27-2013
 
     try:
             #########
@@ -196,13 +205,13 @@ def resolve_billionuploads(url):
             ################################################################################
             #Check page for any error msgs
             if re.search('This server is in maintenance mode', html, re.I):
-                print '***** BillionUploads - Site reported maintenance mode'
+                logerror('***** BillionUploads - Site reported maintenance mode')
                 xbmc.executebuiltin("XBMC.Notification(File is currently unavailable,BillionUploads in maintenance,2000)")                                
                 return False
                 
             #Check for File Not Found
             if re.search('File Not Found', html, re.I):
-                print '***** BillionUploads - File Not Found'
+                logerror('***** BillionUploads - File Not Found')
                 xbmc.executebuiltin("XBMC.Notification(File Not Found,BillionUploads,2000)")
                 return False                                
             
@@ -353,17 +362,21 @@ def resolve_billionuploads(url):
 
                 return s
 
-        
-            dll = re.compile('<input type="hidden" id="dl" value="(.+?)">').findall(html)[0]
-            dl = dll.split('GvaZu')[1]
-            dl = checkwmv(dl);
-            dl = checkwmv(dl);
-            print 'Mash Up BillionUploads Link Found: %s' % dl
+            dll = re.compile('<input type="hidden" id="dl" value="(.+?)">').findall(html)
+            if dll:
+                dl = dll[0].split('GvaZu')[1]
+                dl = checkwmv(dl);
+                dl = checkwmv(dl);
+            else:
+                logerror('Mash Up: Resolve BillionUploads - No Video File Found')
+                xbmc.executebuiltin("XBMC.Notification(No Video File Found,BillionUploads,2000)")
+                return False
 
+            print 'Mash Up BillionUploads Link Found: %s' % dl
             return dl
 
     except Exception, e:
-        print '**** Mash Up BillionUploads Error occured: %s' % e
+        logerror('**** Mash Up BillionUploads Error occured: %s' % e)
         raise ResolverError(str(e),"BillionUploads")
     finally:
         dialog.close()
@@ -372,7 +385,6 @@ def resolve_billionuploads(url):
 def resolve_180upload(url):
 
     try:
-        datapath = addon.get_profile()
         dialog = xbmcgui.DialogProgress()
         dialog.create('Resolving', 'Resolving Mash Up 180Upload Link...')
         dialog.update(0)
@@ -382,8 +394,12 @@ def resolve_180upload(url):
         print 'Mash Up 180Upload - Requesting GET URL: %s' % url
         html = net().http_GET(url).content
         if ">File Not Found" in html:
-            addon.log_error('Mash Up: Resolve 180Upload - File Not Found')
+            logerror('Mash Up: Resolve 180Upload - File Not Found')
             xbmc.executebuiltin("XBMC.Notification(File Not Found,180Upload,2000)")
+            return False
+        if re.search('\.(rar|zip)</b>', html, re.I):
+            logerror('Mash Up: Resolve 180Upload - No Video File Found')
+            xbmc.executebuiltin("XBMC.Notification(No Video File Found,180Upload,2000)")
             return False
         dialog.update(50)
                 
@@ -441,20 +457,25 @@ def resolve_180upload(url):
             raise Exception('Unable to resolve 180Upload Link')
 
     except Exception, e:
-        print '**** Mash Up 180Upload Error occured: %s' % e
+        logerror('**** Mash Up 180Upload Error occured: %s' % e)
         raise ResolverError(str(e),"180Upload") 
     finally:
         dialog.close()
         
-def resolve_videto(url):
+def resolve_vidto(url):
     user_agent='Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3'
     from resources.libs import jsunpack
+    import time
     try:
+        dialog = xbmcgui.DialogProgress()
+        dialog.create('Resolving', 'Resolving Mash Up Vidto Link...')
+        dialog.update(0)
         html = net(user_agent).http_GET(url).content
-        addon.log_error('Mash Up: Resolve Vidto - Requesting GET URL: '+url)
+        dialog.update(11)
+        logerror('Mash Up: Resolve Vidto - Requesting GET URL: '+url)
         r = re.findall(r'<font class="err">File was removed</font>',html,re.I)
         if r:
-            addon.log_error('Mash Up: Resolve Vidto - File Was Removed')
+            logerror('Mash Up: Resolve Vidto - File Was Removed')
             xbmc.executebuiltin("XBMC.Notification(File Not Found,Vidto,2000)")
             return False
         if not r:
@@ -470,7 +491,9 @@ def resolve_videto(url):
                     post_data[name] = value
                 post_data['usr_login'] = ''
                 post_data['referer'] = url
-                addon.show_countdown(7, 'Please Wait', 'Resolving')
+                for i in range(7):
+                    time.sleep(1)
+                    dialog.update(22+i*11.3)
                 html = net(user_agent).http_POST(url,post_data).content
                 r = re.findall(r'(eval\(function\(p,a,c,k,e,d\)\{while.+?flvplayer.+?)</script>'
                                ,html,re.M|re.DOTALL)
@@ -479,18 +502,17 @@ def resolve_videto(url):
                     r = re.findall(r'label:"\d+p",file:"(.+?)"}',unpacked)
                 if not r:
                     r = re.findall(r"var file_link = '(.+?)';",html)
+        dialog.update(100)
         return r[0]
     except Exception, e:
-        print 'Mash Up: Resolve Vidto Error - '+str(e)
-        #addon.show_small_popup('[B][COLOR green]Mash Up: Vidto Resolver[/COLOR][/B]','Error, Check XBMC.log for Details',5000, error_logo)
+        logerror('Mash Up: Resolve Vidto Error - '+str(e))
         raise ResolverError(str(e),"Vidto") 
+    finally:
+        dialog.close()
 
 def resolve_epicshare(url):
-
     try:
-        
         puzzle_img = os.path.join(datapath, "epicshare_puzzle.png")
-        
         #Show dialog box so user knows something is happening
         dialog = xbmcgui.DialogProgress()
         dialog.create('Resolving', 'Resolving MashUp EpicShare Link...')
@@ -503,14 +525,13 @@ def resolve_epicshare(url):
         
         #Check page for any error msgs
         if re.search('This server is in maintenance mode', html):
-            print '***** EpicShare - Site reported maintenance mode'
+            logerror('***** EpicShare - Site reported maintenance mode')
             xbmc.executebuiltin("XBMC.Notification(File is currently unavailable,EpicShare in maintenance,2000)")  
             return False
         if re.search('<b>File Not Found</b>', html):
-            print '***** EpicShare - File not found'
+            logerror('***** EpicShare - File not found')
             xbmc.executebuiltin("XBMC.Notification(File Not Found,EpicShare,2000)")
             return False
-
 
         data = {}
         r = re.findall(r'type="hidden" name="(.+?)" value="(.+?)">', html)
@@ -519,7 +540,7 @@ def resolve_epicshare(url):
             for name, value in r:
                 data[name] = value
         else:
-            print '***** EpicShare - Cannot find data values'
+            logerror('***** EpicShare - Cannot find data values')
             raise Exception('Unable to resolve EpicShare Link')
         
         #Check for SolveMedia Captcha image
@@ -564,16 +585,14 @@ def resolve_epicshare(url):
             print 'MashUp EpicShare Link Found: %s' % link.group(1)
             return link.group(1)
         else:
-            print '***** EpicShare - Cannot find final link'
+            logerror('***** EpicShare - Cannot find final link')
             raise Exception('Unable to resolve EpicShare Link')
         
     except Exception, e:
-        print '**** EpicShare MashUp Error occured: %s' % e
+        logerror('**** EpicShare MashUp Error occured: %s' % e)
         raise ResolverError(str(e),"EpicShare") 
-
     finally:
         dialog.close()
-
 
 def resolve_lemupload(url):
 
@@ -654,11 +673,11 @@ def resolve_lemupload(url):
             link = link.group(1) + "|referer=" + url
             return link
         else:
-            print '***** LemUpload - Cannot find final link'
+            logerror('***** LemUpload - Cannot find final link')
             raise Exception('Unable to resolve LemUpload Link')
 
     except Exception, e:
-        print '**** LemUpload Error occured: %s' % e
+        logerror('**** LemUpload Error occured: %s' % e)
         raise ResolverError(str(e),"LemUpload") 
     finally:
         dialog.close()
@@ -667,7 +686,7 @@ def resolve_mightyupload(url):
     from resources.libs import jsunpack
     try:
         html = net().http_GET(url).content
-        addon.log_error('Mash Up: Resolve MightyUpload - Requesting GET URL: '+url)
+        logerror('Mash Up: Resolve MightyUpload - Requesting GET URL: '+url)
         r = re.findall(r'name="(.+?)" value="?(.+?)"', html, re.I|re.M)
         if r:
             post_data = {}
@@ -678,11 +697,56 @@ def resolve_mightyupload(url):
             r = re.findall(r'<a href=\"(.+?)(?=\">Download the file</a>)', html)
             return r[0]
         else:
-            print '***** MightyUpload - File not found'
+            logerror('***** MightyUpload - File not found')
             xbmc.executebuiltin("XBMC.Notification(File Not Found,MightyUpload,2000,"+elogo+")")
             return False
     except Exception, e:
-        print 'Mash Up: Resolve MightyUpload Error - '+str(e)
-        addon.show_small_popup('[B][COLOR green]Mash Up: MightyUpload Resolver[/COLOR][/B]','Error, Check XBMC.log for Details',
-                               5000, elogo)
-        return
+        logerror('Mash Up: Resolve MightyUpload Error - '+str(e))
+        raise ResolverError(str(e),"MightyUpload") 
+
+def resolve_hugefiles(url):
+    from resources.libs import jsunpack
+    try:
+        dialog = xbmcgui.DialogProgress()
+        dialog.create('Resolving', 'Resolving HugeFiles Link...')       
+        dialog.update(0)
+        html = net().http_GET(url).content
+        r = re.findall('File Not Found',html)
+        if r:
+            xbmc.log('Mash Up: Resolve HugeFiles - File Not Found or Removed', xbmc.LOGERROR)
+            xbmc.executebuiltin("XBMC.Notification(File Not Found or Removed,HugeFiles,2000)")
+            return False
+        data = {}
+        r = re.findall(r'type="hidden" name="(.+?)"\s* value="?(.+?)">', html)
+        for name, value in r:
+            data[name] = value
+            data.update({'method_free':'Free Download'})
+        if data['fname'] and re.search('\.(rar|zip)$', data['fname'], re.I):
+            dialog.update(100)
+            logerror('Mash Up: Resolve HugeFiles - No Video File Found')
+            xbmc.executebuiltin("XBMC.Notification(No Video File Found,HugeFiles,2000)")
+            return False
+        dialog.update(33)
+        html = net().http_POST(url, data).content
+        dialog.update(66)
+        if 'reached the download-limit' in html:
+            logerror('Mash Up: Resolve HugeFiles - Daily Limit Reached, Cannot Get The File\'s Url')
+            xbmc.executebuiltin("XBMC.Notification(Daily Limit Reached,HugeFiles,2000)")
+            return False
+        sPattern = '''<div id="player_code">.*?<script type='text/javascript'>(eval.+?)</script>'''
+        r = re.findall(sPattern, html, re.DOTALL|re.I)
+        if r:
+            sUnpacked = jsunpack.unpack(r[0])
+            sUnpacked = sUnpacked.replace("\\'","")
+            r = re.findall('file,(.+?)\)\;s1',sUnpacked)
+            if not r:
+               r = re.findall('"src"value="(.+?)"/><embed',sUnpacked)
+            dialog.update(100)
+            dialog.close()
+            return r[0]
+        if not r:
+            logerror('***** HugeFiles - Cannot find final link')
+            raise Exception('Unable to resolve HugeFiles Link')
+    except Exception, e:
+        logerror('Mash Up: Resolve HugeFiles Error - '+str(e))
+        raise ResolverError(str(e),"HugeFiles") 
