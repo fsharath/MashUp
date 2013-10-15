@@ -183,11 +183,11 @@ def ListSceneLogLinks(mname,url):
             for url in links:
                 if not re.search('rar',url,re.I):
                     hosted_media = urlresolver.HostedMediaFile(url=url)
-                    match2 = re.compile("{'url': '(.+?)', 'host': '(.+?)', 'media_id': '.+?'}").findall(str(hosted_media))
-                    host = ''
-                    for url,host in match2:
-                        host = re.sub('^([aA-zZ]*?\.)?(.*?)\.[aA-zZ].*','\\2',host).title()
-                        main.addDown2(mname+' [COLOR blue]'+host+'[/COLOR]',url,658,'','')
+                    resolvable = re.compile("{'url': '(.+?)', 'host': '(.+?)', 'media_id': '.+?'}").findall(str(hosted_media))
+                    if resolvable:
+                        host = re.sub('^(http://)?[^/]*?([^/^.]+?)\.\w+?/.*','\\2',url).upper()
+                        thumb = host.lower()
+                        main.addDown2(mname+' [COLOR blue]'+host+'[/COLOR]',url,658,art+'/hosts/'+thumb+".png",art+'/hosts/'+thumb+".png")
                         itemsAdded += 1
     if not itemsAdded:
         xbmcplugin.endOfDirectory(int(sys.argv[1]), False, False)
