@@ -20,7 +20,7 @@ if user == '' and passw == '':
         passw = selfAddon.getSetting('rlspassword')
         
 def setCookie(net):
-    cookie_file = os.path.join(xbmc.translatePath(selfAddon.getAddonInfo('profile')), 'directdownload.cookies')
+    cookie_file = os.path.join(os.path.join(xbmc.translatePath(selfAddon.getAddonInfo('profile')),'Cookies'), 'directdownload.cookies')
     s = time.time()
     cookieExpired = False
     if os.path.exists(cookie_file):
@@ -59,10 +59,30 @@ def LISTTV4(durl):
         loadedLinks = 0
         remaining_display = 'Episodes loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
         dialogWait.update(0,'[B]Will load instantly from now on[/B]',remaining_display)
-        for name,url in match:
-                name=name.replace('.',' ')
+        for title,url in match:
+                title = title.replace("."," ").replace("_"," ")
+                episode = re.search('(\d+)x(\d\d+)',title, re.I)
+                if(episode):
+                    e = str(episode.group(2))
+                    s = str(episode.group(1))
+                    if len(s)==1: s = "0" + s
+                    episode = "S" + s + "E" + e
+                    title = re.sub('(\d+)x(\d\d+)',episode,title,re.I)
+                else:
+                    title = re.sub('(\d{4}) (\d{2}) (\d{2})','\\1.\\2.\\3',title,re.I)
+                isHD = re.compile('720p|1080p').findall(title)
+                if isHD:
+                    title = title.split(isHD[0])[0].strip("- ")
+                else:
+                    title = title.split('HDTV')[0].strip()
+                    title = title.split('PDTV')[0].strip()
+                    title = title.split('WEB DL')[0].strip()
+                title = re.sub('(\d{4}\.\d{2}\.\d{2})(.*)','\\1[COLOR blue]\\2[/COLOR]',title)
+                title = re.sub('([sS]\d+[eE]\d+.*?) (.*)','\\1 [COLOR blue]\\2[/COLOR]',title)
+                if isHD:
+                    title += " [COLOR red]"+isHD[0]+"[/COLOR]"
                 url=url.replace('\/','/')
-                main.addDirTE(name,url,62,'','','','','','')
+                main.addDirTE(title,url,62,'','','','','','')
         
                 loadedLinks = loadedLinks + 1
                 percent = (loadedLinks * 100)/totalLinks
@@ -93,7 +113,7 @@ def LINKTV4(mname,url):
 #                 hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
 #                 match2=re.compile("{'url': '(.+?)', 'host': '(.+?)', 'media_id': '.+?'}").findall(str(hosted_media))
 #                 for murl,name in match2:
-                main.addDown2(mname+' [COLOR blue]'+host.upper()+'[/COLOR] [COLOR red]HD[/COLOR]',url,210,art+"/hosts/"+thumb+".png",art+"/hosts/"+thumb+".png")     
+                main.addDown2(mname+' [COLOR blue]'+host.upper()+'[/COLOR]',url,210,art+"/hosts/"+thumb+".png",art+"/hosts/"+thumb+".png")     
         
 def LINKTV4B(mname,murl):
         main.GA("RlsmixTV","Watched")

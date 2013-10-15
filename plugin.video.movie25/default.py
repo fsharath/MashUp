@@ -23,12 +23,13 @@ art = main.art
 
 ################################################################################ Directories ##########################################################################################################
 UpdatePath=os.path.join(main.datapath,'Update')
-try:
-    os.makedirs(UpdatePath)
+try: os.makedirs(UpdatePath)
 except: pass
-ListsPath=os.path.join(main.datapath,'Lists')
-try:
-    os.makedirs(ListsPath)
+CachePath=os.path.join(main.datapath,'Cache')
+try: os.makedirs(CachePath)
+except: pass
+CookiesPath=os.path.join(main.datapath,'Cookies')
+try: os.makedirs(CookiesPath)
 except: pass
 
 def ShowAds():
@@ -406,7 +407,7 @@ def TV():
 
 def ThreeDsec():
         main.addDir('3D Movies (Newmyvideolinks) True HD[COLOR red] DC[/COLOR]','3D',34,art+'/3d.png')
-        link=getListFile('https://github.com/mash2k3/MashUpNotifications/raw/master/Directories/3D_Directory.xml', os.path.join(ListsPath,'ThreeD'))
+        link=getListFile('https://github.com/mash2k3/MashUpNotifications/raw/master/Directories/3D_Directory.xml', os.path.join(CachePath,'ThreeD'))
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
         match=re.compile('<name>(.+?)</name><link>(.+?)</link><thumbnail>(.+?)</thumbnail><mode>(.+?)</mode>').findall(link)
         for name,url,thumb,mode in match:
@@ -483,7 +484,7 @@ def SPORTS():
         main.addDir('Wild TV','https://www.wildtv.ca/shows',92,art+'/wildtv.png')
         main.addDir('Workouts','https://www.wildtv.ca/shows',194,art+'/workout.png')
         main.addDir('The Golf Channel','golf',217,art+'/golfchannel.png')
-        link=getListFile('https://github.com/mash2k3/MashUpNotifications/raw/master/Sport_Directory.xml', os.path.join(ListsPath,'Sports'))
+        link=getListFile('https://github.com/mash2k3/MashUpNotifications/raw/master/Sport_Directory.xml', os.path.join(CachePath,'Sports'))
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
         match=re.compile('<name>(.+?)</name><link>(.+?)</link><thumbnail>(.+?)</thumbnail><mode>(.+?)</mode>').findall(link)
         for name,url,thumb,mode in match:
@@ -548,7 +549,7 @@ def LiveStreams():
         main.addDir('Misc. Music Streams','music',127,art+'/miscmusic.png')
         main.addDir('By Country','navi',143,art+'/countrysec.png')
         main.addDir('Arabic Streams','navi',231,art+'/arabicstream.png')
-        link=getListFile('https://github.com/mash2k3/MashUpNotifications/raw/master/LiveDirectory(mash2k3Only).xml',os.path.join(ListsPath,'LiveStreams'))
+        link=getListFile('https://github.com/mash2k3/MashUpNotifications/raw/master/LiveDirectory(mash2k3Only).xml',os.path.join(CachePath,'LiveStreams'))
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','').replace('type=playlistname=Sorted by user-assigned order','').replace('name=Sorted [COLOR=FF00FF00]by user-assigned order[/COLOR]','').replace('name=Live Tv Channels Twothumb','')
         match=re.compile('<name>(.+?)</name><link>(.+?)</link><thumbnail>(.+?)</thumbnail><mode>(.+?)</mode>').findall(link)
         for name,url,thumb,mode in match:
@@ -579,7 +580,7 @@ def DOCS():
 
 
 def PlaylistDir():
-        link=getListFile('https://github.com/mash2k3/MashUpNotifications/raw/master/MoviePlaylist_Dir.xml',os.path.join(ListsPath,'Playlist'))
+        link=getListFile('https://github.com/mash2k3/MashUpNotifications/raw/master/MoviePlaylist_Dir.xml',os.path.join(CachePath,'Playlist'))
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
         match=re.compile('<name>(.+?)</name><link>(.+?)</link><thumbnail>(.+?)</thumbnail><mode>(.+?)</mode>').findall(link)
         for name,url,thumb,mode in match:
