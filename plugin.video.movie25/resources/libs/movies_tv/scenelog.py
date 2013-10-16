@@ -122,7 +122,7 @@ def SearchSceneLog(searchQuery,searchCategory):
         searchHistoryFile = "SearchHistory25"
         cat = 4
     try:
-        params = searchCategory.split('-', 2 );
+        params = searchCategory.split('#@#', 2 );
         searchCategory = params[0]
         page = int(params[1])
         searchQuery = params[2]
@@ -163,7 +163,7 @@ def SearchSceneLog(searchQuery,searchCategory):
         hasNextPage = re.compile('<strong>&raquo;</strong>').findall(html)
         ShowSceneLogItems(html,searchCategory,'all')
         if hasNextPage:
-            main.addDir('Page ' + str(page) + ', Next Page >>>',searchCategory + "-" + str(page+1) + '-' + searchQuery,660,art+'/next2.png')
+            main.addDir('Page ' + str(page) + ', Next Page >>>',searchCategory + "#@#" + str(page+1) + '#@#' + searchQuery,660,art+'/next2.png')
     else:
         xbmcplugin.endOfDirectory(int(sys.argv[1]), False, False)
         xbmc.executebuiltin("XBMC.Notification(Sorry,Could not connect to SceneLog,3000)") 

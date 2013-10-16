@@ -1444,12 +1444,12 @@ elif mode==60:
 elif mode==61:
     from resources.libs.movies_tv import rlsmix
     print ""+url
-    rlsmix.LISTTV4(url)
+    rlsmix.ListDirectDownloadTVItems(url)
 
 elif mode==62:
     from resources.libs.movies_tv import rlsmix
     print ""+url
-    rlsmix.LINKTV4(name,url)
+    rlsmix.ListDirectDownloadTVLinks(name,url)
 
 elif mode==63:
         print ""+url
@@ -1769,11 +1769,11 @@ elif mode==135:
 
 elif mode==136:
     from resources.libs.movies_tv import rlsmix
-    rlsmix.SearchhistoryRlsmix()
+    rlsmix.StartDirectDownloadTVSearch()
 
 elif mode==137:
     from resources.libs.movies_tv import rlsmix
-    rlsmix.SEARCHRlsmix(url)
+    rlsmix.SearchDirectDownloadTV(url)
 
 
 elif mode==138:
@@ -2124,7 +2124,7 @@ elif mode==209:
 elif mode==210:
     from resources.libs.movies_tv import rlsmix
     print ""+url
-    rlsmix.LINKTV4B(name,url)
+    rlsmix.PlayDirectDownloadTVLink(name,url)
 
 elif mode==211:
     from resources.libs.movies_tv import oneclickmoviez
