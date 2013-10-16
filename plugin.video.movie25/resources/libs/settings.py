@@ -24,6 +24,13 @@ def getRefreshRequiredSettings():
     s.append(selfAddon.getSetting("con-view"))
     s.append(selfAddon.getSetting("xpr-view"))
     s.append(selfAddon.getSetting("artwork"))
+    s.append(selfAddon.getSetting("ddtv_hdtv720p"))
+    s.append(selfAddon.getSetting("ddtv_webdl720p"))
+    s.append(selfAddon.getSetting("ddtv_webdl1080p"))
+    s.append(selfAddon.getSetting("ddtv_hdtv480p"))
+    s.append(selfAddon.getSetting("ddtv_pdtv"))
+    s.append(selfAddon.getSetting("ddtv_dsr"))
+    s.append(selfAddon.getSetting("ddtv_dvdrip"))
     return s
 
 def openSettings():

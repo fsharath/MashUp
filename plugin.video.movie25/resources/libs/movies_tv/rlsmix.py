@@ -12,6 +12,15 @@ smalllogo=art+'/smallicon.png'
 
 user = selfAddon.getSetting('rlsusername')
 passw = selfAddon.getSetting('rlspassword')
+filters = ''
+if selfAddon.getSetting('ddtv_pdtv') == 'true': filters += 'pdtv,'
+if selfAddon.getSetting('ddtv_dsr') == 'true': filters += 'dsr,'
+if selfAddon.getSetting('ddtv_hdtv480p') == 'true': filters += 'hdtv,'
+if selfAddon.getSetting('ddtv_hdtv720p') == 'true': filters += 'realhd,'
+if selfAddon.getSetting('ddtv_dvdrip') == 'true': filters += 'dvdrip,'
+if selfAddon.getSetting('ddtv_webdl720p') == 'true': filters += 'webdl,'
+if selfAddon.getSetting('ddtv_webdl1080p') == 'true': filters += 'webdl1080p,'
+filters = filters.strip(',')
 if user == '' and passw == '':
     dialog = xbmcgui.Dialog()
     dialog.ok("[COLOR=FF67cc33]MashUp[/COLOR]", "Please set your Rlsmix credentials", "in Addon settings under logins tab.", "For credentials register @ http://directdownload.tv/.")
@@ -29,7 +38,7 @@ def ListDirectDownloadTVItems(startpage):
     except: page = 0
     urls = []
     for n in range(subpages):
-        urls.append('http://directdownload.tv/index/search/keyword//qualities/pdtv,dsr,realhd,dvdrip,webdl,webdl1080p/from/'+str(page)+'/search')
+        urls.append('http://directdownload.tv/index/search/keyword//qualities/'+filters+'/from/'+str(page)+'/search')
         page += 20
     html = getBatchUrl(urls)
     ShowDirectDownloadTVItems(html)

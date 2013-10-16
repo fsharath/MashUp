@@ -117,6 +117,13 @@
 		<setting label="RLSMIX Account" type="lsep" />
 		<setting id="rlsusername" type="text" label="RlsMix Username" default="" visible="true"/>
 		<setting id="rlspassword" type="text"label="RlsMix Password" default="" visible="true" option="hidden" />
+		<setting id="ddtv_hdtv720p" type="bool" label="HDTV 720p" default="true" visible="!eq(-1,) + !eq(-2,)"/>
+		<setting id="ddtv_webdl720p" type="bool" label="Web-DL 720p" default="true" visible="!eq(-2,) + !eq(-3,)"/>
+		<setting id="ddtv_webdl1080p" type="bool" label="Web-DL 1080p" default="true" visible="!eq(-3,) + !eq(-4,)"/>
+		<setting id="ddtv_hdtv480p" type="bool" label="HDTV 480p" default="true" visible="!eq(-4,) + !eq(-5,)"/>
+		<setting id="ddtv_pdtv" type="bool" label="PDTV" default="false" visible="!eq(-5,) + !eq(-6,)"/>
+		<setting id="ddtv_dsr" type="bool" label="DSR" default="false" visible="!eq(-6,) + !eq(-7,)"/>
+		<setting id="ddtv_dvdrip" type="bool" label="DVDRip" default="false" visible="!eq(-7,) + !eq(-8,)"/>
 		<setting label="HM VIP++ Account" type="lsep" />
 		<setting id="hmvusername" type="text" label="HM VIP++ Username" default="" visible="true"/>
 		<setting id="hmvpassword" type="text"label="HM VIP++ Password" default="" visible="true" option="hidden" />
