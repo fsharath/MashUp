@@ -427,6 +427,7 @@ def TVAll():
         main.addDir('Movie25 [COLOR red]DC[/COLOR]','TV',267,art+'/movie25.png')
         main.addDir('Sceper [COLOR red](Debrid Only)[/COLOR]','TV',539,art+'/wfs/sceper.png')
         main.addDir('SominalTvFilms','TV',619,art+'/wfs/sominal.png')
+        main.addDir('Dramania','TV',268,art+'/dramania.png')
         main.addDir('Extramina','TV',530,art+'/wfs/extramina.png')
         main.addDir('FMA','TV',567,art+'/wfs/fma.png')
         #main.addDir('Global BC','gbc',165,art+'/globalbc.png')       
@@ -2367,6 +2368,47 @@ elif mode==266:
 
 elif mode==267:
     Movie25()
+
+elif mode==268:
+    from resources.libs.plugins import dramania
+    print ""+url
+    dramania.MAIN()
+
+elif mode==269:
+    from resources.libs.plugins import dramania
+    print ""+url
+    dramania.MOVIES()
+
+elif mode==270:
+    from resources.libs.plugins import dramania
+    print ""+url
+    dramania.LISTMOVIES(url)
+
+elif mode==271:
+    from resources.libs.plugins import dramania
+    print ""+url
+    dramania.LISTHOSTS(name,url,iconimage)
+
+elif mode==272:
+    from resources.libs.plugins import dramania
+    print ""+url
+    dramania.PLAY(name,url,iconimage)
+
+elif mode==273:
+    from resources.libs.plugins import dramania
+    print ""+url
+    dramania.DRAMAS()
+
+elif mode==274:
+    from resources.libs.plugins import dramania
+    print ""+url
+    dramania.LISTDRAMAS(url)
+
+elif mode==275:
+    from resources.libs.plugins import dramania
+    print ""+url
+    dramania.LISTEPISODES(name,url,iconimage)
+
 ######################################################################################################
         ######################################################################################
         ######################################################################################
