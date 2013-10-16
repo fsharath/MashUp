@@ -94,7 +94,8 @@ def LISTHOSTS(name,murl,thumb):
     for links in collect:
         if 'videobug' in links:
             link=main.OPENURL(links)
-            match=re.compile("playlist:.+?url: '(.+?)',",re.DOTALL).findall(link)[0]
+            try:match=re.compile("playlist:.+?url: '(.+?)',",re.DOTALL).findall(link)[0]
+            except:match=re.compile('file: "(.+?)",',re.DOTALL).findall(link)[0]
             match=urllib.unquote_plus(match)
             main.addDown2(name+' [COLOR blue]VideoBug Part '+str(i)+'[/COLOR]',match,272,thumb,'')
             videobug.append(('Part '+str(i),match))
@@ -104,12 +105,16 @@ def LISTHOSTS(name,murl,thumb):
     for links in collect:
         if 'yourupload' in links:
             link=main.OPENURL(links)
-            match=re.compile('<meta property="og.+?video" content="(.+?)"/>',re.DOTALL).findall(link)[0]
-            match=urllib.unquote_plus(match)
-            main.addDown2(name+' [COLOR yellow]YourUpload Part '+str(j)+'[/COLOR]',match,272,thumb,'')
-            yourupload.append(('Part '+str(j),match))
-            j=j+1
-    if yourupload:
+            try:
+                match=re.compile('<meta property="og.+?video" content="(.+?)"/>',re.DOTALL).findall(link)
+                if len(match)!=0:
+                    match=urllib.unquote_plus(match[0])
+                    main.addDown2(name+' [COLOR yellow]YourUpload Part '+str(j)+'[/COLOR]',match,272,thumb,'')
+                    yourupload.append(('Part '+str(j),match))
+                    j=j+1
+            except:pass
+            
+    if yourupload and len(match)!=0:
         main.addDown2(name+' [COLOR yellow]YourUpload Play All[/COLOR]',str(videobug),272,thumb,'')
     for links in collect:
         if 'video44' in links:
