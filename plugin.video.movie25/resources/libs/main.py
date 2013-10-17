@@ -238,7 +238,7 @@ def formatCast(cast):
             roles =  roles + "[COLOR blue]" + role[0] + "[/COLOR] as " + role[1] + " | "
         return roles
 
-def GETMETAT(mname,genre,fan,thumb,plot=False):
+def GETMETAT(mname,genre,fan,thumb,plot=''):
         originalName=mname
         if selfAddon.getSetting("meta-view") == "true":
                 setGrab()
