@@ -238,7 +238,7 @@ def formatCast(cast):
             roles =  roles + "[COLOR blue]" + role[0] + "[/COLOR] as " + role[1] + " | "
         return roles
 
-def GETMETAT(mname,genre,fan,thumb):
+def GETMETAT(mname,genre,fan,thumb,plot=False):
         originalName=mname
         if selfAddon.getSetting("meta-view") == "true":
                 setGrab()
@@ -289,8 +289,10 @@ def GETMETAT(mname,genre,fan,thumb):
                 #    infoLabels['year']=year 
                 infoLabels['metaName']=infoLabels['title']
                 infoLabels['title']=originalName
-
-                infoLabels['plot'] = infoLabels['plot'] + formatCast(infoLabels['cast'])
+                if infoLabels['plot']=='':
+                    infoLabels['plot']=plot
+                else:
+                    infoLabels['plot'] = infoLabels['plot'] + formatCast(infoLabels['cast'])
         else:
                 if thumb=='':
                     thumb=art+'/vidicon.png'
@@ -1215,7 +1217,7 @@ def addPlayTE(name,url,mode,iconimage,plot,fanart,dur,genre,year):
 def addDirM(name,url,mode,iconimage,plot,fanart,dur,genre,year):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&plot="+urllib.quote_plus(plot)+"&fanart="+urllib.quote_plus(fanart)+"&genre="+urllib.quote_plus(genre)
         ok=True
-        infoLabels =GETMETAT(name,genre,fanart,iconimage)
+        infoLabels =GETMETAT(name,genre,fanart,iconimage,plot)
         if selfAddon.getSetting("meta-view") == "true":
                 xbmcplugin.setContent(int(sys.argv[1]), 'Movies')
                 tmdbid=infoLabels['tmdb_id']
@@ -1241,7 +1243,8 @@ def addDirM(name,url,mode,iconimage,plot,fanart,dur,genre,year):
         type='DIR'
         plot=infoLabels['plot']
         img=infoLabels['cover_url']
-        plot=plot.encode('ascii', 'ignore')
+        try:plot=plot.encode('ascii', 'ignore')
+        except:pass
         plot=plot.replace(",",'.')
         name=name.replace(",",'')
         from universal import favorites

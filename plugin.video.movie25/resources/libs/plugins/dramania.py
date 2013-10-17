@@ -12,27 +12,64 @@ smalllogo=art+'/smallicon.png'
 
 
 def MAIN():
-    main.addDir('Search','http://www.dubzonline.net/anime-list/',269,art+'/wfs/az.png')
+    main.addDir('Search','http://www.dubzonline.net/anime-list/',274,art+'/search.png')
     main.addDir('Movies','dramania',269,art+'/dramania.png')
     main.addDir('Dramas','dramania',273,art+'/dramania.png')
 
 def MOVIES():
+    main.addDir('All Movies','http://api.dramago.com/GetAllMovies',270,art+'/dramania.png')
     main.addDir('Popular Movies','http://api.dramago.com/GetPopularMovies',270,art+'/dramania.png')
+    main.addDir('New Movies','http://api.dramago.com/GetNewMovies',270,art+'/dramania.png')
 
 def DRAMAS():
-    main.addDir('Popular Dramas','http://api.dramago.com/GetPopularShows',274,art+'/dramania.png')
+    main.addDir('All Dramas','http://api.dramago.com/GetAllShows',270,art+'/dramania.png')
+    main.addDir('Popular Dramas','http://api.dramago.com/GetPopularShows',270,art+'/dramania.png')
+    main.addDir('New Dramas','http://api.dramago.com/GetNewShows',270,art+'/dramania.png')
 
-def LISTMOVIES(murl):
+
+def SEARCH():
+    dialog = xbmcgui.Dialog()
+    ret = dialog.select('[COLOR=FF67cc33][B]Choose A Search Type[/COLOR][/B]',['[B][COLOR=FF67cc33]TV Shows[/COLOR][/B]','[B][COLOR=FF67cc33]Movies[/COLOR][/B]'])
+    if ret == -1:
+        return
+    if ret==0:
+        murl='http://api.dramago.com/GetAllShows'
+        keyb = xbmc.Keyboard('', 'Search For Shows')
+    else:
+        murl='http://api.dramago.com/GetAllMovies'
+        keyb = xbmc.Keyboard('', 'Search For Movies')
+    
+    keyb.doModal()
+    if (keyb.isConfirmed()):
+            search = keyb.getText()
+            encode=urllib.quote(search)
+            link=main.OPENURL(murl)
+            field=json.loads(link)
+            for data in field:
+                genre=str(data["genres"]).replace("u'",'').replace("'",'').replace("[",'').replace("]",'')
+                if encode.lower()in(str(data["name"].encode('utf-8'))).lower():
+                    if ret==0:
+                        main.addDirT(str(data["name"].encode('utf-8'))+' [COLOR red]'+str(data["rating"])+'/10[/COLOR] [COLOR blue]'+str(data["released"])+'[/COLOR]','http://api.dramago.com/GetDetails/'+str(data["id"]),275,'http://www.dramago.com/images/series/big/'+str(data["id"])+'.jpg',str(data["description"].encode('utf-8')),'','',genre,'')
+                    else:
+                        main.addDirM(str(data["name"].encode('utf-8'))+' [COLOR red]'+str(data["rating"])+'/10[/COLOR] [COLOR blue]'+str(data["released"])+'[/COLOR]','http://api.dramago.com/GetDetails/'+str(data["id"]),271,'http://www.dramago.com/images/series/big/'+str(data["id"])+'.jpg',str(data["description"].encode('utf-8')),'','',genre,'')
+    else:
+        return
+                        
+def LIST(murl):
     link=main.OPENURL(murl)
     field=json.loads(link)
     dialogWait = xbmcgui.DialogProgress()
     ret = dialogWait.create('Please wait until Movie list is cached.')
     totalLinks = len(field)
     loadedLinks = 0
-    remaining_display = 'Movies/Episodes Cached :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+    remaining_display = 'Movies/Shows Cached :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
     dialogWait.update(0,'[B]Will load instantly from now on[/B]',remaining_display)
     for data in field:
-        main.addDirM(str(data["name"])+' [COLOR red]'+str(data["rating"])+'/10[/COLOR] [COLOR blue]'+str(data["released"])+'[/COLOR]','http://api.dramago.com/GetDetails/'+str(data["id"]),271,'http://www.dramago.com/images/series/big/'+str(data["id"])+'.jpg','','','',str(data["genres"]),'')
+        genre=str(data["genres"]).replace("u'",'').replace("'",'').replace("[",'').replace("]",'')
+        if 'Movies' in murl:
+            main.addDirM(str(data["name"].encode('utf-8'))+' [COLOR red]'+str(data["rating"])+'/10[/COLOR] [COLOR blue]'+str(data["released"])+'[/COLOR]','http://api.dramago.com/GetDetails/'+str(data["id"]),271,'http://www.dramago.com/images/series/big/'+str(data["id"])+'.jpg',str(data["description"].encode('utf-8')),'','',genre,'')
+        else:
+            main.addDirT(str(data["name"].encode('utf-8'))+' [COLOR red]'+str(data["rating"])+'/10[/COLOR] [COLOR blue]'+str(data["released"])+'[/COLOR]','http://api.dramago.com/GetDetails/'+str(data["id"]),275,'http://www.dramago.com/images/series/big/'+str(data["id"])+'.jpg',str(data["description"].encode('utf-8')),'','',genre,'')
         loadedLinks = loadedLinks + 1
         percent = (loadedLinks * 100)/totalLinks
         remaining_display = 'Movies/Episodes Cached :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
@@ -40,23 +77,6 @@ def LISTMOVIES(murl):
         if (dialogWait.iscanceled()):
             return False
 
-def LISTDRAMAS(murl):
-    link=main.OPENURL(murl)
-    field=json.loads(link)
-    dialogWait = xbmcgui.DialogProgress()
-    ret = dialogWait.create('Please wait until Movie list is cached.')
-    totalLinks = len(field)
-    loadedLinks = 0
-    remaining_display = 'Movies/Episodes Cached :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
-    dialogWait.update(0,'[B]Will load instantly from now on[/B]',remaining_display)
-    for data in field:
-        main.addDirc(str(data["name"])+' [COLOR red]'+str(data["rating"])+'/10[/COLOR] [COLOR blue]'+str(data["released"])+'[/COLOR]','http://api.dramago.com/GetDetails/'+str(data["id"]),275,'http://www.dramago.com/images/series/big/'+str(data["id"])+'.jpg','','','',str(data["genres"]),'')
-        loadedLinks = loadedLinks + 1
-        percent = (loadedLinks * 100)/totalLinks
-        remaining_display = 'Movies/Episodes Cached :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
-        dialogWait.update(percent,'[B]Will load instantly from now on[/B]',remaining_display)
-        if (dialogWait.iscanceled()):
-            return False
 
 def LISTEPISODES(name,murl,thumb):
     link=main.OPENURL(murl)
@@ -68,7 +88,7 @@ def LISTEPISODES(name,murl,thumb):
     remaining_display = 'Movies/Episodes Cached :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
     dialogWait.update(0,'[B]Will load instantly from now on[/B]',remaining_display)
     for id,name,date in match:
-        main.addDirc(name+' [COLOR red]'+date+'[/COLOR]',id,271,thumb,'','','','','')
+        main.addDirTE(name+' [COLOR red]'+date+'[/COLOR]',id,271,thumb,'','','','','')
         loadedLinks = loadedLinks + 1
         percent = (loadedLinks * 100)/totalLinks
         remaining_display = 'Movies/Episodes Cached :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
@@ -129,6 +149,7 @@ def LISTHOSTS(name,murl,thumb):
         main.addDown2(name+' [COLOR red]Video44 Play All[/COLOR]',str(videobug),272,thumb,'')
 
 def PLAY(mname,murl,thumb):
+
         main.GA("Dramania","Watched") 
         ok=True
         
@@ -153,6 +174,7 @@ def PLAY(mname,murl,thumb):
                 if not video_type is 'episode': infoL['originalTitle']=main.removeColoredText(infoLabels['metaName'])
                 from universal import playbackengine
                 stream_url = murl
+                
                 if "'," in stream_url:
                     mname=main.removeColoredText(mname)
                     pl=xbmc.PlayList(1);pl.clear()

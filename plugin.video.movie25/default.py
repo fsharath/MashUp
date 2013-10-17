@@ -470,6 +470,7 @@ def INT():
         main.addDir('Latest Indian Movies (Movie1k)','movin',30,art+'/intl.png')
         main.addDir('Latest Indian Dubbed Movies (Movie1k)','movindub',30,art+'/intl.png')
         main.addDir('Latest Spanish Dubbed & Subtitled(ESP) Movies (cinevip)','http://www.cinevip.org/',66,art+'/intl.png')
+        main.addDir('Latest Korean/Jappenese/Chinese Movies&Dramas (Dramania)','http://www.cinevip.org/',268,art+'/intl.png')
         main.addDir("XcTech's Bollywood Playlist",'PLvNKtQkKaqg8IPssr3WG4-YkOEAe8TQ0j',205,art+'/intl.png')
         main.addDir('Staael1982 Danish Movies','https://github.com/mash2k3/Staael1982/raw/master/danish%20movies.xml',236,'https://github.com/mash2k3/MashupArtwork/raw/master/art/intl.png')
                 
@@ -2382,7 +2383,7 @@ elif mode==269:
 elif mode==270:
     from resources.libs.plugins import dramania
     print ""+url
-    dramania.LISTMOVIES(url)
+    dramania.LIST(url)
 
 elif mode==271:
     from resources.libs.plugins import dramania
@@ -2402,7 +2403,7 @@ elif mode==273:
 elif mode==274:
     from resources.libs.plugins import dramania
     print ""+url
-    dramania.LISTDRAMAS(url)
+    dramania.SEARCH()
 
 elif mode==275:
     from resources.libs.plugins import dramania
