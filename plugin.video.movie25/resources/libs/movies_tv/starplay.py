@@ -65,7 +65,6 @@ def LISTSP5(murl):
     del dialogWait
     main.GA("HD","Starplay")
     main.VIEWS()
-    print time.time() - s
         
 def fix_title(name):
     if name == "+1":
